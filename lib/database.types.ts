@@ -2277,6 +2277,7 @@ export type Database = {
           company_id: string | null
           created_at: string | null
           email: string | null
+          es_cuenta_switch: boolean
           es_planificador: boolean
           es_titular: boolean
           full_name: string | null
@@ -2291,6 +2292,7 @@ export type Database = {
           company_id?: string | null
           created_at?: string | null
           email?: string | null
+          es_cuenta_switch?: boolean
           es_planificador?: boolean
           es_titular?: boolean
           full_name?: string | null
@@ -2305,6 +2307,7 @@ export type Database = {
           company_id?: string | null
           created_at?: string | null
           email?: string | null
+          es_cuenta_switch?: boolean
           es_planificador?: boolean
           es_titular?: boolean
           full_name?: string | null

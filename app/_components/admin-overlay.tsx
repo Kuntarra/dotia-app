@@ -2,9 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getMyTenantId } from '@/lib/tenant'
 import { RoleSwitcher } from '@/app/admin/_components/role-switcher'
-import { DEMO_USERS, DEMO_TENANTS } from '@/lib/demo'
-
-const DEMO_TENANT_IDS: string[] = [DEMO_TENANTS.proyecto, DEMO_TENANTS.proveedor]
+import { DEMO_USERS } from '@/lib/demo'
 
 export async function AdminOverlay() {
   const supabase = await createClient()
@@ -13,27 +11,30 @@ export async function AdminOverlay() {
 
   const { data: profile } = await supabase
     .from('user_profiles')
-    .select('role, is_super_admin, tenant_id')
+    .select('role, is_super_admin, tenant_id, es_cuenta_switch')
     .eq('id', user.id)
     .single()
   if (!profile) return null
 
-  const enDemo = profile.tenant_id != null && DEMO_TENANT_IDS.includes(profile.tenant_id)
+  // es_cuenta_switch marca la CUENTA puntual (no el tenant): así el personal
+  // real de Sol Eterno nunca cae en "modo demo" solo por compartir tenant con
+  // la cuenta Mandante del switcher.
+  const enDemo = !!profile.es_cuenta_switch
   const esAdmin = profile.role === 'admin'
 
   // El conmutador se muestra al super admin, a un admin (para impersonar
-  // recepción/cliente) o a quien esté DENTRO del modo demo (para salir/saltar).
+  // recepción/cliente) o a quien esté DENTRO de una cuenta de switch (para salir/saltar).
   if (!esAdmin && !profile.is_super_admin && !enDemo) return null
 
   const admin = createAdminClient()
 
-  // Modalidades demo: une la matriz estática con los IDs reales (por email).
+  // Modalidades de switch: une la matriz estática con los IDs reales (por email).
   let demoModalities: { id: string; label: string; group: string }[] = []
   if (profile.is_super_admin || enDemo) {
     const { data: rows } = await admin
       .from('user_profiles')
       .select('id, email')
-      .in('tenant_id', DEMO_TENANT_IDS)
+      .eq('es_cuenta_switch', true)
     const byEmail = new Map((rows ?? []).map((r) => [r.email, r.id]))
     demoModalities = DEMO_USERS.flatMap((u) => {
       const id = byEmail.get(u.email)
