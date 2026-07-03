@@ -9,7 +9,7 @@ import { notFound } from 'next/navigation'
 import { formatRut } from '@/lib/rut'
 import { MODULOS } from '@/lib/modulos'
 import { modulosActivosTenant } from '@/lib/tenant'
-import { hoyChile } from '@/lib/fechas'
+import { hoyChile, sumarDias } from '@/lib/fechas'
 import { BitacoraTimeline } from './_components/bitacora-timeline'
 import { TrazaLinea } from './_components/traza-linea'
 
@@ -65,17 +65,18 @@ export default async function FichaPersonaPage({ params, searchParams }: Props) 
   const dayEnd = fechaTraza + 'T23:59:59'
   const dotIds = (dotaciones ?? []).map((d) => d.id)
 
-  const [alimRes, staysRes, colRes, lavRes, tpRes, evtRes, excRes] = dotIds.length
+  const [alimRes, staysRes, colRes, lavRes, tpRes, evtRes, excRes, rotRes] = dotIds.length
     ? await Promise.all([
         supabase.from('plan_alimentacion').select('desayuno, almuerzo, cena').in('dotacion_id', dotIds).eq('fecha', fechaTraza),
         supabase.from('stays').select('id').in('dotacion_id', dotIds).lte('checked_in_at', dayEnd).or(`checked_out_at.is.null,checked_out_at.gte.${fechaTraza}`),
-        supabase.from('colaciones').select('id').in('dotacion_id', dotIds).eq('fecha', fechaTraza),
+        supabase.from('colaciones').select('id, punto_entrega, entregada').in('dotacion_id', dotIds).eq('fecha', fechaTraza),
         supabase.from('lavanderia_bolsas').select('id').in('dotacion_id', dotIds).eq('fecha_entrega', fechaTraza),
-        supabase.from('traslado_pasajeros').select('subio_at, traslados!inner(fecha)').eq('persona_id', id).eq('traslados.fecha', fechaTraza),
+        supabase.from('traslado_pasajeros').select('subio_at, traslados!inner(fecha, origen)').eq('persona_id', id).eq('traslados.fecha', fechaTraza),
         supabase.from('eventos_bitacora').select('modulo').eq('persona_id', id).gte('created_at', dayStart).lte('created_at', dayEnd),
         supabase.from('excepciones').select('modulo').eq('persona_id', id).in('estado', ['abierta', 'en_revision']).gte('created_at', dayStart).lte('created_at', dayEnd),
+        supabase.from('rotaciones').select('dotacion_id, fecha_inicio, fecha_fin_esperada, vuelo_ida_numero, vuelo_ida_fecha, vuelo_ida_hora').in('dotacion_id', dotIds),
       ])
-    : [{ data: [] }, { data: [] }, { data: [] }, { data: [] }, { data: [] }, { data: [] }, { data: [] }]
+    : [{ data: [] }, { data: [] }, { data: [] }, { data: [] }, { data: [] }, { data: [] }, { data: [] }, { data: [] }]
 
   const confSet = new Set((evtRes.data ?? []).map((e) => (e as { modulo: string }).modulo))
   const excSet = new Set((excRes.data ?? []).map((e) => (e as { modulo: string }).modulo))
@@ -92,6 +93,25 @@ export default async function FichaPersonaPage({ params, searchParams }: Props) 
     return out
   }
 
+  // Parada AEROPUERTO: aparece cuando ese día hay vuelo de ida (rotación) o
+  // colación de llegada. Sus estados salen del dato puntual (no del módulo/día).
+  type Rot = { dotacion_id: string; fecha_inicio: string | null; fecha_fin_esperada: string | null; vuelo_ida_numero: string | null; vuelo_ida_fecha: string | null; vuelo_ida_hora: string | null }
+  const rots = (rotRes.data ?? []) as Rot[]
+  const colaciones = (colRes.data ?? []) as { id: string; punto_entrega: string; entregada: boolean }[]
+  const colAeropuerto = colaciones.filter((c) => c.punto_entrega.startsWith('aeropuerto'))
+  const colFaena = colaciones.filter((c) => !c.punto_entrega.startsWith('aeropuerto'))
+  const vueloHoy = rots.find((r) => r.vuelo_ida_fecha === fechaTraza)
+  // Traslados del día, separados por tramo: el de llegada viene del aeropuerto.
+  type Tp = { subio_at: string | null; traslados: { fecha: string; origen: string | null } }
+  const tps = (tpRes.data ?? []) as unknown as Tp[]
+  const tpsLlegada = tps.filter((t) => (t.traslados?.origen ?? '').toLowerCase().includes('aeropuerto'))
+  const tpsFaena = tps.filter((t) => !(t.traslados?.origen ?? '').toLowerCase().includes('aeropuerto'))
+  const llegadaConfirmada = tpsLlegada.some((t) => t.subio_at !== null)
+
+  const aeroActs = [
+    ...(vueloHoy ? [{ label: `Vuelo ${vueloHoy.vuelo_ida_numero ?? ''}${vueloHoy.vuelo_ida_hora ? ` · ${vueloHoy.vuelo_ida_hora.slice(0, 5)}` : ''}`.trim(), icon: 'vuelo', estado: (llegadaConfirmada ? 'confirmado' : 'planificado') as 'confirmado' | 'planificado' }] : []),
+    ...(colAeropuerto.length ? [{ label: 'Colación de llegada', icon: 'colacion', estado: (colAeropuerto.some((c) => c.entregada) ? 'confirmado' : 'planificado') as 'confirmado' | 'planificado' }] : []),
+  ]
   const alojActs = [
     ...((staysRes.data ?? []).length ? [{ label: 'Pernocta', icon: 'pernocta', estado: estadoDe('hotel') }] : []),
     ...comidasEn('hotel').map((l) => ({ label: l, icon: 'comida', estado: estadoDe('alimentacion') })),
@@ -100,14 +120,43 @@ export default async function FichaPersonaPage({ params, searchParams }: Props) 
   const faenaActs = [
     ...comidasEn('faena').map((l) => ({ label: l, icon: 'comida', estado: estadoDe('alimentacion') })),
     ...comidasEn('colacion').map((l) => ({ label: `${l} (vianda)`, icon: 'colacion', estado: estadoDe('alimentacion') })),
-    ...((colRes.data ?? []).length ? [{ label: 'Colación', icon: 'colacion', estado: estadoDe('colaciones') }] : []),
+    ...(colFaena.length ? [{ label: 'Colación', icon: 'colacion', estado: estadoDe('colaciones') }] : []),
   ]
   const puntos = [
+    ...(aeroActs.length ? [{ key: 'aero', nombre: 'Aeropuerto', icon: 'aeropuerto' as const, actividades: aeroActs }] : []),
     ...(alojActs.length ? [{ key: 'aloj', nombre: 'Alojamiento', icon: 'aloj' as const, actividades: alojActs }] : []),
     ...(faenaActs.length ? [{ key: 'faena', nombre: 'Faena', icon: 'faena' as const, actividades: faenaActs }] : []),
   ]
-  const hayTraslado = (tpRes.data ?? []).length > 0
-  const trasladoConfirmado = (tpRes.data ?? []).some((t) => (t as { subio_at: string | null }).subio_at !== null)
+  // Un tramo de transporte por cada par de paradas consecutivas.
+  const tramos = puntos.slice(1).map((_, g) => {
+    const desde = puntos[g].key
+    const grupo = desde === 'aero' ? tpsLlegada : tpsFaena
+    return { hay: grupo.length > 0, confirmado: grupo.some((t) => t.subio_at !== null) }
+  })
+
+  // Clasificación del día cuando NO hay servicios: descanso CONFIRMADO por la
+  // rotación (entre el fin de una rotación y sus días de descanso pactados),
+  // día en turno sin planificar, o sin información. "No todos son descansos".
+  const descansoDias = new Map((dotaciones ?? []).map((d) => [d.id, d.turno_dias_descanso ?? 0]))
+  const enTurno = rots.some((r) => r.fecha_inicio && r.fecha_fin_esperada && r.fecha_inicio <= fechaTraza && fechaTraza <= r.fecha_fin_esperada)
+  let estadoDia: 'trabajo' | 'descanso' | 'sin_info' = enTurno ? 'trabajo' : 'sin_info'
+  let vuelveEl: string | null = null
+  let turnoLabel: string | null = null
+  if (!enTurno) {
+    for (const r of rots) {
+      if (!r.fecha_fin_esperada || r.fecha_fin_esperada >= fechaTraza) continue
+      const d = descansoDias.get(r.dotacion_id) ?? 0
+      if (d > 0 && fechaTraza <= sumarDias(r.fecha_fin_esperada, d)) {
+        estadoDia = 'descanso'
+        const dot = (dotaciones ?? []).find((x) => x.id === r.dotacion_id)
+        turnoLabel = dot?.turno_dias_trabajo ? `${dot.turno_dias_trabajo}x${dot.turno_dias_descanso ?? 0}` : null
+        // Vuelve: la próxima rotación agendada si existe; si no, fin + descanso + 1.
+        const prox = rots.filter((x) => x.fecha_inicio && x.fecha_inicio > fechaTraza).sort((a, b) => a.fecha_inicio!.localeCompare(b.fecha_inicio!))[0]
+        vuelveEl = prox?.fecha_inicio ?? sumarDias(r.fecha_fin_esperada, d + 1)
+        break
+      }
+    }
+  }
 
   // Permisos actuales (alcance general) del login de la persona
   const permisos: Record<string, string> = {}
@@ -231,7 +280,7 @@ export default async function FichaPersonaPage({ params, searchParams }: Props) 
       )}
 
       {/* Línea de trazabilidad por lugar: qué hace la persona en cada punto */}
-      <TrazaLinea puntos={puntos} hayTraslado={hayTraslado} trasladoConfirmado={trasladoConfirmado} fecha={fechaTraza} personaId={id} />
+      <TrazaLinea puntos={puntos} tramos={tramos} fecha={fechaTraza} personaId={id} estadoDia={estadoDia} turnoLabel={turnoLabel} vuelveEl={vuelveEl} />
 
       {/* Bitácora viva: timeline de eventos en terreno */}
       <BitacoraTimeline eventos={eventosVivos} />

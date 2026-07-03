@@ -2,20 +2,24 @@
 
 import { useRouter } from 'next/navigation'
 import { hoyChile, sumarDias } from '@/lib/fechas'
-import { BedDouble, HardHat, Bus, Check, Circle, TriangleAlert, ChevronLeft, ChevronRight, UtensilsCrossed, Package, Shirt, Moon, User, CalendarDays, type LucideIcon } from 'lucide-react'
+import { BedDouble, HardHat, Bus, Check, Circle, TriangleAlert, ChevronLeft, ChevronRight, UtensilsCrossed, Package, Shirt, Moon, User, CalendarDays, Plane, Coffee, type LucideIcon } from 'lucide-react'
 
 type EstadoAct = 'planificado' | 'confirmado' | 'excepcion'
 export type Actividad = { label: string; icon: string; estado: EstadoAct }
-export type Punto = { key: string; nombre: string; icon: 'aloj' | 'faena'; actividades: Actividad[] }
+export type Punto = { key: string; nombre: string; icon: 'aloj' | 'faena' | 'aeropuerto'; actividades: Actividad[] }
+export type Tramo = { hay: boolean; confirmado: boolean }
+export type EstadoDia = 'trabajo' | 'descanso' | 'sin_info'
 
-const PUNTO_ICON: Record<string, LucideIcon> = { aloj: BedDouble, faena: HardHat }
-const ACT_ICON: Record<string, LucideIcon> = { pernocta: Moon, comida: UtensilsCrossed, colacion: Package, lavanderia: Shirt }
+const PUNTO_ICON: Record<string, LucideIcon> = { aloj: BedDouble, faena: HardHat, aeropuerto: Plane }
+const ACT_ICON: Record<string, LucideIcon> = { pernocta: Moon, comida: UtensilsCrossed, colacion: Package, lavanderia: Shirt, vuelo: Plane }
 
 // Línea de trazabilidad por PUNTO (lugar): riel de recorrido arriba (nodos por
-// lugar + persona viajando + bus en el tramo) y tarjetas alineadas abajo con
-// el detalle de actividades y su estado.
-export function TrazaLinea({ puntos, hayTraslado, trasladoConfirmado, fecha, personaId }: {
-  puntos: Punto[]; hayTraslado: boolean; trasladoConfirmado: boolean; fecha: string; personaId: string
+// lugar + persona viajando + bus en cada tramo) y tarjetas alineadas abajo con
+// el detalle de actividades y su estado. Cuando el día no tiene servicios,
+// distingue descanso CONFIRMADO por la rotación de un día sin información.
+export function TrazaLinea({ puntos, tramos, fecha, personaId, estadoDia, turnoLabel, vuelveEl }: {
+  puntos: Punto[]; tramos: Tramo[]; fecha: string; personaId: string
+  estadoDia: EstadoDia; turnoLabel: string | null; vuelveEl: string | null
 }) {
   const router = useRouter()
   const fechaLabel = new Date(fecha + 'T00:00:00').toLocaleDateString('es-CL', { weekday: 'long', day: '2-digit', month: 'long' })
@@ -80,16 +84,41 @@ export function TrazaLinea({ puntos, hayTraslado, trasladoConfirmado, fecha, per
       </div>
 
       {!puntos.length ? (
-        <div className="py-10 text-center">
-          <div className="w-11 h-11 rounded-2xl bg-[var(--gray-100)] flex items-center justify-center mx-auto mb-3">
-            <CalendarDays size={20} strokeWidth={1.75} className="text-[var(--gray-500)]" />
+        estadoDia === 'descanso' ? (
+          <div className="py-10 text-center">
+            <div className="w-11 h-11 rounded-2xl bg-[var(--amber)]/12 flex items-center justify-center mx-auto mb-3">
+              <Coffee size={20} strokeWidth={1.75} className="text-[var(--amber-dark)]" />
+            </div>
+            <p className="text-sm font-semibold text-[var(--ink)]">Día de descanso</p>
+            <p className="text-xs text-[var(--gray-600)] mt-1">
+              Confirmado por su rotación{turnoLabel ? <> · turno <span className="font-semibold tabular-nums">{turnoLabel}</span></> : null}
+            </p>
+            {vuelveEl && (
+              <p className="text-xs text-[var(--gray-500)] mt-0.5">
+                Vuelve el {new Date(vuelveEl + 'T00:00:00').toLocaleDateString('es-CL', { weekday: 'long', day: '2-digit', month: 'long' })}
+              </p>
+            )}
           </div>
-          <p className="text-sm font-medium text-[var(--ink)]">Sin planificación para este día</p>
-          <p className="text-xs text-[var(--gray-500)] mt-1">Los servicios que se planifiquen aparecerán aquí.</p>
-        </div>
+        ) : estadoDia === 'trabajo' ? (
+          <div className="py-10 text-center">
+            <div className="w-11 h-11 rounded-2xl bg-[var(--gray-100)] flex items-center justify-center mx-auto mb-3">
+              <CalendarDays size={20} strokeWidth={1.75} className="text-[var(--gray-500)]" />
+            </div>
+            <p className="text-sm font-medium text-[var(--ink)]">En turno, sin servicios planificados</p>
+            <p className="text-xs text-[var(--gray-500)] mt-1">Este día está dentro de su rotación; los servicios que se planifiquen aparecerán aquí.</p>
+          </div>
+        ) : (
+          <div className="py-10 text-center">
+            <div className="w-11 h-11 rounded-2xl bg-[var(--gray-100)] flex items-center justify-center mx-auto mb-3">
+              <CalendarDays size={20} strokeWidth={1.75} className="text-[var(--gray-500)]" />
+            </div>
+            <p className="text-sm font-medium text-[var(--ink)]">Sin información para este día</p>
+            <p className="text-xs text-[var(--gray-500)] mt-1">No hay rotación ni servicios registrados que cubran esta fecha.</p>
+          </div>
+        )
       ) : (
         <div className="overflow-x-auto pb-1">
-          <div style={{ minWidth: `${n * 210}px` }}>
+          <div style={{ minWidth: `${n * 240}px` }}>
 
             {/* ── Riel de recorrido: nodos por lugar + persona + bus ── */}
             {mostrarRiel && (
@@ -136,13 +165,13 @@ export function TrazaLinea({ puntos, hayTraslado, trasladoConfirmado, fecha, per
                 })}
               </div>
 
-              {/* Bus sobre cada tramo */}
-              {hayTraslado && Array.from({ length: n - 1 }, (_, g) => (
+              {/* Bus sobre cada tramo (estado propio por tramo) */}
+              {Array.from({ length: n - 1 }, (_, g) => tramos[g]?.hay && (
                 <div key={g} className="absolute bottom-0 h-10 flex items-center z-20" style={{ left: `${((g + 1) / n) * 100}%`, transform: 'translateX(-50%)' }}>
                   <span className={`inline-flex items-center gap-1.5 pl-2 pr-2.5 py-1 rounded-full border text-[10px] font-semibold shadow-sm
-                    ${trasladoConfirmado ? 'bg-sky-50 border-sky-200 text-sky-700' : 'bg-[var(--surface)] border-[var(--gray-200)] text-[var(--gray-600)]'}`}>
+                    ${tramos[g].confirmado ? 'bg-sky-50 border-sky-200 text-sky-700' : 'bg-[var(--surface)] border-[var(--gray-200)] text-[var(--gray-600)]'}`}>
                     <Bus size={12} strokeWidth={2.25} />
-                    {trasladoConfirmado ? 'Trasladado' : 'Traslado'}
+                    {tramos[g].confirmado ? 'Trasladado' : 'Traslado'}
                   </span>
                 </div>
               ))}
@@ -196,7 +225,7 @@ export function TrazaLinea({ puntos, hayTraslado, trasladoConfirmado, fecha, per
                               </span>
                             )}
                             <AIcon size={14} strokeWidth={1.75} className="text-[var(--gray-500)] shrink-0" />
-                            <span className={`flex-1 text-[13px] font-medium truncate ${a.estado === 'planificado' ? 'text-[var(--gray-600)]' : 'text-[var(--ink)]'}`}>
+                            <span className={`flex-1 min-w-0 text-[13px] font-medium leading-snug ${a.estado === 'planificado' ? 'text-[var(--gray-600)]' : 'text-[var(--ink)]'}`}>
                               {a.label}
                             </span>
                             <span className={`text-[11px] font-medium shrink-0
