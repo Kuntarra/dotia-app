@@ -46,7 +46,9 @@ export async function crearTipoTurno(formData: FormData) {
 export async function desactivarTipoTurno(id: string) {
   if (!(await esAdministrador())) redirect(BACK + '?error=' + encodeURIComponent('Solo la administración puede cambiar turnos.'))
   const supabase = await createClient()
-  await supabase.from('tipos_turno').update({ activa: false }).eq('id', id)
+  const { data, error } = await supabase.from('tipos_turno').update({ activa: false }).eq('id', id).select('id')
+  if (error) redirect(BACK + '?error=' + encodeURIComponent(error.message))
+  if (!data?.length) redirect(BACK + '?error=' + encodeURIComponent('No se encontró el turno o no tienes permiso.'))
   await registrarActividad('tipo_turno', id, 'desactivar')
   revalidatePath(BACK)
   redirect(BACK + '?success=baja')

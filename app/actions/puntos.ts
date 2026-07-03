@@ -34,7 +34,9 @@ export async function desactivarPunto(id: string) {
   if (!(await esAdministrador())) redirect(BACK + '?error=' + encodeURIComponent('Solo la administración puede cambiar puntos.'))
   const supabase = await createClient()
   // Solo puntos manuales: los derivados se gestionan desde su propiedad.
-  await supabase.from('puntos').update({ activa: false }).eq('id', id).eq('tipo', 'manual')
+  const { data, error } = await supabase.from('puntos').update({ activa: false }).eq('id', id).eq('tipo', 'manual').select('id')
+  if (error) redirect(BACK + '?error=' + encodeURIComponent(error.message))
+  if (!data?.length) redirect(BACK + '?error=' + encodeURIComponent('No se encontró el punto o no se puede desactivar (solo puntos manuales).'))
   await registrarActividad('punto', id, 'desactivar')
   revalidatePath(BACK)
   redirect(BACK + '?success=baja')

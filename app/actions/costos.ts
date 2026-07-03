@@ -43,7 +43,9 @@ export async function crearTarifa(formData: FormData) {
 export async function desactivarTarifa(id: string) {
   if (!(await esAdministrador())) redirect(BACK + '?error=' + encodeURIComponent('Solo la administración puede cambiar tarifas.'))
   const supabase = await createClient()
-  await supabase.from('costos_tarifas').update({ activa: false }).eq('id', id)
+  const { data, error } = await supabase.from('costos_tarifas').update({ activa: false }).eq('id', id).select('id')
+  if (error) redirect(BACK + '?error=' + encodeURIComponent(error.message))
+  if (!data?.length) redirect(BACK + '?error=' + encodeURIComponent('No se encontró la tarifa o no tienes permiso.'))
   await registrarActividad('costo', id, 'desactivar')
   revalidatePath(BACK)
   redirect(BACK + '?success=baja')

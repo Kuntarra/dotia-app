@@ -11,7 +11,7 @@ export async function updateRotacion(proyectoId: string, dotId: string, rotId: s
   const back = `/admin/proyectos/${proyectoId}/dotacion/${dotId}`
   if (!(await puedePlanificar())) redirect(back + '?error=' + encodeURIComponent('Solo quien planifica puede editar rotaciones.'))
   const supabase = await createClient()
-  await supabase.from('rotaciones').update({
+  const { error } = await supabase.from('rotaciones').update({
     fecha_inicio:       (formData.get('fecha_inicio') as string) || null,
     fecha_fin_esperada: (formData.get('fecha_fin_esperada') as string) || null,
     vuelo_ida_numero:   (formData.get('vuelo_ida_numero') as string) || null,
@@ -21,6 +21,7 @@ export async function updateRotacion(proyectoId: string, dotId: string, rotId: s
     estado_ciclo:       (formData.get('estado_ciclo') as string) || 'planificada',
     ajustada_manual:    true,
   }).eq('id', rotId)
+  if (error) redirect(back + '?error=' + encodeURIComponent(error.message))
   await registrarActividad('rotacion', rotId, 'editar_rotacion', { dotacion_id: dotId })
   revalidatePath(`/admin/proyectos/${proyectoId}/dotacion/${dotId}`)
 }

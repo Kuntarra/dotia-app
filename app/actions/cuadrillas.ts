@@ -41,11 +41,12 @@ export async function moverPersonaCuadrilla(personaId: string, formData: FormDat
   if (error) redirect(back + '?error=' + encodeURIComponent(error.message))
 
   // Sincroniza las dotaciones activas de la persona (denormalización hacia abajo).
-  await supabase
+  const { error: errDot } = await supabase
     .from('dotaciones')
     .update({ cuadrilla_id: cuadrillaId })
     .eq('persona_id', personaId)
     .eq('estado', 'activa')
+  if (errDot) redirect(back + '?error=' + encodeURIComponent(errDot.message))
 
   await registrarActividad('cuadrilla', cuadrillaId, 'mover', { persona_id: personaId })
   revalidatePath(back)
@@ -64,11 +65,12 @@ export async function setCuadrillaPersona(personaId: string, cuadrillaId: string
     .eq('persona_id', personaId)
   if (error) return { ok: false, error: error.message }
 
-  await supabase
+  const { error: errDot } = await supabase
     .from('dotaciones')
     .update({ cuadrilla_id: cuadrillaId })
     .eq('persona_id', personaId)
     .eq('estado', 'activa')
+  if (errDot) return { ok: false, error: errDot.message }
 
   await registrarActividad('cuadrilla', cuadrillaId, 'mover', { persona_id: personaId })
   revalidatePath('/admin/cuadrillas')
