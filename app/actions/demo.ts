@@ -2,9 +2,15 @@
 
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
+import { cookies } from 'next/headers'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { DEMO_USERS, DEMO_PASSWORD } from '@/lib/demo'
+
+// Recuerda el correo de la cuenta REAL desde la que se entró a una cuenta de
+// switch, para poder volver con un clic (sin pedir la clave otra vez). Solo
+// guarda el correo (no es sensible); nunca tokens ni contraseñas.
+const SWITCH_ORIGIN_COOKIE = 'sol_switch_origin'
 
 // Perfil de la sesión actual (real, sin impersonación).
 async function currentProfile() {
@@ -16,7 +22,7 @@ async function currentProfile() {
     .select('role, is_super_admin, tenant_id, es_cuenta_switch')
     .eq('id', user.id)
     .single()
-  return data ? { ...data, userId: user.id } : null
+  return data ? { ...data, userId: user.id, email: user.email } : null
 }
 
 // El switch lo puede usar el super admin o quien YA está logueado con una
@@ -66,9 +72,17 @@ export async function seedDemoUsers() {
   redirect('/admin?demo=sembrado')
 }
 
-// Login REAL como un usuario demo (vista 100% fiel: menú + RLS reales).
+// Login REAL como un usuario de switch (vista 100% fiel: menú + RLS reales).
 export async function quickLoginDemo(userId: string) {
-  if (!puedeUsarDemo(await currentProfile())) redirect('/admin')
+  const p = await currentProfile()
+  if (!puedeUsarDemo(p)) redirect('/admin')
+
+  // Solo guarda el origen la PRIMERA vez (viniendo de la cuenta real): si ya
+  // estoy en una cuenta de switch y salto a otra, no piso el origen guardado.
+  if (p && !p.es_cuenta_switch && p.email) {
+    const cookieStore = await cookies()
+    cookieStore.set(SWITCH_ORIGIN_COOKIE, p.email, { httpOnly: true, path: '/', maxAge: 60 * 60 * 8 })
+  }
 
   const admin = createAdminClient()
   const { data: target } = await admin.from('user_profiles').select('email, tenant_id, es_cuenta_switch').eq('id', userId).maybeSingle()
@@ -82,9 +96,32 @@ export async function quickLoginDemo(userId: string) {
   redirect('/admin')
 }
 
-// Salir del modo demo: cierra sesión (la cuenta real del super admin nunca se
-// swapea por clave, así que se vuelve a entrar manualmente).
-export async function exitDemo() {
+// Vuelve de un clic a la cuenta REAL (sin pedir la clave otra vez): genera un
+// magic-link server-side para el correo de origen y lo canjea de inmediato.
+// No guarda ni pasa contraseñas ni tokens de sesión, solo el correo.
+export async function volverAMiCuenta() {
+  const cookieStore = await cookies()
+  const origin = cookieStore.get(SWITCH_ORIGIN_COOKIE)?.value
+
+  if (origin) {
+    const admin = createAdminClient()
+    const { data, error } = await admin.auth.admin.generateLink({ type: 'magiclink', email: origin })
+    if (!error && data?.properties?.hashed_token) {
+      const supabase = await createClient()
+      const { error: verifyError } = await supabase.auth.verifyOtp({
+        token_hash: data.properties.hashed_token,
+        type: 'magiclink',
+      })
+      if (!verifyError) {
+        cookieStore.delete(SWITCH_ORIGIN_COOKIE)
+        revalidatePath('/', 'layout')
+        redirect('/admin')
+      }
+    }
+  }
+
+  // Sin origen guardado o algo falló: cierra sesión, vuelve a entrar a mano.
+  cookieStore.delete(SWITCH_ORIGIN_COOKIE)
   const supabase = await createClient()
   await supabase.auth.signOut()
   revalidatePath('/', 'layout')

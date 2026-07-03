@@ -4,8 +4,8 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { impersonate } from '@/app/actions/impersonate'
-import { quickLoginDemo, exitDemo } from '@/app/actions/demo'
-import { Repeat, ChevronDown, LogOut, FlaskConical } from 'lucide-react'
+import { quickLoginDemo, volverAMiCuenta } from '@/app/actions/demo'
+import { Repeat, ChevronDown, Undo2, FlaskConical } from 'lucide-react'
 
 const VIEWS = [
   { label: 'Admin',     href: '/admin',      color: 'bg-[var(--navy)] text-white',         dot: 'bg-[var(--navy)]',  desc: 'Panel administrador' },
@@ -36,27 +36,27 @@ export function RoleSwitcher({ users, demoModalities, enDemo }: { users: User[];
       {open && (
         <div className="mb-3 bg-[var(--surface)] rounded-xl shadow-xl border border-[var(--gray-200)] overflow-hidden w-64">
 
-          {/* Banner: estás dentro del modo demo */}
+          {/* Banner: estás viendo otra vista (Mandante/Proveedor) */}
           {enDemo && (
             <div className="bg-amber-50 border-b border-amber-200 px-4 py-3">
-              <p className="text-xs font-semibold text-amber-800 flex items-center gap-1.5"><FlaskConical size={13} strokeWidth={2.25} /> Estás en modo demo</p>
-              <p className="text-[11px] text-amber-700 mt-0.5">Cambia de modalidad abajo o sal del modo demo.</p>
+              <p className="text-xs font-semibold text-amber-800 flex items-center gap-1.5"><FlaskConical size={13} strokeWidth={2.25} /> Estás viendo otra vista</p>
+              <p className="text-[11px] text-amber-700 mt-0.5">Cambia de vista abajo o vuelve a tu cuenta.</p>
             </div>
           )}
 
-          {/* Tabs (solo super admin fuera de demo) */}
+          {/* Tabs (solo super admin fuera de vista rápida) */}
           {showTabs && (
             <div className="flex border-b border-[var(--gray-100)]">
               {(['demo', 'vistas', 'usuarios'] as const).map(t => (
                 <button key={t} onClick={() => setTab(t)}
                   className={`flex-1 text-xs font-semibold py-2.5 capitalize transition-colors ${tab === t ? 'text-[var(--ink)] border-b-2 border-[var(--navy)]' : 'text-[var(--gray-500)] hover:text-[var(--ink)]'}`}>
-                  {t === 'demo' ? 'Modo demo' : t === 'vistas' ? 'Vistas' : 'Usuarios'}
+                  {t === 'demo' ? 'Vista rápida' : t === 'vistas' ? 'Vistas' : 'Usuarios'}
                 </button>
               ))}
             </div>
           )}
 
-          {/* ── Modo demo: saltar a cualquier modalidad (login real) ── */}
+          {/* ── Vista rápida: saltar a Mandante/Proveedor (login real) ── */}
           {(enDemo || (showTabs && tab === 'demo')) && (
             <div className="max-h-80 overflow-y-auto py-1">
               {groups.map(group => (
@@ -74,9 +74,9 @@ export function RoleSwitcher({ users, demoModalities, enDemo }: { users: User[];
                 </div>
               ))}
               {enDemo && (
-                <form action={exitDemo} className="px-3 pt-2 pb-1">
-                  <button className="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg bg-red-50 text-red-700 text-sm font-semibold hover:bg-red-100 transition-colors">
-                    <LogOut size={14} strokeWidth={2.25} /> Salir del modo demo
+                <form action={volverAMiCuenta} className="px-3 pt-2 pb-1">
+                  <button className="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg bg-[var(--navy)] text-white text-sm font-semibold hover:bg-[var(--navy-dark)] transition-colors">
+                    <Undo2 size={14} strokeWidth={2.25} /> Volver a mi cuenta
                   </button>
                 </form>
               )}
@@ -146,7 +146,7 @@ export function RoleSwitcher({ users, demoModalities, enDemo }: { users: User[];
       <button onClick={() => setOpen(!open)}
         className={`flex items-center gap-2 px-4 py-2.5 rounded-full shadow-lg text-sm font-semibold transition-all hover:shadow-xl active:scale-95 ${enDemo ? 'bg-amber-500 text-white' : current.color}`}>
         {enDemo ? <FlaskConical size={15} strokeWidth={2} /> : <Repeat size={15} strokeWidth={2} />}
-        {enDemo ? 'Demo' : current.label}
+        {enDemo ? 'Vista rápida' : current.label}
         <ChevronDown size={13} strokeWidth={2.25} className={`transition-transform ${open ? 'rotate-180' : ''}`} />
       </button>
     </div>
