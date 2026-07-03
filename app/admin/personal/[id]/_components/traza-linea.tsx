@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import { hoyChile, sumarDias } from '@/lib/fechas'
-import { BedDouble, HardHat, Bus, Check, Circle, TriangleAlert, ChevronLeft, ChevronRight, UtensilsCrossed, Package, Shirt, Moon, type LucideIcon } from 'lucide-react'
+import { BedDouble, HardHat, Bus, Check, Circle, TriangleAlert, ChevronLeft, ChevronRight, UtensilsCrossed, Package, Shirt, Moon, User, type LucideIcon } from 'lucide-react'
 
 type EstadoAct = 'planificado' | 'confirmado' | 'excepcion'
 export type Actividad = { label: string; icon: string; estado: EstadoAct }
@@ -22,6 +22,17 @@ export function TrazaLinea({ puntos, hayTraslado, trasladoConfirmado, fecha, per
   const moverDia = (d: number) => router.push(`/admin/personal/${personaId}?fecha=${sumarDias(fecha, d)}`)
   const totalAct = puntos.reduce((s, p) => s + p.actividades.length, 0)
   const conf = puntos.reduce((s, p) => s + p.actividades.filter((a) => a.estado === 'confirmado').length, 0)
+
+  // Marcador "aquí, ahora": solo tiene sentido mirando HOY. Es el primer punto
+  // con algo aún no confirmado; si todo está confirmado, el recorrido del día
+  // ya terminó y el marcador descansa en el último punto.
+  const esHoy = fecha === hoy
+  const idxActual = esHoy && puntos.length
+    ? (() => {
+        const i = puntos.findIndex((p) => p.actividades.some((a) => a.estado !== 'confirmado'))
+        return i === -1 ? puntos.length - 1 : i
+      })()
+    : -1
 
   return (
     <div className="bg-[var(--surface)] rounded-2xl border border-[var(--gray-200)] p-6 mb-6">
@@ -43,10 +54,12 @@ export function TrazaLinea({ puntos, hayTraslado, trasladoConfirmado, fecha, per
       {!puntos.length ? (
         <div className="py-8 text-center text-sm text-[var(--gray-500)]">Sin planificación para este día.</div>
       ) : (
-        <div className="overflow-x-auto pb-1">
+        <div className={`overflow-x-auto pb-1 ${idxActual >= 0 ? 'pt-14' : ''}`}>
           <div className="flex items-stretch gap-0" style={{ minWidth: `${puntos.length * 200}px` }}>
             {puntos.map((p, i) => {
               const PIcon = PUNTO_ICON[p.icon] ?? BedDouble
+              const esActual = i === idxActual
+              const yaRecorrido = idxActual >= 0 && i < idxActual
               return (
                 <div key={p.key} className="flex items-stretch flex-1">
                   {/* Conector de transporte entre puntos */}
@@ -61,7 +74,24 @@ export function TrazaLinea({ puntos, hayTraslado, trasladoConfirmado, fecha, per
                   )}
 
                   {/* Punto (lugar) con sus actividades apiladas */}
-                  <div className="flex-1 min-w-[150px] rounded-xl border border-[var(--gray-200)] bg-[var(--gray-50)] p-3">
+                  <div className={`relative flex-1 min-w-[150px] rounded-xl border p-3 transition-shadow
+                    ${esActual ? 'border-[var(--amber)] bg-[var(--surface)] ring-2 ring-[var(--amber)]/25' : 'border-[var(--gray-200)] bg-[var(--gray-50)]'}`}>
+                    {/* Marcador "aquí, ahora": solo sobre el punto donde está la persona hoy */}
+                    {esActual && (
+                      <div className="absolute -top-9 left-1/2 -translate-x-1/2 flex flex-col items-center z-10">
+                        <span className="mb-1 px-2.5 py-1 rounded-full bg-[var(--amber-light)]/25 border border-[var(--amber)]/40 text-[10px] font-bold uppercase tracking-wide text-[var(--amber-dark)] whitespace-nowrap">
+                          ◉ Aquí, ahora
+                        </span>
+                        <div className="w-7 h-7 rounded-full bg-[var(--navy)] flex items-center justify-center animate-pin-breathe">
+                          <User size={13} strokeWidth={2.25} className="text-[var(--amber-light)]" />
+                        </div>
+                      </div>
+                    )}
+                    {yaRecorrido && (
+                      <span className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-sm" title="Ya recorrido">
+                        <Check size={11} strokeWidth={3} />
+                      </span>
+                    )}
                     <div className="flex items-center gap-2 mb-2.5">
                       <div className="w-8 h-8 rounded-lg bg-[var(--navy)]/8 flex items-center justify-center shrink-0">
                         <PIcon size={16} strokeWidth={2} className="text-[var(--navy)]" />
