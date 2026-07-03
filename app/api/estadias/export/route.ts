@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getMyTenantId } from '@/lib/tenant'
+import { hoyChile } from '@/lib/fechas'
 
 function fmt(iso: string | null) {
   if (!iso) return ''
@@ -85,7 +86,7 @@ export async function GET(request: Request) {
 
   // BOM para que Excel reconozca UTF-8 (acentos/ñ).
   const body = '﻿' + [headers.map(csv).join(';'), ...rows].join('\r\n')
-  const fecha = new Date().toISOString().slice(0, 10)
+  const fecha = hoyChile()
 
   return new Response(body, {
     headers: {

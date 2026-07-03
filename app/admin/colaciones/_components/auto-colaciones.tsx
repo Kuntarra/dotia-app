@@ -1,6 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import { hoyChile, sumarDias } from '@/lib/fechas'
 import { User, Users, UsersRound, ChevronUp, ChevronDown, CalendarRange, CalendarDays } from 'lucide-react'
 
 const INPUT = 'px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm text-[var(--gray-900)] focus:outline-none focus:ring-2 focus:ring-[var(--navy)]'
@@ -43,11 +44,8 @@ export function AutoColaciones({ fecha, modo, scope, refId, dotaciones, cuadrill
     router.push(`/admin/colaciones?${p.toString()}`)
   }
 
-  const moverDia = (dias: number) => {
-    const d = new Date(fecha + 'T00:00:00'); d.setDate(d.getDate() + dias)
-    push({ fecha: d.toISOString().slice(0, 10) })
-  }
-  const hoy = new Date().toISOString().slice(0, 10)
+  const moverDia = (dias: number) => push({ fecha: sumarDias(fecha, dias) })
+  const hoy = hoyChile()
   const fechaLabel = new Date(fecha + 'T00:00:00').toLocaleDateString('es-CL', { weekday: 'short', day: '2-digit', month: 'short' })
 
   return (

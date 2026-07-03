@@ -7,6 +7,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { puedeGestionar, esAdministrador } from '@/lib/rbac'
 import { getMyTenantId } from '@/lib/tenant'
 import { registrarActividad } from './_log'
+import { hoyChile } from '@/lib/fechas'
 
 // ── Colaciones ─────────────────────────────────────────────────
 export async function createColacion(formData: FormData) {
@@ -90,7 +91,7 @@ export async function asignarPlanillaMasivo(formData: FormData) {
   const planillaId = (formData.get('planilla_id') as string) || null
   const scope = (formData.get('scope') as string) || 'cuadrilla'
   const ref = (formData.get('ref') as string) || ''
-  const fechaRef = (formData.get('fecha_ref') as string) || new Date().toISOString().slice(0, 10)
+  const fechaRef = (formData.get('fecha_ref') as string) || hoyChile()
   if (scope === 'cuadrilla' && !ref) redirect('/admin/lavanderia?error=' + encodeURIComponent('Selecciona una cuadrilla.'))
 
   const nombres = formData.getAll('item_nombre') as string[]

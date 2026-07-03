@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { requireAdminPage } from '@/lib/rbac'
 import { modulosActivosTenant } from '@/lib/tenant'
+import { hoyChile } from '@/lib/fechas'
 import { EstadoControls } from './_components/estado-controls'
 import { Bus, BedDouble, UtensilsCrossed, Package, Shirt, LayoutGrid, FolderKanban, Check, type LucideIcon } from 'lucide-react'
 import Link from 'next/link'
@@ -23,7 +24,7 @@ export default async function EstadoPage({ searchParams }: { searchParams: Promi
   await requireAdminPage()
   const sp = await searchParams
   const supabase = await createClient()
-  const fecha = sp.fecha || new Date().toISOString().slice(0, 10)
+  const fecha = sp.fecha || hoyChile()
 
   const [{ data: proyectos }, modulosActivos] = await Promise.all([
     supabase.from('proyectos').select('id, nombre').order('created_at', { ascending: false }),

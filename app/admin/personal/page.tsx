@@ -5,6 +5,7 @@ import { Plus, IdCard, Search, Upload } from 'lucide-react'
 import { formatRut } from '@/lib/rut'
 import { Pagination } from '@/app/_components/pagination'
 import { puedeGestionar } from '@/lib/rbac'
+import { hoyChile } from '@/lib/fechas'
 
 interface Props {
   searchParams: Promise<{ q?: string; page?: string; success?: string; creadas?: string; reusadas?: string; errores?: string; omitidas?: string }>
@@ -36,7 +37,7 @@ export default async function PersonalPage({ searchParams }: Props) {
   // Búsqueda + paginación EN LA BASE (escala a miles): función buscar_directorio.
   // "En faena hoy" = la persona tiene una rotación cuyo período contiene hoy
   // (situación Laboral); si está activa pero sin rotación vigente = Descanso.
-  const hoy = new Date().toISOString().slice(0, 10)
+  const hoy = hoyChile()
   const [{ data }, cupo, { data: faena }] = await Promise.all([
     supabase.rpc('buscar_directorio', { p_q: term, p_limit: PAGE_SIZE, p_offset: offset }),
     getCupoPersonas(),

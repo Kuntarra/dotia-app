@@ -5,6 +5,7 @@ import ExcelJS from 'exceljs'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getMyTenantId } from '@/lib/tenant'
+import { hoyChile } from '@/lib/fechas'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -214,7 +215,7 @@ export async function GET(req: NextRequest) {
   r4.views = [{ state: 'frozen', ySplit: 1 }]
 
   const buffer = await wb.xlsx.writeBuffer()
-  const fecha = new Date().toISOString().slice(0, 10)
+  const fecha = hoyChile()
   const slug = tituloPeriodo.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
 
   return new Response(buffer as ArrayBuffer, {

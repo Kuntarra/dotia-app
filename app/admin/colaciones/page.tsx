@@ -3,6 +3,7 @@ import { toggleColacionEntregada, gestionarColaciones } from '@/app/actions/modu
 import { ColacionesForm } from './_components/colaciones-form'
 import { AutoColaciones } from './_components/auto-colaciones'
 import { puedeGestionar } from '@/lib/rbac'
+import { hoyChile } from '@/lib/fechas'
 import { Package, Check, Sparkles, LogIn, LogOut, CalendarDays } from 'lucide-react'
 
 interface Props { searchParams: Promise<{ error?: string; generadas?: string; sugfecha?: string; sugmodo?: string; sugscope?: string; sugref?: string }> }
@@ -15,7 +16,7 @@ const PUNTO_LABEL: Record<string, string> = {
 export default async function ColacionesPage({ searchParams }: Props) {
   const { error, generadas, sugfecha, sugmodo, sugscope, sugref } = await searchParams
   const supabase = await createClient()
-  const sugFecha = sugfecha || new Date().toISOString().slice(0, 10)
+  const sugFecha = sugfecha || hoyChile()
   const sugModo: 'inicio_fin' | 'todos' = sugmodo === 'todos' ? 'todos' : 'inicio_fin'
   const sugScope: 'persona' | 'cuadrilla' | 'todos' = sugscope === 'persona' || sugscope === 'cuadrilla' ? sugscope : 'todos'
   const sugRef = sugref || ''

@@ -3,6 +3,7 @@ import { createPlanilla, importPlanilla, addPlanillaItem, deletePlanillaItem, de
 import { AsignarPlanilla } from './_components/asignar-planilla'
 import { ResumenLavanderia, type GrupoResumen, type EstadoLav } from './_components/resumen'
 import { puedeGestionar } from '@/lib/rbac'
+import { hoyChile } from '@/lib/fechas'
 import { Plus, X, Trash2, Printer, ClipboardList, FileSpreadsheet, AlertTriangle } from 'lucide-react'
 
 const MAX_ITEMS = 24
@@ -20,7 +21,7 @@ function addDays(fecha: string, dias: number) {
 export default async function LavanderiaPage({ searchParams }: Props) {
   const { error, success, asignada, asignadas, creada, aviso } = await searchParams
   const supabase = await createClient()
-  const hoy = new Date().toISOString().slice(0, 10)
+  const hoy = hoyChile()
   const [{ data: planillas }, { data: dotacionesRaw }, { data: rotaciones }, { data: bolsas }, { data: stays }, { data: cuadrillasRaw }] = await Promise.all([
     supabase.from('lavanderia_planillas').select('id, nombre, lavanderia_planilla_items(id, nombre, orden)').eq('activa', true).order('created_at', { ascending: false }),
     supabase.from('dotaciones').select('id, turno_dias_descanso, personas(nombres, apellido_paterno)').eq('estado', 'activa').order('created_at', { ascending: false }),

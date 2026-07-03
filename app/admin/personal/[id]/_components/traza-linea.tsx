@@ -1,6 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import { hoyChile, sumarDias } from '@/lib/fechas'
 import { BedDouble, HardHat, Bus, Check, Circle, TriangleAlert, ChevronLeft, ChevronRight, UtensilsCrossed, Package, Shirt, Moon, type LucideIcon } from 'lucide-react'
 
 type EstadoAct = 'planificado' | 'confirmado' | 'excepcion'
@@ -17,11 +18,8 @@ export function TrazaLinea({ puntos, hayTraslado, trasladoConfirmado, fecha, per
 }) {
   const router = useRouter()
   const fechaLabel = new Date(fecha + 'T00:00:00').toLocaleDateString('es-CL', { weekday: 'long', day: '2-digit', month: 'long' })
-  const hoy = new Date().toISOString().slice(0, 10)
-  const moverDia = (d: number) => {
-    const n = new Date(fecha + 'T00:00:00'); n.setDate(n.getDate() + d)
-    router.push(`/admin/personal/${personaId}?fecha=${n.toISOString().slice(0, 10)}`)
-  }
+  const hoy = hoyChile()
+  const moverDia = (d: number) => router.push(`/admin/personal/${personaId}?fecha=${sumarDias(fecha, d)}`)
   const totalAct = puntos.reduce((s, p) => s + p.actividades.length, 0)
   const conf = puntos.reduce((s, p) => s + p.actividades.filter((a) => a.estado === 'confirmado').length, 0)
 

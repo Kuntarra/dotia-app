@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { aplicarColaciones } from '@/app/actions/modulos'
+import { hoyChile, sumarDias } from '@/lib/fechas'
 import { User, Users, UsersRound, ChevronUp, ChevronDown } from 'lucide-react'
 
 const INPUT = 'px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm text-[var(--gray-900)] focus:outline-none focus:ring-2 focus:ring-[var(--navy)]'
@@ -21,15 +22,12 @@ const SCOPES: { v: Scope; label: string; Icon: typeof User }[] = [
 ]
 
 export function ColacionesForm({ dotaciones, cuadrillas }: { dotaciones: Opt[]; cuadrillas: Opt[] }) {
-  const hoy = new Date().toISOString().slice(0, 10)
+  const hoy = hoyChile()
   const [scope, setScope] = useState<Scope>('persona')
   const [ref, setRef] = useState('')
   const [fecha, setFecha] = useState(hoy)
 
-  const moverDia = (dias: number) => {
-    const d = new Date(fecha + 'T00:00:00'); d.setDate(d.getDate() + dias)
-    setFecha(d.toISOString().slice(0, 10))
-  }
+  const moverDia = (dias: number) => setFecha(sumarDias(fecha, dias))
   const fechaLabel = new Date(fecha + 'T00:00:00').toLocaleDateString('es-CL', { weekday: 'short', day: '2-digit', month: 'short' })
 
   return (

@@ -9,6 +9,7 @@ import { notFound } from 'next/navigation'
 import { formatRut } from '@/lib/rut'
 import { MODULOS } from '@/lib/modulos'
 import { modulosActivosTenant } from '@/lib/tenant'
+import { hoyChile } from '@/lib/fechas'
 import { BitacoraTimeline } from './_components/bitacora-timeline'
 import { TrazaLinea } from './_components/traza-linea'
 
@@ -59,7 +60,7 @@ export default async function FichaPersonaPage({ params, searchParams }: Props) 
   // Línea de trazabilidad por PUNTO (lugar) del día seleccionado: bajo cada lugar
   // se apila lo que la persona tiene planificado ahí (pernocta, comidas según su
   // posición hotel/faena, colación, lavandería). El transporte conecta lugares.
-  const fechaTraza = fechaParam || new Date().toISOString().slice(0, 10)
+  const fechaTraza = fechaParam || hoyChile()
   const dayStart = fechaTraza + 'T00:00:00'
   const dayEnd = fechaTraza + 'T23:59:59'
   const dotIds = (dotaciones ?? []).map((d) => d.id)
@@ -72,7 +73,7 @@ export default async function FichaPersonaPage({ params, searchParams }: Props) 
         supabase.from('lavanderia_bolsas').select('id').in('dotacion_id', dotIds).eq('fecha_entrega', fechaTraza),
         supabase.from('traslado_pasajeros').select('subio_at, traslados!inner(fecha)').eq('persona_id', id).eq('traslados.fecha', fechaTraza),
         supabase.from('eventos_bitacora').select('modulo').eq('persona_id', id).gte('created_at', dayStart).lte('created_at', dayEnd),
-        supabase.from('excepciones').select('modulo').eq('persona_id', id).in('estado', ['abierta', 'en_revision']),
+        supabase.from('excepciones').select('modulo').eq('persona_id', id).in('estado', ['abierta', 'en_revision']).gte('created_at', dayStart).lte('created_at', dayEnd),
       ])
     : [{ data: [] }, { data: [] }, { data: [] }, { data: [] }, { data: [] }, { data: [] }, { data: [] }]
 
@@ -275,7 +276,7 @@ export default async function FichaPersonaPage({ params, searchParams }: Props) 
             </div>
             <div>
               <label htmlFor="password" className="block text-xs font-medium text-[var(--gray-600)] mb-1">Clave (mín. 6)</label>
-              <input id="password" name="password" type="text" required minLength={6} placeholder="clave inicial" className="w-full px-3.5 py-2.5 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]" />
+              <input id="password" name="password" type="password" autoComplete="new-password" required minLength={6} placeholder="clave inicial" className="w-full px-3.5 py-2.5 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]" />
             </div>
             <SubmitButton pendingText="Creando acceso…" className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-[var(--navy)] hover:bg-[var(--navy-dark)] text-white text-sm font-semibold rounded-lg">
               <KeyRound size={15} strokeWidth={2.25} /> Crear acceso

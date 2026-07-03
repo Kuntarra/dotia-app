@@ -1,6 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import { hoyChile, sumarDias } from '@/lib/fechas'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 type Proyecto = { id: string; nombre: string }
@@ -8,12 +9,9 @@ type Proyecto = { id: string; nombre: string }
 export function EstadoControls({ proyectos, proyecto, fecha }: { proyectos: Proyecto[]; proyecto: string; fecha: string }) {
   const router = useRouter()
   const go = (p: string, f: string) => router.push(`/admin/estado?proyecto=${p}&fecha=${f}`)
-  const moverDia = (dias: number) => {
-    const d = new Date(fecha + 'T00:00:00'); d.setDate(d.getDate() + dias)
-    go(proyecto, d.toISOString().slice(0, 10))
-  }
+  const moverDia = (dias: number) => go(proyecto, sumarDias(fecha, dias))
   const fechaLabel = new Date(fecha + 'T00:00:00').toLocaleDateString('es-CL', { weekday: 'long', day: '2-digit', month: 'long' })
-  const hoy = new Date().toISOString().slice(0, 10)
+  const hoy = hoyChile()
 
   return (
     <div className="flex flex-wrap items-center justify-between gap-3 mb-5">

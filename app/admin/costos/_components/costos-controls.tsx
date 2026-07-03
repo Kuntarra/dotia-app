@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { sumarDias } from '@/lib/fechas'
 import { ChevronUp, ChevronDown } from 'lucide-react'
 
 const INPUT = 'px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm text-[var(--gray-900)] focus:outline-none focus:ring-2 focus:ring-[var(--navy)]'
@@ -23,9 +24,7 @@ export function CostosControls({ desde, hasta, proyecto, proyectos }: { desde: s
     router.push(`/admin/costos?${qs.toString()}`)
   }
   const mover = (campo: 'd' | 'h', dias: number) => {
-    const base = campo === 'd' ? d : h
-    const nd = new Date(base + 'T00:00:00'); nd.setDate(nd.getDate() + dias)
-    const val = nd.toISOString().slice(0, 10)
+    const val = sumarDias(campo === 'd' ? d : h, dias)
     if (campo === 'd') { setD(val); aplicar(val, h, p) } else { setH(val); aplicar(d, val, p) }
   }
 
