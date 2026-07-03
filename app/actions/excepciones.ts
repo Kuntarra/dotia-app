@@ -21,6 +21,22 @@ const TRANSICIONES: Record<string, readonly string[]> = {
   rechazada: [],
 }
 
+type ServerClient = Awaited<ReturnType<typeof createClient>>
+
+// La FK no evita referenciar el id de una persona/proyecto de OTRA empresa:
+// el insert no falla por eso (RLS protege lo que puedo escribir, no lo que
+// referencio). El select sí respeta RLS, así que confirma visibilidad.
+async function personaValida(supabase: ServerClient, personaId: string | null): Promise<boolean> {
+  if (!personaId) return true
+  const { data } = await supabase.from('persona_directorio').select('persona_id').eq('persona_id', personaId).maybeSingle()
+  return !!data
+}
+async function proyectoValido(supabase: ServerClient, proyectoId: string | null): Promise<boolean> {
+  if (!proyectoId) return true
+  const { data } = await supabase.from('proyectos').select('id').eq('id', proyectoId).maybeSingle()
+  return !!data
+}
+
 // Crea una excepción (nace 'abierta', GEN-004). La puede registrar quien opera
 // el módulo (Control/Supervisor) o la administración.
 export async function crearExcepcion(formData: FormData) {
@@ -31,12 +47,17 @@ export async function crearExcepcion(formData: FormData) {
   if (!(await puedeGestionar(modulo))) redirect(BACK + '?error=' + encodeURIComponent('No tienes permiso para registrar excepciones en este módulo.'))
 
   const supabase = await createClient()
+  const personaId = ((formData.get('persona_id') as string) || '') || null
+  const proyectoId = ((formData.get('proyecto_id') as string) || '') || null
+  if (!(await personaValida(supabase, personaId))) redirect(BACK + '?error=' + encodeURIComponent('Persona no válida.'))
+  if (!(await proyectoValido(supabase, proyectoId))) redirect(BACK + '?error=' + encodeURIComponent('Proyecto no válido.'))
+
   const { data, error } = await supabase.from('excepciones').insert({
     modulo,
     tipo,
     descripcion: ((formData.get('descripcion') as string) || '').trim() || null,
-    persona_id: ((formData.get('persona_id') as string) || '') || null,
-    proyecto_id: ((formData.get('proyecto_id') as string) || '') || null,
+    persona_id: personaId,
+    proyecto_id: proyectoId,
     estado: 'abierta',
   }).select('id').single()
   if (error) redirect(BACK + '?error=' + encodeURIComponent(error.message))

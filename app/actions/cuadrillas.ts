@@ -6,6 +6,17 @@ import { createClient } from '@/lib/supabase/server'
 import { esAdministrador, puedePlanificar } from '@/lib/rbac'
 import { registrarActividad } from './_log'
 
+type ServerClient = Awaited<ReturnType<typeof createClient>>
+
+// La FK no evita referenciar el id de una cuadrilla de OTRA empresa: el
+// insert/update no falla por eso (RLS protege lo que puedo escribir, no lo
+// que referencio). El select sí respeta RLS, así que confirma visibilidad.
+async function cuadrillaValida(supabase: ServerClient, cuadrillaId: string | null): Promise<boolean> {
+  if (!cuadrillaId) return true
+  const { data } = await supabase.from('cuadrillas').select('id').eq('id', cuadrillaId).maybeSingle()
+  return !!data
+}
+
 // Crea una cuadrilla (grupo) a nivel de empresa.
 export async function crearCuadrilla(formData: FormData) {
   if (!(await esAdministrador())) redirect('/admin/personal?error=' + encodeURIComponent('Solo la administración puede crear cuadrillas.'))
@@ -33,6 +44,7 @@ export async function moverPersonaCuadrilla(personaId: string, formData: FormDat
   const supabase = await createClient()
 
   const cuadrillaId = ((formData.get('cuadrilla_id') as string) || '').trim() || null
+  if (!(await cuadrillaValida(supabase, cuadrillaId))) redirect(back + '?error=' + encodeURIComponent('Cuadrilla no válida.'))
 
   const { error } = await supabase
     .from('persona_directorio')
@@ -58,6 +70,7 @@ export async function moverPersonaCuadrilla(personaId: string, formData: FormDat
 export async function setCuadrillaPersona(personaId: string, cuadrillaId: string | null): Promise<{ ok: boolean; error?: string }> {
   if (!(await puedePlanificar())) return { ok: false, error: 'No autorizado.' }
   const supabase = await createClient()
+  if (!(await cuadrillaValida(supabase, cuadrillaId))) return { ok: false, error: 'Cuadrilla no válida.' }
 
   const { error } = await supabase
     .from('persona_directorio')
