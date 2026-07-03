@@ -7,6 +7,11 @@ const ROLE_HOME: Record<string, string> = {
   admin: '/admin',
   receptionist: '/recepcion',
   client: '/alojamiento',
+  // Sub-usuario asignado directo a un módulo: aterriza en /admin, que ya lo
+  // redirige a su módulo (redirigirSubusuario en admin/page.tsx). Sin esta
+  // entrada caía al fallback '/alojamiento', que lo rebotaba a /login por no
+  // ser 'client' -> loop infinito de redirects.
+  modulo: '/admin',
 }
 
 export async function proxy(request: NextRequest) {
