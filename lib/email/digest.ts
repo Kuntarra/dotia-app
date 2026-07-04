@@ -332,14 +332,17 @@ function resend() {
 const FROM = process.env.DIGEST_FROM || 'Sol Eterno <onboarding@resend.dev>'
 
 // Enviar una suscripción concreta (o una prueba con ventana diaria).
-export async function sendSubscription(sub: Subscription, opts?: { test?: boolean; ref?: Date }): Promise<{ ok: boolean; reason?: string }> {
+// `config: true` marca un error de CONFIGURACIÓN (permanente, ej. el scope
+// apunta a una empresa borrada): no tiene sentido reintentarlo ni volver a
+// intentarlo mañana — el cron desactiva la suscripción y avisa una sola vez.
+export async function sendSubscription(sub: Subscription, opts?: { test?: boolean; ref?: Date }): Promise<{ ok: boolean; reason?: string; config?: boolean }> {
   const r = resend()
   if (!r) return { ok: false, reason: 'Falta RESEND_API_KEY' }
 
   // Validar que el scope esté completo antes de continuar
-  if (sub.scope_type === 'project' && !sub.project_id) return { ok: false, reason: 'Suscripción de proyecto sin project_id configurado.' }
-  if (sub.scope_type === 'company' && !sub.company_id) return { ok: false, reason: 'Suscripción de empresa sin company_id configurado.' }
-  if (sub.scope_type === 'property' && (!sub.property_ids || sub.property_ids.length === 0)) return { ok: false, reason: 'Suscripción de propiedades sin property_ids configurados.' }
+  if (sub.scope_type === 'project' && !sub.project_id) return { ok: false, config: true, reason: 'Suscripción de proyecto sin project_id configurado.' }
+  if (sub.scope_type === 'company' && !sub.company_id) return { ok: false, config: true, reason: 'Suscripción de empresa sin company_id configurado.' }
+  if (sub.scope_type === 'property' && (!sub.property_ids || sub.property_ids.length === 0)) return { ok: false, config: true, reason: 'Suscripción de propiedades sin property_ids configurados.' }
 
   // Fan-out: una suscripción "cada proyecto" → un correo por proyecto activo.
   if (sub.scope_type === 'each_project') {
@@ -389,15 +392,16 @@ export async function sendSubscription(sub: Subscription, opts?: { test?: boolea
 const ALERT_TO = process.env.ALERT_EMAIL || 'bernardovillablanca@gmail.com'
 
 // Reintenta un envío ante fallos transitorios (hiccup de Resend, timeout, etc.).
-async function sendWithRetry(sub: Subscription, opts: { ref?: Date }, attempts = 3): Promise<{ ok: boolean; reason?: string; tries: number }> {
-  let last: { ok: boolean; reason?: string } = { ok: false, reason: 'sin intentos' }
+// Los errores de configuración NO se reintentan: son permanentes.
+async function sendWithRetry(sub: Subscription, opts: { ref?: Date }, attempts = 3): Promise<{ ok: boolean; reason?: string; config?: boolean; tries: number }> {
+  let last: { ok: boolean; reason?: string; config?: boolean } = { ok: false, reason: 'sin intentos' }
   for (let i = 1; i <= attempts; i++) {
     try {
       last = await sendSubscription(sub, opts)
     } catch (e: any) {
       last = { ok: false, reason: e?.message || String(e) }
     }
-    if (last.ok) return { ...last, tries: i }
+    if (last.ok || last.config) return { ...last, tries: i }
     if (i < attempts) await new Promise(r => setTimeout(r, 1500 * i))
   }
   return { ...last, tries: attempts }
@@ -448,6 +452,12 @@ export async function runDueSubscriptions(ref = new Date()): Promise<{ checked: 
         await admin.from('report_subscriptions').update({ last_sent_at: ref.toISOString() }).eq('id', s.id)
       } else {
         failed++
+        // Configuración rota (ej. su empresa fue borrada): desactivar para no
+        // alertar todos los días por algo que no va a sanar solo.
+        if (res.config) {
+          await admin.from('report_subscriptions').update({ active: false }).eq('id', s.id)
+          res.reason = `${res.reason} La suscripción quedó DESACTIVADA: revísala en Reportes.`
+        }
       }
       details.push({ id: s.id, email: s.email, ok: res.ok, reason: res.reason, tries: res.tries })
     }
