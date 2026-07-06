@@ -14,11 +14,11 @@ export function LegalShell({ title, updated, children }: { title: string; update
           </Link>
           <div className="flex items-center gap-3">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo-simbolo.png" alt="Sol Eterno" className="w-9 h-9 object-contain" />
+            <img src="/logo-simbolo.png" alt="dotia" className="w-9 h-9 object-contain" />
             <div className="leading-none">
-              <p className="font-display font-semibold text-[17px] tracking-[-0.01em]">Sol Eterno</p>
+              <p className="font-display font-semibold text-[17px] tracking-[-0.01em]">dotia</p>
               <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[var(--amber-light)] mt-1">
-                Gestión de Alojamientos
+                Trazabilidad de personal
               </p>
             </div>
           </div>
@@ -36,7 +36,7 @@ export function LegalShell({ title, updated, children }: { title: string; update
           {children}
         </article>
         <p className="text-center text-xs text-[var(--gray-500)] mt-6">
-          © {new Date().getFullYear()} Sol Eterno · Gestión de Alojamientos
+          © {new Date().getFullYear()} ANVI Spa · dotia
         </p>
       </main>
     </div>

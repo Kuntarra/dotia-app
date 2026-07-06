@@ -34,7 +34,7 @@ export default async function TrasladoDiarioPage({ searchParams }: Props) {
         <div className="bg-[var(--surface)] rounded-xl border border-[var(--gray-200)] p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label htmlFor="hotel" className={LABEL}>Hotel / alojamiento</label>
-            <input id="hotel" name="hotel" className={INPUT} placeholder="Hotel Sol Eterno" />
+            <input id="hotel" name="hotel" className={INPUT} placeholder="Nombre del hotel" />
           </div>
           <div>
             <label htmlFor="faena" className={LABEL}>Faena / destino</label>

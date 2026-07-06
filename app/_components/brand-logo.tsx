@@ -1,5 +1,5 @@
-// Símbolo de marca Sol Eterno — sol dorado calado, fondo transparente.
-// (Antes era un SVG con wordmark + tagline viejo incrustados; ahora el símbolo limpio.)
+// Símbolo de marca dotia — "el tramo" (3 nodos + línea) sobre cuadrado verde.
+// El asset vive en /public/logo-simbolo.png (app-icon dotia).
 
 interface BrandLogoProps {
   symbolSize?: number      // Lado del símbolo cuadrado en px
@@ -23,7 +23,7 @@ export function BrandLogo({
     // eslint-disable-next-line @next/next/no-img-element
     <img
       src="/logo-simbolo.png"
-      alt="Sol Eterno"
+      alt="dotia"
       width={symbolSize}
       height={symbolSize}
       style={{ width: symbolSize, height: symbolSize }}

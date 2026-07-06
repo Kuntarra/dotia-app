@@ -1,19 +1,19 @@
 import { LegalShell } from '../_components/legal-shell'
 
-export const metadata = { title: 'Términos de servicio · Sol Eterno' }
+export const metadata = { title: 'Términos de servicio · dotia' }
 
 export default function TerminosPage() {
   return (
     <LegalShell title="Términos de servicio" updated="Junio 2026">
       <p>
-        Estos términos regulan el acceso y uso de la plataforma de gestión de alojamientos de
-        <strong> Sol Eterno</strong> (en adelante, la “Plataforma”). Al ingresar con tus credenciales
+        Estos términos regulan el acceso y uso de la plataforma de trazabilidad de personal en faena
+        <strong> dotia</strong>, operada por <strong>ANVI Spa</strong> (en adelante, la “Plataforma”). Al ingresar con tus credenciales
         corporativas, aceptas las condiciones descritas a continuación.
       </p>
 
       <h2>1. Acceso y cuentas</h2>
       <p>
-        El acceso es nominativo y está restringido a usuarios autorizados por su empresa o por Sol Eterno.
+        El acceso es nominativo y está restringido a usuarios autorizados por su empresa o por ANVI Spa.
         Cada usuario es responsable de la confidencialidad de sus credenciales y de toda actividad
         realizada bajo su cuenta. Las cuentas no son transferibles.
       </p>
@@ -25,13 +25,13 @@ export default function TerminosPage() {
         <li>Administrar usuarios, clientes y propiedades, según el rol otorgado.</li>
       </ul>
       <p>
-        Queda prohibido el uso de la Plataforma para fines distintos a la gestión de alojamientos, el
+        Queda prohibido el uso de la Plataforma para fines distintos a la gestión de la dotación en faena, el
         acceso no autorizado a datos de terceros, o cualquier acción que comprometa la seguridad del servicio.
       </p>
 
       <h2>3. Disponibilidad del servicio</h2>
       <p>
-        Sol Eterno procura mantener la Plataforma disponible de forma continua, pero puede realizar tareas
+        ANVI Spa procura mantener la Plataforma disponible de forma continua, pero puede realizar tareas
         de mantenimiento o actualización que interrumpan temporalmente el servicio. No garantizamos
         disponibilidad ininterrumpida ni ausencia total de errores.
       </p>

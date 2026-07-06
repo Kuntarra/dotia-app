@@ -8,7 +8,7 @@ import { renderToBuffer, Document, Page, View, Text, StyleSheet, Svg, Circle, Po
 
 const MONTHS = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
 
-const N = '#0A2C4A', A = '#E0A33A', G = '#6C757D', CREAM = '#F5F2EC', LINEW = '#E8E3D9'
+const N = '#0B7E60', A = '#2FBF8F', G = '#6C757D', CREAM = '#F5F2EC', LINEW = '#E8E3D9'
 
 const s = StyleSheet.create({
   page:       { fontFamily: 'Helvetica', fontSize: 8, padding: 36, backgroundColor: '#ffffff', color: '#212529' },

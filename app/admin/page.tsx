@@ -322,7 +322,7 @@ function KpiCard({ label, value, href, trendLabel, trendUp, icon }: {
                  hover:-translate-y-0.5 transition-all duration-200 group block">
       <div className="flex items-start justify-between mb-3.5">
         <div className="w-9 h-9 rounded-xl flex items-center justify-center"
-          style={{ background: 'rgb(224 163 58 / 0.12)', color: 'var(--amber-dark)' }}>
+          style={{ background: 'rgb(11 126 96 / 0.12)', color: 'var(--amber-dark)' }}>
           {icon}
         </div>
         <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${trendColor}`}>

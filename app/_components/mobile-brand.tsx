@@ -13,14 +13,14 @@ export function MobileBrand({ subtitle }: MobileBrandProps) {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/logo-simbolo.png"
-          alt="Sol Eterno"
+          alt="dotia"
           className="w-8 h-8 object-contain"
         />
       </div>
 
       {/* Nombre */}
       <div className="min-w-0">
-        <p className="text-white font-display font-semibold text-sm leading-tight tracking-tight">Sol Eterno</p>
+        <p className="text-white font-display font-semibold text-sm leading-tight tracking-tight">dotia</p>
         {subtitle && (
           <p className="text-white/45 text-[10px] leading-tight truncate max-w-[140px]">{subtitle}</p>
         )}

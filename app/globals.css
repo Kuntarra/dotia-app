@@ -2,12 +2,12 @@
 
 :root {
   /* ── Paleta principal ─────────────────────────────────── */
-  --navy:        #0A2C4A;
-  --navy-dark:   #06203A;
-  --navy-light:  #134d85;
-  --amber:       #E0A33A;
-  --amber-dark:  #C2872A;
-  --amber-light: #F2C879;
+  --navy:        #0B7E60;   /* dotia · verde mineral (marca) */
+  --navy-dark:   #0A5B45;
+  --navy-light:  #0E9E77;
+  --amber:       #2FBF8F;   /* dotia · verde señal (acento secundario) */
+  --amber-dark:  #0B7E60;
+  --amber-light: #6FD3AE;
 
   /* ── Escala neutra cálida (alineada al crema del brochure) ─ */
   --cream:       #F7F5F0;   /* --off del brochure */
@@ -18,20 +18,20 @@
   --gray-500:    #A8A89F;   /* gris cálido neutro */
   --gray-600:    #6E6E68;   /* ≈ --muted del brochure */
   --gray-700:    #4A4E52;   /* ≈ --ink-soft */
-  --gray-900:    #16242F;   /* tinta navy cálida (--text del brochure) */
+  --gray-900:    #1B211D;   /* dotia · tinta (texto fuerte) */
 
   /* ── Navy tints ──────────────────────────────────────── */
-  --navy-5:  rgb(10 44 74 / 0.05);
-  --navy-8:  rgb(10 44 74 / 0.08);
-  --navy-12: rgb(10 44 74 / 0.12);
+  --navy-5:  rgb(11 126 96 / 0.05);
+  --navy-8:  rgb(11 126 96 / 0.08);
+  --navy-12: rgb(11 126 96 / 0.12);
 
   /* ── Sombras ──────────────────────────────────────────── */
   --shadow-xs:    0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-sm:    0 1px 4px 0 rgb(0 0 0 / 0.06), 0 1px 2px -1px rgb(0 0 0 / 0.04);
   --shadow-md:    0 4px 16px -2px rgb(0 0 0 / 0.08), 0 2px 6px -2px rgb(0 0 0 / 0.04);
   --shadow-lg:    0 12px 32px -4px rgb(0 0 0 / 0.10), 0 4px 12px -2px rgb(0 0 0 / 0.05);
-  --shadow-navy:  0 4px 16px -2px rgb(10 44 74 / 0.30);
-  --shadow-amber: 0 4px 16px -2px rgb(224 163 58 / 0.30);
+  --shadow-navy:  0 4px 16px -2px rgb(11 126 96 / 0.30);
+  --shadow-amber: 0 4px 16px -2px rgb(47 191 143 / 0.30);
 
   /* ── Radios ───────────────────────────────────────────── */
   --radius-sm: 6px;
@@ -45,37 +45,37 @@
   /* ── Tokens semánticos de tema (claro = idéntico a hoy) ── */
   --surface:   #ffffff;        /* fondo de tarjetas (antes bg-white) */
   --surface-2: var(--gray-50); /* superficies secundarias / hover */
-  --ink:       var(--navy);    /* color de TEXTO de títulos (decoplado del fondo navy) */
+  --ink:       #1B211D;        /* dotia · tinta de títulos (decoplada de la marca verde) */
   color-scheme: light;
 }
 
 /* ── TEMA OSCURO (opt-in vía data-theme="dark") ──────────────
    Variantes tonales desaturadas, no inversión. Contraste AA. ── */
 [data-theme="dark"] {
-  --navy:        #1b4d7d;   /* brand/fondo de botones y sidebar (texto blanco encima) */
-  --navy-dark:   #15406a;
-  --navy-light:  #2f6699;
-  --amber:       #E8B65A;
-  --amber-dark:  #F2C879;
-  --amber-light: #C2872A;
+  --navy:        #2FBF8F;   /* dotia · verde señal (marca sobre oscuro, texto oscuro encima) */
+  --navy-dark:   #0E9E77;
+  --navy-light:  #6FD3AE;
+  --amber:       #2FBF8F;
+  --amber-dark:  #6FD3AE;
+  --amber-light: #0E9E77;
 
-  --cream:    #0f141a;
-  --gray-50:  #1e2730;      /* inputs / superficies-2 */
-  --gray-100: #0f141a;      /* fondo de página */
-  --gray-200: #2a333d;      /* bordes / hairlines */
+  --cream:    #101914;
+  --gray-50:  #1E2A22;      /* inputs / superficies-2 */
+  --gray-100: #101914;      /* fondo de página */
+  --gray-200: #26332C;      /* bordes / hairlines */
   --gray-300: #3a444f;
   --gray-500: #7c8794;
   --gray-600: #9aa6b2;      /* texto secundario (AA sobre surface) */
   --gray-700: #c2cbd5;      /* texto cuerpo */
   --gray-900: #eef2f7;      /* texto fuerte */
 
-  --surface:   #171e26;     /* tarjetas */
-  --surface-2: #1e2730;
-  --ink:       #f1f5f9;     /* títulos casi-blancos */
+  --surface:   #17231C;     /* tarjetas */
+  --surface-2: #1E2A22;
+  --ink:       #EAF2EE;     /* títulos casi-blancos (verde-tinte) */
 
-  --navy-5:  rgb(120 170 220 / 0.08);
-  --navy-8:  rgb(120 170 220 / 0.12);
-  --navy-12: rgb(120 170 220 / 0.18);
+  --navy-5:  rgb(47 191 143 / 0.08);
+  --navy-8:  rgb(47 191 143 / 0.12);
+  --navy-12: rgb(47 191 143 / 0.18);
 
   --shadow-xs:    0 1px 2px 0 rgb(0 0 0 / 0.45);
   --shadow-sm:    0 1px 4px 0 rgb(0 0 0 / 0.50);
@@ -94,8 +94,8 @@
   --color-amber:       var(--amber);
   --color-amber-dark:  var(--amber-dark);
   --color-amber-light: var(--amber-light);
-  --font-sans: 'Inter', system-ui, sans-serif;
-  --font-display: 'Spectral', Georgia, serif;
+  --font-sans: 'Manrope', system-ui, sans-serif;
+  --font-display: 'Sora', system-ui, sans-serif;
 }
 
 /* ── Base ─────────────────────────────────────────────────── */

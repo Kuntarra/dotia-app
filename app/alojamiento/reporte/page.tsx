@@ -273,7 +273,7 @@ export default async function ClienteReportePage({
             <svg viewBox="0 0 100 100" className="w-full h-full -rotate-90">
               <circle cx="50" cy="50" r="45" fill="none" stroke="var(--gray-200)" strokeWidth="8"/>
               <circle cx="50" cy="50" r="45" fill="none"
-                stroke={ocupPct >= 70 ? '#0A2C4A' : '#E0A33A'}
+                stroke={ocupPct >= 70 ? '#0B7E60' : '#2FBF8F'}
                 strokeWidth="8" strokeLinecap="round"
                 strokeDasharray={`${dash} ${circ}`}/>
             </svg>

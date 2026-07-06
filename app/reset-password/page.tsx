@@ -46,7 +46,7 @@ export default function ResetPasswordPage() {
             <Lock size={26} strokeWidth={1.75} stroke="var(--amber)" />
           </div>
           <h1 className="font-display text-2xl font-semibold text-[var(--ink)] tracking-[-0.01em]">Nueva contraseña</h1>
-          <p className="text-sm text-[var(--gray-600)] mt-1">Sol Eterno</p>
+          <p className="text-sm text-[var(--gray-600)] mt-1">dotia</p>
         </div>
 
         <div className="bg-[var(--surface)] rounded-2xl shadow-sm border border-[var(--gray-200)] p-8">

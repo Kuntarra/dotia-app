@@ -17,7 +17,7 @@ export function StatCard({ value, label, sub, href, icon }: StatCardProps) {
                     transition-all duration-200 group h-full">
       {icon && (
         <div className="w-9 h-9 rounded-xl flex items-center justify-center mb-4"
-          style={{ background: 'rgb(224 163 58 / 0.12)', color: 'var(--amber-dark)' }}>
+          style={{ background: 'rgb(11 126 96 / 0.12)', color: 'var(--amber-dark)' }}>
           {icon}
         </div>
       )}

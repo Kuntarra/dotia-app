@@ -7,7 +7,7 @@ const MONTHS = [
   'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre',
 ]
 
-const SELECT = 'px-3 py-2 rounded-lg bg-[#06203A] border border-white/20 text-white text-sm focus:outline-none'
+const SELECT = 'px-3 py-2 rounded-lg bg-[#0A5B45] border border-white/20 text-white text-sm focus:outline-none'
 
 interface Props {
   periodo:         string

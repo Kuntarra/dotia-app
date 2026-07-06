@@ -29,7 +29,7 @@ export function LoginForm({ error }: { error?: string }) {
           <input
             id="email" name="email" type="email"
             autoComplete="email" required
-            placeholder="usuario@soleterno.com"
+            placeholder="tu@empresa.cl"
             className="input-premium"
             style={{ paddingLeft: '2.75rem' }}
           />

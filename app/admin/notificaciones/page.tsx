@@ -3,7 +3,7 @@ import { toggleSubscription, deleteSubscription, sendTestSubscription } from '@/
 import { SubscriptionForm } from './_components/subscription-form'
 import { Clock, Send, Trash2, AlertTriangle, CheckCircle2, Mail } from 'lucide-react'
 
-export const metadata = { title: 'Notificaciones · Sol Eterno' }
+export const metadata = { title: 'Notificaciones · dotia' }
 
 const WD: Record<number, string> = { 1: 'Lun', 2: 'Mar', 3: 'Mié', 4: 'Jue', 5: 'Vie', 6: 'Sáb', 7: 'Dom' }
 
@@ -96,7 +96,7 @@ export default async function NotificacionesPage({
                 {subs.map((s: any) => (
                   <div key={s.id} className="flex items-center gap-3 px-5 py-4">
                     <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
-                      style={{ background: 'rgb(224 163 58 / 0.12)', color: 'var(--amber-dark)' }}>
+                      style={{ background: 'rgb(11 126 96 / 0.12)', color: 'var(--amber-dark)' }}>
                       <Mail size={15} strokeWidth={1.75} />
                     </div>
                     <div className="min-w-0 flex-1">

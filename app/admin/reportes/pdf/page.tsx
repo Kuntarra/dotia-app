@@ -6,8 +6,8 @@ import { AutoPrint } from './_auto-print'
 
 const MONTHS = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
 
-const N = '#0A2C4A'   // navy
-const A = '#E0A33A'   // amber
+const N = '#0B7E60'   // dotia · verde mineral
+const A = '#2FBF8F'   // dotia · verde señal
 const G = '#6C757D'   // gray
 
 export default async function ReportePdfPage({

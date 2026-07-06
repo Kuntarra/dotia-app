@@ -97,10 +97,10 @@ async function enviarCorreoInvitacion(p: { email: string; nombre: string; tempPa
   try {
     const { Resend } = await import('resend')
     const resend = new Resend(apiKey)
-    const from = process.env.DIGEST_FROM || 'Sol Eterno <onboarding@resend.dev>'
+    const from = process.env.DIGEST_FROM || 'dotia <onboarding@resend.dev>'
     const html = `
       <div style="font-family:Arial,Helvetica,sans-serif;max-width:520px;margin:0 auto;color:#212529">
-        <div style="background:#0A2C4A;color:#fff;padding:18px 22px;border-radius:10px">
+        <div style="background:#0B7E60;color:#fff;padding:18px 22px;border-radius:10px">
           <div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.6)">Invitación a un proyecto</div>
           <div style="font-size:20px;font-weight:700;margin-top:2px">${p.proyecto}</div>
         </div>

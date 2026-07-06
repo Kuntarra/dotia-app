@@ -51,10 +51,10 @@ export function ClientSidebar({ companyName, fullName, impersonating }: Props) {
           <div className="flex items-center gap-3">
             <div className="w-11 h-11 rounded-xl overflow-hidden shrink-0">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/logo-simbolo.png" alt="Sol Eterno" className="w-full h-full object-contain" />
+              <img src="/logo-simbolo.png" alt="dotia" className="w-full h-full object-contain" />
             </div>
             <div className="min-w-0">
-              <p className="text-white font-display font-semibold text-[16px] leading-tight tracking-tight">Sol Eterno</p>
+              <p className="text-white font-display font-semibold text-[16px] leading-tight tracking-tight">dotia</p>
               <p className="text-white/40 text-[10px] leading-tight truncate">{companyName}</p>
             </div>
           </div>

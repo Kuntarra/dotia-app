@@ -4,8 +4,8 @@ import { buildScopeFilter, scopeLabel, type Scope, type Subscription } from '@/l
 import { ROOM_TYPE_LABELS } from '@/lib/types'
 
 const MONTHS = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
-const N = '#0A2C4A', A = '#E0A33A', G = '#6C757D', CREAM = '#F5F2EC', LINEW = '#E8E3D9'
-const TRACK = '#21456B' // navy claro para el track del gauge sobre fondo navy
+const N = '#0B7E60', A = '#2FBF8F', G = '#6C757D', CREAM = '#F5F2EC', LINEW = '#E8E3D9'
+const TRACK = '#1A5B45' // verde claro para el track del gauge sobre fondo verde
 const UP = '#46C28A', DOWN = '#E8836B' // tonos legibles sobre navy y sobre blanco
 
 function deltaColor(v: number | null, positiveGood = true) {
@@ -180,14 +180,14 @@ export async function renderReportPdf(scope: Scope, freq: Subscription['frequenc
   const COLS: [string, number][] = [['Huésped', 2], ['RUT', 1.2], ['Empresa', 1.5], ['Propiedad', 1.5], ['Hab.', 0.6], ['Tipo', 0.9], ['Turno', 0.8], ['Entrada', 1], ['Salida', 1], ['Noches', 0.7]]
 
   const doc = (
-    <Document title={`Reporte Sol Eterno — ${titulo}`}>
+    <Document title={`Reporte dotia — ${titulo}`}>
       <Page size="LETTER" style={s.page}>
         <View style={s.header}>
           <View>
             <Text style={s.hEyebrow}>REPORTE DE OCUPACIÓN</Text>
-            <Text style={s.hWordmark}>SOL ETERNO</Text>
+            <Text style={s.hWordmark}>dotia</Text>
             <View style={s.hRule} />
-            <Text style={s.hTagline}>GESTIÓN DE ALOJAMIENTOS</Text>
+            <Text style={s.hTagline}>TRAZABILIDAD DE PERSONAL</Text>
           </View>
           <View style={{ alignItems: 'center' }}>
             <Gauge pct={ocupPct} />
@@ -275,7 +275,7 @@ export async function renderReportPdf(scope: Scope, freq: Subscription['frequenc
           })}
         </View>
 
-        <Text style={s.footer}>Sol Eterno — Gestión de Alojamientos · {hoy}</Text>
+        <Text style={s.footer}>dotia — Trazabilidad de personal · {hoy}</Text>
       </Page>
     </Document>
   )

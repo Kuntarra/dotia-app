@@ -64,7 +64,7 @@ export default async function AlojamientoPage() {
       <div className="mb-8">
         <span className="section-label">Portal de alojamiento</span>
         <h1 className="font-display text-[2rem] font-semibold text-[var(--ink)] leading-tight tracking-tight">{company?.name}</h1>
-        <p className="text-sm text-[var(--gray-600)] mt-1">Sol Eterno · Vista de empresa</p>
+        <p className="text-sm text-[var(--gray-600)] mt-1">dotia · Vista de empresa</p>
       </div>
 
       {/* ── KPIs ── */}

@@ -3,7 +3,7 @@ import { formatRut } from '@/lib/rut'
 import { notFound } from 'next/navigation'
 import { AutoPrint } from './_auto-print'
 
-const N = '#0A2C4A', A = '#E0A33A', G = '#6C757D'
+const N = '#0B7E60', A = '#2FBF8F', G = '#6C757D'
 
 function fmt(d: string | null | undefined) {
   return d ? new Date(d + 'T00:00:00').toLocaleDateString('es-CL', { day: '2-digit', month: 'long', year: 'numeric' }) : '—'

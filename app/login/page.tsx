@@ -9,14 +9,14 @@ function Lockup({ size = 56, dark = false }: { size?: number; dark?: boolean }) 
   return (
     <div className="flex items-center gap-3">
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/logo-simbolo.png" alt="Sol Eterno" width={size} height={size}
+      <img src="/logo-simbolo.png" alt="dotia" width={size} height={size}
         className="object-contain select-none" draggable={false} style={{ height: size, width: size }} />
       <div className="text-left leading-none">
         <div className="font-display font-semibold tracking-[-0.01em]"
-          style={{ fontSize: size * 0.42, color: dark ? '#fff' : 'var(--navy)' }}>Sol Eterno</div>
+          style={{ fontSize: size * 0.42, color: dark ? '#fff' : 'var(--navy)' }}>dotia</div>
         <div className="font-semibold uppercase mt-1.5"
           style={{ fontSize: Math.max(8, size * 0.13), letterSpacing: '0.22em', color: 'var(--amber)' }}>
-          Gestión de Alojamientos
+          Trazabilidad de personal
         </div>
       </div>
     </div>
@@ -32,13 +32,13 @@ export default async function LoginPage({ searchParams }: Props) {
       {/* ── Panel izquierdo — identidad de marca ── */}
       <div
         className="hidden lg:flex lg:w-[52%] relative overflow-hidden flex-col"
-        style={{ background: 'radial-gradient(ellipse 190% 120% at 50% -10%, #134d85 0%, transparent 52%), linear-gradient(160deg, #0d1f35 0%, #0A2C4A 52%, #06203A 100%)' }}
+        style={{ background: 'radial-gradient(ellipse 190% 120% at 50% -10%, #17654E 0%, transparent 52%), linear-gradient(160deg, #12241C 0%, #14201B 52%, #0B2C22 100%)' }}
       >
-        {/* Halos dorados */}
+        {/* Halos verdes */}
         <div className="absolute -top-40 -left-40 w-[560px] h-[560px] rounded-full pointer-events-none"
-          style={{ background: 'radial-gradient(circle, rgb(224 163 58 / 0.08), transparent 65%)' }} />
+          style={{ background: 'radial-gradient(circle, rgb(47 191 143 / 0.10), transparent 65%)' }} />
         <div className="absolute -bottom-32 -right-24 w-[480px] h-[480px] rounded-full pointer-events-none"
-          style={{ background: 'radial-gradient(circle, rgb(224 163 58 / 0.06), transparent 65%)' }} />
+          style={{ background: 'radial-gradient(circle, rgb(47 191 143 / 0.07), transparent 65%)' }} />
 
         {/* Patrón de puntos */}
         <svg className="absolute inset-0 w-full h-full opacity-[0.04] pointer-events-none" aria-hidden="true">
@@ -68,13 +68,13 @@ export default async function LoginPage({ searchParams }: Props) {
           {/* Headline editorial */}
           <h1 className="font-display text-white font-medium leading-[1.08] tracking-[-0.015em] mb-6"
             style={{ fontSize: 'clamp(2.4rem, 4vw, 3.3rem)', maxWidth: '15ch' }}>
-            La estadía de su equipo,{' '}
-            <span style={{ color: 'var(--amber-light)', fontStyle: 'italic' }}>en tiempo real.</span>
+            Sabes dónde está cada persona.{' '}
+            <span style={{ color: 'var(--amber-light)', fontStyle: 'italic' }}>Siempre.</span>
           </h1>
 
           <p className="text-white/55 text-[15px] font-light leading-relaxed" style={{ maxWidth: '42ch' }}>
-            Sepa quién está alojado, dónde y desde cuándo. La plataforma propia de Sol Eterno para
-            gestionar su dotación con una sola contraparte.
+            Si alguien no está donde debería, lo sabe al instante —no al día siguiente—. Transporte,
+            alojamiento y alimentación coordinados sobre una sola fuente de verdad por persona.
           </p>
 
           {/* Ciudades */}
@@ -90,7 +90,7 @@ export default async function LoginPage({ searchParams }: Props) {
 
         {/* Footer */}
         <p className="relative px-14 pb-9 text-white/20 text-[10px] font-semibold tracking-[0.24em] uppercase">
-          Sol Eterno · Gestión de Alojamientos
+          dotia · Trazabilidad de personal
         </p>
       </div>
 
@@ -124,7 +124,7 @@ export default async function LoginPage({ searchParams }: Props) {
               <a href="/privacidad" className="text-[var(--gray-500)] hover:text-[var(--ink)] transition-colors">Privacidad</a>
             </div>
             <p className="text-xs text-[var(--gray-500)] mt-3">
-              © {new Date().getFullYear()} Sol Eterno · Gestión de Alojamientos
+              © {new Date().getFullYear()} dotia · Trazabilidad de personal
             </p>
           </div>
         </div>

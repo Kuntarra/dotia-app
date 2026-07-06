@@ -76,7 +76,7 @@ export default async function NuevoTrasladoPage({ searchParams }: Props) {
           </div>
           <div>
             <label htmlFor="destino" className={LABEL}>Destino</label>
-            <input id="destino" name="destino" className={INPUT} placeholder="Hotel Sol Eterno" />
+            <input id="destino" name="destino" className={INPUT} placeholder="Nombre del hotel" />
           </div>
           <div className="md:col-span-2">
             <label htmlFor="conductor_nombre" className={LABEL}>Conductor</label>

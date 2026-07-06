@@ -300,7 +300,7 @@ export default async function EstadiasPage({
 // Avatar determinista por nombre — paleta de marca (navy / dorado / neutro)
 function avatarStyle(name: string): { bg: string; text: string } {
   const PALETTES = [
-    { bg: '#E9EEF4', text: '#0A2C4A' },   // tinte navy
+    { bg: '#E4F1EB', text: '#0B7E60' },   // tinte verde dotia
     { bg: '#F7EAD2', text: '#9A6A16' },   // tinte dorado
     { bg: '#EDEFF2', text: '#46586C' },   // neutro frío
   ]

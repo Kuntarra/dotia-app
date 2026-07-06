@@ -1,12 +1,12 @@
 import { LegalShell } from '../_components/legal-shell'
 
-export const metadata = { title: 'Política de privacidad · Sol Eterno' }
+export const metadata = { title: 'Política de privacidad · dotia' }
 
 export default function PrivacidadPage() {
   return (
     <LegalShell title="Política de privacidad" updated="Junio 2026">
       <p>
-        En <strong>Sol Eterno</strong> tratamos los datos personales con la diligencia que exige la
+        En <strong>ANVI Spa</strong>, responsable de la plataforma dotia, tratamos los datos personales con la diligencia que exige la
         Ley N° 19.628 sobre Protección de la Vida Privada. Esta política explica qué datos manejamos,
         con qué finalidad y cómo los protegemos.
       </p>
@@ -20,7 +20,7 @@ export default function PrivacidadPage() {
 
       <h2>2. Finalidad</h2>
       <p>
-        Los datos se utilizan exclusivamente para prestar el servicio de gestión de alojamientos:
+        Los datos se utilizan exclusivamente para prestar el servicio de trazabilidad de personal en faena:
         registrar estadías, generar reportes de ocupación, coordinar la atención y dar continuidad
         operativa a la dotación de cada empresa.
       </p>

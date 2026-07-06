@@ -329,7 +329,7 @@ function resend() {
   if (!apiKey) return null
   return new Resend(apiKey)
 }
-const FROM = process.env.DIGEST_FROM || 'Sol Eterno <onboarding@resend.dev>'
+const FROM = process.env.DIGEST_FROM || 'dotia <onboarding@resend.dev>'
 
 // Enviar una suscripción concreta (o una prueba con ventana diaria).
 // `config: true` marca un error de CONFIGURACIÓN (permanente, ej. el scope
@@ -371,14 +371,14 @@ export async function sendSubscription(sub: Subscription, opts?: { test?: boolea
     const pdf = await renderReportPdf(sub, freq, opts?.ref)
     const slug = data.scopeText.toLowerCase().replace(/[^a-z0-9]+/gi, '_').replace(/^_|_$/g, '') || 'general'
     const fechaArchivo = new Intl.DateTimeFormat('en-GB', { timeZone: TZ, day: '2-digit', month: '2-digit', year: 'numeric' }).format(opts?.ref ?? new Date()).replace(/\//g, '-')
-    subject = `Sol Eterno · Reporte ${data.periodWord} — ${data.scopeText}`
+    subject = `dotia · Reporte ${data.periodWord} — ${data.scopeText}`
     html = renderIntroHtml(data)
-    attachments = [{ filename: `reporte_sol_eterno_${slug}_${fechaArchivo}.pdf`, content: pdf }]
+    attachments = [{ filename: `reporte_dotia_${slug}_${fechaArchivo}.pdf`, content: pdf }]
   } else {
     const hasMovements = data.checkins.length > 0 || data.checkouts.length > 0
     subject = hasMovements
-      ? `Sol Eterno · Movimientos ${data.periodWord} (${data.scopeText}) — ${data.checkins.length} in / ${data.checkouts.length} out`
-      : `Sol Eterno · Sin actividad ${data.periodWord} (${data.scopeText})`
+      ? `dotia · Movimientos ${data.periodWord} (${data.scopeText}) — ${data.checkins.length} in / ${data.checkouts.length} out`
+      : `dotia · Sin actividad ${data.periodWord} (${data.scopeText})`
     html = renderDigestHtml(data)
   }
 
@@ -421,7 +421,7 @@ async function sendAlert(subject: string, lines: string[]): Promise<void> {
     </div>
     ${mailFooter()}`
   try {
-    await r.emails.send({ from: FROM, to: [ALERT_TO], subject: `⚠️ Sol Eterno · ${subject}`, html: shell('Alerta del sistema', subject, body, 560) })
+    await r.emails.send({ from: FROM, to: [ALERT_TO], subject: `⚠️ dotia · ${subject}`, html: shell('Alerta del sistema', subject, body, 560) })
   } catch { /* el aviso es best-effort */ }
 }
 
