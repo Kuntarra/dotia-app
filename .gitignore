@@ -42,3 +42,14 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+.vercel
+.env*
+!.env.example
+
+# salida del grafo de conocimiento (regenerable, ~2.4 MB)
+/graphify-out
+
+# respaldos locales de assets de la marca anterior
+*.bak
+*.bak.png
