@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Dotia
 
-## Getting Started
+Trazabilidad de personal en faena. SaaS multi-tenant: cada empresa cliente vive en el mismo
+sistema y ve solo sus datos.
 
-First, run the development server:
+El producto son seis módulos activables por empresa —Personal, Transporte, Hotel, Alimentación,
+Colaciones y Lavandería— más el estado de pago (EDP) y el lado proveedor.
+
+En producción: **[app.dotia.cl](https://app.dotia.cl)** · sitio del producto:
+**[dotia.cl](https://dotia.cl)**
+
+## Stack
+
+- Next.js (App Router) sobre Vercel
+- Supabase: Postgres, Auth con `@supabase/ssr`, y **RLS como frontera real entre clientes**
+- Resend para el correo saliente
+
+## Levantar el proyecto
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev     # http://localhost:3000
+npm run build
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Variables de entorno: copiar `.env.example` a `.env.local` y completar.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Por dónde entrar al código
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+`lib/` concentra la lógica transversal y es el mejor mapa del dominio:
 
-## Learn More
+| Archivo | Qué resuelve |
+|---|---|
+| `lib/rbac.ts` | permisos por rol |
+| `lib/tenant.ts` · `lib/super.ts` | aislamiento multi-tenant y super admin |
+| `lib/modulos.ts` | qué módulos tiene activos cada empresa |
+| `lib/effective-user.ts` | suplantación y vista rápida |
+| `lib/marca.ts` | identidad del producto: paleta, membrete, bajada |
+| `lib/database.types.ts` | tipos generados desde Supabase |
 
-To learn more about Next.js, take a look at the following resources:
+## Dos cosas que muerden
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **El aislamiento entre clientes no está en el código de la aplicación, está en las políticas RLS
+  de la base de datos.** Una consulta que "funciona" puede estar filtrando datos de otro cliente:
+  verificar contra las políticas, no contra el resultado en pantalla.
+- **La versión de Next.js instalada tiene cambios incompatibles con lo que un modelo de IA trae de
+  memoria.** Antes de escribir código de Next acá, consultar `node_modules/next/dist/docs/`.
+  Detalle en [`AGENTS.md`](AGENTS.md).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Esquema de la base
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Las migraciones van en `supabase/migrations/`, con nombre por fecha. El esquema se cambia
+**agregando una migración nueva**, nunca editando una ya aplicada.
