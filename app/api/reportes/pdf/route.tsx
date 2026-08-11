@@ -6,7 +6,18 @@ import { getMyTenantId } from '@/lib/tenant'
 import { PRODUCTO, PRODUCTO_BAJADA, PALETA, getMarcaCliente, slugCliente } from '@/lib/marca'
 import { MODULOS } from '@/lib/modulos'
 import React from 'react'
-import { renderToBuffer, Document, Page, View, Text, StyleSheet, Svg, Circle, Polygon } from '@react-pdf/renderer'
+import path from 'node:path'
+import { renderToBuffer, Document, Page, View, Text, StyleSheet, Svg, Circle, Polygon, Font } from '@react-pdf/renderer'
+
+// Las tipografías de la app, incrustadas en el PDF (decisión D-4). Van en estático porque
+// @react-pdf no soporta fuentes variables, y por ruta de archivo para no depender de la red
+// al renderizar. next.config.ts las incluye en el bundle de esta ruta.
+const fuente = (n: string) => path.join(process.cwd(), 'assets', 'fonts', n)
+Font.register({ family: 'Manrope', fonts: [
+  { src: fuente('Manrope-Regular.ttf'), fontWeight: 400 },
+  { src: fuente('Manrope-Bold.ttf'), fontWeight: 700 },
+]})
+Font.register({ family: 'Sora', fonts: [{ src: fuente('Sora-Bold.ttf'), fontWeight: 700 }] })
 
 const MONTHS = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
 
@@ -16,31 +27,31 @@ const MODULO_HOTEL = MODULOS.find(m => m.k === 'hotel')!.label
 const N = PALETA.marca, A = PALETA.senal, G = PALETA.gris600, CREAM = PALETA.lienzo, LINEW = PALETA.filete
 
 const s = StyleSheet.create({
-  page:       { fontFamily: 'Helvetica', fontSize: 8, padding: 36, backgroundColor: '#ffffff', color: PALETA.gris900 },
+  page:       { fontFamily: 'Manrope', fontSize: 8, padding: 36, backgroundColor: '#ffffff', color: PALETA.gris900 },
   header:     { backgroundColor: N, color: '#ffffff', padding: '22 24', borderTopLeftRadius: 8, borderTopRightRadius: 8, marginBottom: 0, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  hProducto:  { fontSize: 9, fontFamily: 'Times-Bold', color: 'rgba(255,255,255,0.5)', letterSpacing: 3, marginBottom: 14 },
-  hEyebrow:   { fontSize: 8, color: A, letterSpacing: 2.4, fontFamily: 'Helvetica-Bold', marginBottom: 8 },
-  hWordmark:  { fontSize: 23, fontFamily: 'Times-Bold', color: '#ffffff', letterSpacing: 3 },
+  hProducto:  { fontSize: 9, fontFamily: 'Sora', fontWeight: 700, color: 'rgba(255,255,255,0.5)', letterSpacing: 3, marginBottom: 14 },
+  hEyebrow:   { fontSize: 8, color: A, letterSpacing: 2.4, fontFamily: 'Manrope', fontWeight: 700, marginBottom: 8 },
+  hWordmark:  { fontSize: 23, fontFamily: 'Sora', fontWeight: 700, color: '#ffffff', letterSpacing: 3 },
   hRule:      { width: 34, height: 2, backgroundColor: A, marginTop: 11, marginBottom: 9 },
   hTagline:   { fontSize: 7.5, color: 'rgba(255,255,255,0.55)', letterSpacing: 2 },
   hGaugeLabel:{ fontSize: 7.5, color: 'rgba(255,255,255,0.6)', marginTop: 7, textAlign: 'center' },
   metaStrip:  { backgroundColor: CREAM, borderLeft: `1px solid ${LINEW}`, borderRight: `1px solid ${LINEW}`, borderBottom: `1px solid ${LINEW}`, padding: '11 16', marginBottom: 12, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline' },
-  metaTitle:  { fontSize: 12, fontFamily: 'Times-Bold', color: N },
+  metaTitle:  { fontSize: 12, fontFamily: 'Sora', fontWeight: 700, color: N },
   metaSub:    { fontSize: 8, color: G },
   kpiGrid:    { flexDirection: 'row', gap: 8, marginBottom: 12 },
   kpiCard:    { flex: 1, border: `1px solid ${PALETA.gris200}`, borderRadius: 5, padding: 9 },
-  kpiVal:     { fontSize: 16, fontFamily: 'Helvetica-Bold', color: N },
-  kpiLabel:   { fontSize: 8, fontFamily: 'Helvetica-Bold', marginTop: 2 },
+  kpiVal:     { fontSize: 16, fontFamily: 'Manrope', fontWeight: 700, color: N },
+  kpiLabel:   { fontSize: 8, fontFamily: 'Manrope', fontWeight: 700, marginTop: 2 },
   kpiSub:     { fontSize: 7, color: G, marginTop: 1 },
   row2:       { flexDirection: 'row', gap: 10, marginBottom: 12 },
   card:       { flex: 1, border: `1px solid ${PALETA.gris200}`, borderRadius: 5, overflow: 'hidden' },
-  cardHead:   { backgroundColor: N, color: '#ffffff', padding: '6 10', fontSize: 9, fontFamily: 'Helvetica-Bold' },
+  cardHead:   { backgroundColor: N, color: '#ffffff', padding: '6 10', fontSize: 9, fontFamily: 'Manrope', fontWeight: 700 },
   tableHead:  { flexDirection: 'row', backgroundColor: PALETA.gris100, borderBottom: `1px solid ${PALETA.gris300}` },
   tableRow:   { flexDirection: 'row', borderBottom: `1px solid ${PALETA.gris100}` },
   tableFooter:{ flexDirection: 'row', backgroundColor: PALETA.gris100, borderTop: `2px solid ${PALETA.gris300}` },
-  th:         { fontSize: 7, fontFamily: 'Helvetica-Bold', color: G, padding: '4 6', textTransform: 'uppercase' },
+  th:         { fontSize: 7, fontFamily: 'Manrope', fontWeight: 700, color: G, padding: '4 6', textTransform: 'uppercase' },
   td:         { fontSize: 8, padding: '4 6' },
-  tdBold:     { fontSize: 8, fontFamily: 'Helvetica-Bold', color: N, padding: '4 6' },
+  tdBold:     { fontSize: 8, fontFamily: 'Manrope', fontWeight: 700, color: N, padding: '4 6' },
   barBg:      { height: 5, backgroundColor: PALETA.gris200, borderRadius: 3, marginTop: 2 },
   barFill:    { height: 5, borderRadius: 3 },
   footer:     { marginTop: 12, textAlign: 'center', fontSize: 7, color: PALETA.gris500 },
@@ -75,7 +86,7 @@ function DeltaChip({ v, suffix, positiveGood = true }: { v: number | null; suffi
           <Polygon points={up ? '3,0 6,6 0,6' : '0,0 6,0 3,6'} fill={color} />
         </Svg>
       )}
-      <Text style={{ fontSize: 7.5, fontFamily: 'Helvetica-Bold', color }}>{`${up ? '+' : ''}${v}${suffix}`}</Text>
+      <Text style={{ fontSize: 7.5, fontFamily: 'Manrope', fontWeight: 700, color }}>{`${up ? '+' : ''}${v}${suffix}`}</Text>
     </View>
   )
 }
@@ -102,7 +113,7 @@ function Gauge({ pct }: { pct: number }) {
         )}
       </Svg>
       <View style={{ position: 'absolute', top: 0, left: 0, width: SIZE, height: SIZE, alignItems: 'center', justifyContent: 'center' }}>
-        <Text style={{ fontSize: 21, fontFamily: 'Helvetica-Bold', color: '#ffffff' }}>{pct}%</Text>
+        <Text style={{ fontSize: 21, fontFamily: 'Manrope', fontWeight: 700, color: '#ffffff' }}>{pct}%</Text>
       </View>
     </View>
   )
@@ -279,8 +290,8 @@ export async function GET(req: NextRequest) {
               {porPropiedad.map(p => (
                 <View key={p.nombre} style={{ marginBottom: 7 }}>
                   <View style={{ flexDirection:'row', justifyContent:'space-between' }}>
-                    <Text style={{ fontFamily:'Helvetica-Bold', color:N, fontSize:8 }}>{p.nombre}</Text>
-                    <Text style={{ color:G, fontSize:7 }}>{p.estadias} estadías · {p.usado}/{p.camasNoche} <Text style={{ fontFamily:'Helvetica-Bold', color:barColor(p.pct) }}>{p.pct}%</Text></Text>
+                    <Text style={{ fontFamily:'Manrope', fontWeight:700, color:N, fontSize:8 }}>{p.nombre}</Text>
+                    <Text style={{ color:G, fontSize:7 }}>{p.estadias} estadías · {p.usado}/{p.camasNoche} <Text style={{ fontFamily:'Manrope', fontWeight:700, color:barColor(p.pct) }}>{p.pct}%</Text></Text>
                   </View>
                   <View style={s.barBg}>
                     <View style={[s.barFill, { width:`${p.pct}%`, backgroundColor:barColor(p.pct) }]}/>
@@ -330,7 +341,7 @@ export async function GET(req: NextRequest) {
                 <Text style={[s.tdBold,{flex:2}]}>{g?.first_name} {g?.last_name_paterno}</Text>
                 <Text style={[s.td,{flex:1.2,color:G}]}>{g?.rut??'—'}</Text>
                 <Text style={[s.td,{flex:1.5}]}>{c?.name}</Text>
-                <Text style={[s.td,{flex:1.5,fontFamily:'Helvetica-Bold'}]}>{r?.properties?.name}</Text>
+                <Text style={[s.td,{flex:1.5,fontFamily:'Manrope', fontWeight:700}]}>{r?.properties?.name}</Text>
                 <Text style={[s.td,{flex:0.6}]}>{r?.number}</Text>
                 <Text style={[s.td,{flex:0.9,color:G}]}>{r?.type?ROOM_TYPE_LABELS[r.type]??r.type:'—'}</Text>
                 <Text style={[s.td,{flex:0.8,color:G}]}>{stay.shift_type??'—'}</Text>
