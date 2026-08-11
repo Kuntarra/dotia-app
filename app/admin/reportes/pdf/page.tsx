@@ -118,7 +118,7 @@ export default async function ReportePdfPage({
         <title>Reporte {cliente} — {tituloPeriodo}</title>
         <style>{`
           * { box-sizing: border-box; margin: 0; padding: 0; }
-          body { font-family: Arial, Helvetica, sans-serif; font-size: 11px; color: ${PALETA.gris900}; background: #fff; }
+          body { font-family: var(--font-sans), Arial, Helvetica, sans-serif; font-size: 11px; color: ${PALETA.gris900}; background: #fff; }
           @page { size: A4 landscape; margin: 1.2cm; }
           @media print { body { print-color-adjust: exact; -webkit-print-color-adjust: exact; } .no-print { display: none !important; } }
           table { border-collapse: collapse; width: 100%; }
@@ -156,7 +156,10 @@ export default async function ReportePdfPage({
             { label: 'Camas-noche libres', value: camasLibres.toLocaleString('es-CL'), sub: `${100 - ocupPct}% sin ocupar`, color: PALETA.gris600 },
             { label: 'Estadías totales', value: stays.length.toString(), sub: `${stays.filter(s=>!s.checked_out_at).length} activas al cierre`, color: A },
           ].map(k => (
-            <div key={k.label} style={{ background: '#fff', border: `1px solid ${PALETA.gris200}`, borderTop: `4px solid ${k.color}`, borderRadius: 8, padding: '12px 14px' }}>
+            <div key={k.label} style={{ background: '#fff', border: `1px solid ${PALETA.gris200}`, borderRadius: 8, padding: '12px 14px' }}>
+              {/* Rayita corta en vez del borde superior de 4 px: el borde grueso seguía la
+                  esquina redondeada. Mismo gesto que el filete del membrete. */}
+              <div style={{ width: 26, height: 3, borderRadius: 2, background: k.color, marginBottom: 9 }} />
               <div style={{ fontSize: 22, fontWeight: 700, color: N }}>{k.value}</div>
               <div style={{ fontSize: 11, fontWeight: 600, color: PALETA.gris900, marginTop: 2 }}>{k.label}</div>
               <div style={{ fontSize: 10, color: G, marginTop: 2 }}>{k.sub}</div>

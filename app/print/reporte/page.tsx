@@ -101,7 +101,7 @@ export default async function ReportePrintPage({
 
   const css = `
     *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:Arial,Helvetica,sans-serif;font-size:9px;color:${PALETA.gris900};background:#fff;padding:20px}
+    body{font-family:var(--font-sans),Arial,Helvetica,sans-serif;font-size:9px;color:${PALETA.gris900};background:#fff;padding:20px}
     table{border-collapse:collapse;width:100%}
     th,td{text-align:left;padding:5px 9px}
     thead th{background:${PALETA.gris100};font-size:10px;font-weight:700;color:${PALETA.gris600};text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid ${PALETA.gris300}}

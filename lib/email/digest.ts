@@ -452,7 +452,10 @@ async function sendAlert(subject: string, lines: string[]): Promise<void> {
     ${reportTitle('Alerta del sistema de correos', fmtDate(new Date()))}
     <div style="padding:22px 36px 0">
       <p style="font-size:15px;color:${INK};line-height:1.6;margin:0 0 16px">Se detectó un problema en el envío automático de resúmenes:</p>
-      <div style="border:1px solid ${LINE};border-left:2px solid ${PALETA.salida};border-radius:8px;padding:14px 18px;background:${PALETA.salidaTinte}">
+      <!-- Sin filete lateral (decisión D-2): la severidad ya la carga el fondo en terracota
+           y el rótulo. El filete era un recurso de más para decir lo mismo dos veces. -->
+      <div style="border:1px solid ${PALETA.salida};border-radius:8px;padding:14px 18px;background:${PALETA.salidaTinte}">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:${PALETA.salida};margin:0 0 8px">Detalle del fallo</div>
         ${lines.map(l => `<div style="font-size:13px;color:${INK};margin:3px 0;font-family:Consolas,monospace">${l}</div>`).join('')}
       </div>
     </div>

@@ -50,7 +50,7 @@ export default async function BoletaLavanderiaPage({ params }: Props) {
 
   const css = `
     *{box-sizing:border-box;margin:0;padding:0}
-    html,body{font-family:Arial,Helvetica,sans-serif;color:${PALETA.gris900};background:#fff}
+    html,body{font-family:var(--font-sans),Arial,Helvetica,sans-serif;color:${PALETA.gris900};background:#fff}
     .sheet{width:100%}
     .copia{padding:6mm 8mm;height:139mm;overflow:hidden;page-break-inside:avoid;break-inside:avoid;display:flex;flex-direction:column}
     .copia--top{border-bottom:1px dashed ${PALETA.gris500}}

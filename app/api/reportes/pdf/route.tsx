@@ -19,6 +19,12 @@ Font.register({ family: 'Manrope', fonts: [
 ]})
 Font.register({ family: 'Sora', fonts: [{ src: fuente('Sora-Bold.ttf'), fontWeight: 700 }] })
 
+// Sin esto, @react-pdf parte las palabras con guion cuando no caben en la columna:
+// "Construc-tora Andina", "Matias Contr-eras", "ENTRA-DA". Con Helvetica casi no pasaba
+// porque es más angosta; Manrope ocupa más y lo destapó en toda la tabla. En un reporte
+// se prefiere que el nombre baje entero a la línea siguiente antes que cortarlo.
+Font.registerHyphenationCallback(palabra => [palabra])
+
 const MONTHS = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
 
 // El reporte de ocupación habla de estadías, o sea del módulo Hotel.
@@ -237,11 +243,17 @@ export async function GET(req: NextRequest) {
 
   const hoy = new Date().toLocaleDateString('es-CL',{day:'2-digit',month:'long',year:'numeric'})
 
-  const COLS: [string, number][] = [['#',0.4],['Huésped',2],['RUT',1.2],['Empresa',1.5],['Propiedad',1.5],['Hab.',0.6],['Tipo',0.9],['Turno',0.8],['Entrada',1],['Salida',1],['Noches',0.7],['Estado',0.9]]
+  // Pesos calculados con las métricas reales de Manrope, no a ojo: cada columna cabe su
+  // encabezado en mayúsculas (7 pt) y la palabra más larga que aparece en ella (8 pt), con
+  // 3 pt de margen. Si se agrega una columna hay que rehacer el cálculo, no repartir a ojo.
+  const COLS: [string, number][] = [['#',0.37],['Huésped',1.44],['RUT',1.2],['Empresa',1.83],['Propiedad',1.83],['Hab.',0.54],['Tipo',1.04],['Turno',0.68],['Entrada',1.2],['Salida',0.68],['Noches',0.77],['Estado',0.92]]
 
   const doc = (
     <Document title={`Reporte ${cliente} — ${tituloPeriodo}`}>
-      <Page size="LETTER" style={s.page}>
+      {/* Horizontal: el listado de huéspedes tiene 12 columnas y medidas con las métricas
+          reales de la fuente necesita 641 pt. La hoja vertical da 540, así que nunca cupo —
+          antes se disimulaba cortando las palabras con guion. Horizontal da 720. */}
+      <Page size="LETTER" orientation="landscape" style={s.page}>
 
         {/* Membrete de cuatro niveles: producto · módulo · cliente · alcance */}
         <View style={s.header}>
@@ -273,7 +285,10 @@ export async function GET(req: NextRequest) {
             { label:'Estadías',        val: stays.length.toString(),         sub:`${activosAlCierre} activas al cierre`, color: A, delta: deltaEstadias, dSuffix:` vs ant.`, dGood:true },
             { label:'Capacidad',       val: `${camasDisp}`,                  sub:`${camasNoche.toLocaleString('es-CL')} camas-noche · ${diasPeriodo} días`, color: G, delta: null, dSuffix:'', dGood:true },
           ].map(k => (
-            <View key={k.label} style={[s.kpiCard, { borderTopWidth: 3, borderTopColor: k.color }]}>
+            <View key={k.label} style={s.kpiCard}>
+              {/* Rayita corta en vez del borde superior de 3 px, que seguía la esquina
+                  redondeada. Es el mismo filete del membrete, un escalón más chico. */}
+              <View style={{ width: 20, height: 2.5, borderRadius: 2, backgroundColor: k.color, marginBottom: 6 }} />
               <Text style={s.kpiVal}>{k.val}</Text>
               <Text style={s.kpiLabel}>{k.label}</Text>
               {tieneComp && k.delta !== null && <View style={{ marginTop: 2 }}><DeltaChip v={k.delta} suffix={k.dSuffix} positiveGood={k.dGood} /></View>}

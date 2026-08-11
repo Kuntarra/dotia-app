@@ -301,12 +301,16 @@ export default async function ClienteReportePage({
 
         <div className="lg:col-span-3 grid grid-cols-2 gap-4">
           {[
-            { label:'Camas usadas',      value: camasUsadas,   sub:`${camasDisp} camas × ${diasPeriodo} días = ${camasTotal.toLocaleString('es-CL')} disponibles`, border:'border-t-[var(--brand)]' },
-            { label:'Camas sin usar',    value: camasLibres,   sub:`${100-ocupPct}% de capacidad libre`, border:'border-t-[var(--senal)]' },
-            { label:'Estadías del período', value: stays.length, sub:`${stays.filter(s=>!s.checked_out_at).length} activas al cierre`, border:'border-t-[var(--brand-light)]' },
-            { label:'Días del período',  value: diasPeriodo,   sub:tituloPeriodo, border:'border-t-[var(--gray-300)]' },
+            { label:'Camas usadas',      value: camasUsadas,   sub:`${camasDisp} camas × ${diasPeriodo} días = ${camasTotal.toLocaleString('es-CL')} disponibles`, filete:'bg-[var(--brand)]' },
+            { label:'Camas sin usar',    value: camasLibres,   sub:`${100-ocupPct}% de capacidad libre`, filete:'bg-[var(--senal)]' },
+            { label:'Estadías del período', value: stays.length, sub:`${stays.filter(s=>!s.checked_out_at).length} activas al cierre`, filete:'bg-[var(--brand-light)]' },
+            { label:'Días del período',  value: diasPeriodo,   sub:tituloPeriodo, filete:'bg-[var(--gray-300)]' },
           ].map(k => (
-            <div key={k.label} className={`bg-[var(--surface)] rounded-xl border border-[var(--gray-200)] border-t-4 ${k.border} p-5`}>
+            /* El acento va como rayita corta sobre el número, no como borde superior de 4 px:
+               un borde grueso sigue la esquina redondeada y se lee como un error. Es el mismo
+               gesto que el membrete del PDF. */
+            <div key={k.label} className="bg-[var(--surface)] rounded-xl border border-[var(--gray-200)] p-5">
+              <div className={`h-[3px] w-7 rounded-full mb-3 ${k.filete}`} />
               <p className="font-display text-[1.875rem] font-semibold leading-none text-[var(--ink)] data-number">{k.value.toLocaleString('es-CL')}</p>
               <p className="text-sm font-medium text-[var(--gray-700)] mt-1">{k.label}</p>
               <p className="text-xs text-[var(--gray-500)] mt-1">{k.sub}</p>
