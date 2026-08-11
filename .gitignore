@@ -53,3 +53,6 @@ next-env.d.ts
 # respaldos locales de assets de la marca anterior
 *.bak
 *.bak.png
+
+# Llave personal de la Management API de Supabase (vive fuera del repo)
+.supabase-token
