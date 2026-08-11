@@ -5,9 +5,9 @@ import { Plus } from 'lucide-react'
 import { ROLE_LABELS } from '@/lib/types'
 
 const ROLE_COLORS: Record<string, string> = {
-  admin:        'badge badge-navy',
+  admin:        'badge badge-brand',
   receptionist: 'badge badge-green',
-  client:       'badge badge-amber',
+  client:       'badge badge-senal',
 }
 
 export default async function UsuariosPage() {
@@ -56,7 +56,7 @@ export default async function UsuariosPage() {
         </div>
         <div className="flex gap-2 shrink-0">
           <Link href="/admin/usuarios/nuevo-recepcionista"
-            className="inline-flex items-center gap-2 px-4 py-2.5 bg-[var(--surface)] border border-[var(--gray-300)] hover:border-[var(--navy)] text-[var(--ink)] text-sm font-semibold rounded-xl transition-all hover:-translate-y-px shadow-[var(--shadow-xs)]">
+            className="inline-flex items-center gap-2 px-4 py-2.5 bg-[var(--surface)] border border-[var(--gray-300)] hover:border-[var(--brand)] text-[var(--ink)] text-sm font-semibold rounded-xl transition-all hover:-translate-y-px shadow-[var(--shadow-xs)]">
             <Plus size={15} strokeWidth={2.25} />
             Recepcionista
           </Link>
@@ -92,9 +92,9 @@ export default async function UsuariosPage() {
                       className={`flex items-center gap-4 px-5 py-4 hover:bg-[var(--gray-50)] transition-colors ${i > 0 ? 'border-t border-[var(--gray-100)]' : ''} ${role === 'admin' ? 'pointer-events-none' : 'group'}`}
                     >
                       <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition-colors
-                        ${role === 'admin' ? 'bg-[var(--navy)]' : role === 'receptionist' ? 'bg-emerald-100 group-hover:bg-emerald-200' : 'bg-[var(--amber)]/15 group-hover:bg-[var(--amber)]/25'}`}>
+                        ${role === 'admin' ? 'bg-[var(--brand)]' : role === 'receptionist' ? 'bg-emerald-100 group-hover:bg-emerald-200' : 'bg-[var(--senal)]/15 group-hover:bg-[var(--senal)]/25'}`}>
                         <span className={`text-xs font-bold
-                          ${role === 'admin' ? 'text-white' : role === 'receptionist' ? 'text-emerald-700' : 'text-[var(--amber-dark)]'}`}>
+                          ${role === 'admin' ? 'text-white' : role === 'receptionist' ? 'text-emerald-700' : 'text-[var(--senal-dark)]'}`}>
                           {(user.full_name ?? user.email ?? '?').slice(0, 2).toUpperCase()}
                         </span>
                       </div>

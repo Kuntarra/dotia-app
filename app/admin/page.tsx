@@ -210,7 +210,7 @@ export default async function AdminDashboard() {
         <div className="xl:col-span-2 bg-[var(--surface)] rounded-2xl border border-[var(--gray-200)] p-6 shadow-[var(--shadow-sm)]">
           <div className="flex items-center gap-2 mb-5">
             <span className="section-label !mb-0">Acciones rápidas</span>
-            <Zap size={14} strokeWidth={2} stroke="var(--amber)" fill="var(--amber)" />
+            <Zap size={14} strokeWidth={2} stroke="var(--senal)" fill="var(--senal)" />
           </div>
           <div className="grid grid-cols-2 gap-3">
             <QuickLink href="/admin/propiedades/nueva" label="Nueva propiedad"    icon={<BuildingIcon />} />
@@ -220,10 +220,10 @@ export default async function AdminDashboard() {
           </div>
 
           {/* Estado del sistema */}
-          <div className="mt-5 rounded-xl bg-[var(--navy)] px-5 py-4">
+          <div className="mt-5 rounded-xl bg-[var(--brand)] px-5 py-4">
             <div className="flex items-start gap-3">
               <div className="w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center shrink-0 mt-0.5">
-                <Clock size={14} strokeWidth={1.75} stroke="var(--amber)" />
+                <Clock size={14} strokeWidth={1.75} stroke="var(--senal)" />
               </div>
               <div>
                 <p className="text-white text-xs font-semibold leading-tight">Estado del sistema</p>
@@ -322,7 +322,7 @@ function KpiCard({ label, value, href, trendLabel, trendUp, icon }: {
                  hover:-translate-y-0.5 transition-all duration-200 group block">
       <div className="flex items-start justify-between mb-3.5">
         <div className="w-9 h-9 rounded-xl flex items-center justify-center"
-          style={{ background: 'rgb(11 126 96 / 0.12)', color: 'var(--amber-dark)' }}>
+          style={{ background: 'rgb(11 126 96 / 0.12)', color: 'var(--senal-dark)' }}>
           {icon}
         </div>
         <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${trendColor}`}>
@@ -332,7 +332,7 @@ function KpiCard({ label, value, href, trendLabel, trendUp, icon }: {
       <p className="font-display text-[2.6rem] font-semibold leading-none data-number text-[var(--ink)]">
         {value.toLocaleString('es-CL')}
       </p>
-      <p className="text-sm font-medium text-[var(--ink)] mt-2.5 group-hover:text-[var(--navy-light)] transition-colors leading-snug">
+      <p className="text-sm font-medium text-[var(--ink)] mt-2.5 group-hover:text-[var(--brand-light)] transition-colors leading-snug">
         {label}
       </p>
     </Link>
@@ -344,10 +344,10 @@ function QuickLink({ href, label, icon }: { href: string; label: string; icon: R
   return (
     <Link href={href}
       className="flex flex-col items-center gap-2.5 p-4 rounded-xl border border-[var(--gray-200)]
-                 hover:border-[var(--navy)]/20 hover:bg-[var(--navy-5)]
+                 hover:border-[var(--brand)]/20 hover:bg-[var(--brand-5)]
                  hover:-translate-y-px transition-all duration-150 group text-center">
-      <div className="w-9 h-9 rounded-xl bg-[var(--amber)]/10 text-[var(--amber-dark)]
-                      group-hover:bg-[var(--navy)] group-hover:text-white
+      <div className="w-9 h-9 rounded-xl bg-[var(--senal)]/10 text-[var(--senal-dark)]
+                      group-hover:bg-[var(--brand)] group-hover:text-white
                       flex items-center justify-center transition-all duration-150">
         {icon}
       </div>

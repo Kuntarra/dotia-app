@@ -102,7 +102,7 @@ export function SubscriptionForm({
           <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-44 overflow-y-auto p-3 rounded-lg border border-[var(--gray-200)] bg-[var(--gray-50)]">
             {properties.map(p => (
               <label key={p.id} className="flex items-center gap-2.5 text-sm text-[var(--gray-700)] cursor-pointer">
-                <input type="checkbox" name="property_ids" value={p.id} className="w-4 h-4 rounded accent-[var(--navy)]" />
+                <input type="checkbox" name="property_ids" value={p.id} className="w-4 h-4 rounded accent-[var(--brand)]" />
                 {p.name}
               </label>
             ))}
@@ -137,8 +137,8 @@ export function SubscriptionForm({
           <label className={LABEL}>Días de la semana</label>
           <div className="flex flex-wrap gap-2">
             {WEEKDAYS.map(([v, l]) => (
-              <label key={v} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm cursor-pointer has-[:checked]:border-[var(--navy)] has-[:checked]:bg-[var(--navy-5)]">
-                <input type="checkbox" name="weekdays" value={v} className="w-4 h-4 rounded accent-[var(--navy)]" />
+              <label key={v} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm cursor-pointer has-[:checked]:border-[var(--brand)] has-[:checked]:bg-[var(--brand-5)]">
+                <input type="checkbox" name="weekdays" value={v} className="w-4 h-4 rounded accent-[var(--brand)]" />
                 {l}
               </label>
             ))}

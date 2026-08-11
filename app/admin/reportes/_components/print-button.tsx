@@ -26,7 +26,9 @@ export function PrintButton() {
       const url  = URL.createObjectURL(blob)
       const a    = document.createElement('a')
       a.href     = url
-      a.download = match?.[1] ?? `reporte_sol_eterno_${fecha}.pdf`
+      // El nombre bueno viene del servidor con el cliente adentro; esto es solo
+      // el respaldo si la cabecera no llega.
+      a.download = match?.[1] ?? `reporte-${fecha}.pdf`
       a.click()
       URL.revokeObjectURL(url)
     } finally {

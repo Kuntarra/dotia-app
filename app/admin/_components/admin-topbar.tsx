@@ -83,7 +83,7 @@ export function AdminTopBar({ fullName, role = 'Administrador', notifications = 
                        hover:bg-[var(--gray-100)] hover:text-[var(--ink)] transition-colors">
             <Bell size={16} strokeWidth={1.75} />
             {alertCount > 0 && (
-              <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-4 px-1 rounded-full bg-[var(--amber)]
+              <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-4 px-1 rounded-full bg-[var(--senal)]
                                text-[var(--ink)] text-[10px] font-bold flex items-center justify-center">
                 {alertCount > 9 ? '9+' : alertCount}
               </span>
@@ -107,7 +107,7 @@ export function AdminTopBar({ fullName, role = 'Administrador', notifications = 
                       <Link key={i} href={n.href} onClick={() => setNotifOpen(false)}
                         className="flex items-start gap-3 px-4 py-3 hover:bg-[var(--gray-50)] transition-colors">
                         <span className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 mt-0.5
-                          ${n.kind === 'alert' ? 'bg-red-50 text-red-600' : 'bg-[var(--amber)]/12 text-[var(--amber-dark)]'}`}>
+                          ${n.kind === 'alert' ? 'bg-red-50 text-red-600' : 'bg-[var(--senal)]/12 text-[var(--senal-dark)]'}`}>
                           {n.kind === 'alert' ? <AlertTriangle size={14} strokeWidth={2} /> : <LogIn size={14} strokeWidth={2} />}
                         </span>
                         <div className="min-w-0">
@@ -142,7 +142,7 @@ export function AdminTopBar({ fullName, role = 'Administrador', notifications = 
             aria-expanded={menuOpen}
             className="flex items-center gap-2.5 pl-1 pr-2 py-1 rounded-xl
                        hover:bg-[var(--gray-100)] transition-colors">
-            <div className="w-7 h-7 rounded-lg bg-[var(--navy)] flex items-center justify-center shrink-0">
+            <div className="w-7 h-7 rounded-lg bg-[var(--brand)] flex items-center justify-center shrink-0">
               <span className="text-white text-[10px] font-bold">{initials}</span>
             </div>
             <div className="text-left">

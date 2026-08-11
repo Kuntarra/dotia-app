@@ -50,7 +50,7 @@ export default async function DotiaOverviewPage() {
           {cards.map((c) => (
             <Link key={c.label} href={c.href} className="premium-card group block p-5">
               <div className="flex items-center justify-between mb-3">
-                <div className="w-10 h-10 rounded-xl bg-[var(--navy)]/5 flex items-center justify-center text-[var(--ink)]">{c.icon}</div>
+                <div className="w-10 h-10 rounded-xl bg-[var(--brand)]/5 flex items-center justify-center text-[var(--ink)]">{c.icon}</div>
               </div>
               <p className="text-3xl font-bold text-[var(--ink)] tabular-nums leading-none mb-1">{c.value}</p>
               <p className="text-sm text-[var(--gray-600)] group-hover:text-[var(--ink)]">{c.label}</p>

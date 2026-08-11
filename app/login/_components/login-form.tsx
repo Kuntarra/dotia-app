@@ -43,7 +43,7 @@ export function LoginForm({ error }: { error?: string }) {
             Contraseña
           </label>
           <Link href="/forgot-password"
-            className="text-xs text-[var(--amber-dark)] font-medium hover:text-[var(--amber)] transition-colors py-2 -my-2 inline-block">
+            className="text-xs text-[var(--senal-dark)] font-medium hover:text-[var(--senal)] transition-colors py-2 -my-2 inline-block">
             ¿Olvidaste tu contraseña?
           </Link>
         </div>
@@ -75,7 +75,7 @@ export function LoginForm({ error }: { error?: string }) {
         <input
           type="checkbox"
           name="remember"
-          className="w-[18px] h-[18px] rounded border-[var(--gray-300)] accent-[var(--navy)] cursor-pointer"
+          className="w-[18px] h-[18px] rounded border-[var(--gray-300)] accent-[var(--brand)] cursor-pointer"
         />
         <span className="text-sm text-[var(--gray-600)]">Recordar sesión</span>
       </label>
@@ -83,9 +83,9 @@ export function LoginForm({ error }: { error?: string }) {
       {/* Submit */}
       <button type="submit"
         className="w-full flex items-center justify-center gap-2 py-3 px-6
-                   bg-[var(--navy)] hover:bg-[var(--navy-light)] text-white
+                   bg-[var(--brand)] hover:bg-[var(--brand-light)] text-white
                    text-sm font-semibold rounded-xl transition-all duration-150
-                   shadow-[var(--shadow-navy)] hover:shadow-[0_6px_20px_rgb(10_44_74/0.35)]
+                   shadow-[var(--shadow-brand)] hover:shadow-[0_6px_20px_rgb(10_44_74/0.35)]
                    hover:-translate-y-px active:translate-y-0">
         Ingresar
         <ArrowRight size={16} strokeWidth={2.25} />
@@ -94,8 +94,8 @@ export function LoginForm({ error }: { error?: string }) {
       {/* No tengo cuenta */}
       <p className="text-center text-xs text-[var(--gray-500)] border-t border-[var(--gray-200)] pt-5">
         ¿No tienes una cuenta corporativa?{' '}
-        <Link href="mailto:contacto@soleterno.cl"
-          className="text-[var(--amber-dark)] font-semibold hover:text-[var(--amber)] transition-colors">
+        <Link href="mailto:contacto@dotia.cl"
+          className="text-[var(--senal-dark)] font-semibold hover:text-[var(--senal)] transition-colors">
           Contacta con soporte técnico
         </Link>
       </p>

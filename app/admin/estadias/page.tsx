@@ -135,12 +135,12 @@ export default async function EstadiasPage({
             {/* Ocupación */}
             <div className="bg-[var(--surface)] rounded-xl border border-[var(--gray-200)] px-5 py-3.5 shadow-[var(--shadow-xs)] min-w-[150px]">
               <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--gray-500)] mb-1">Ocupación</p>
-              <p className={`font-display text-[1.9rem] font-semibold leading-none data-number ${ocupacionPct >= 70 ? 'text-[var(--ink)]' : 'text-[var(--amber-dark)]'}`}>
+              <p className={`font-display text-[1.9rem] font-semibold leading-none data-number ${ocupacionPct >= 70 ? 'text-[var(--ink)]' : 'text-[var(--senal-dark)]'}`}>
                 {ocupacionPct}%
               </p>
               <div className="mt-2 h-1.5 bg-[var(--gray-200)] rounded-full overflow-hidden">
                 <div
-                  className={`h-full rounded-full transition-all ${ocupacionPct >= 70 ? 'bg-[var(--navy)]' : 'bg-[var(--amber)]'}`}
+                  className={`h-full rounded-full transition-all ${ocupacionPct >= 70 ? 'bg-[var(--brand)]' : 'bg-[var(--senal)]'}`}
                   style={{ width: `${ocupacionPct}%` }}
                 />
               </div>
@@ -169,7 +169,7 @@ export default async function EstadiasPage({
               <Link key={f} href={`/admin/estadias?filter=${f}`}
                 className={`px-3.5 py-1.5 rounded-lg text-sm font-medium transition-all ${
                   filter === f
-                    ? 'bg-[var(--navy)] text-white shadow-[var(--shadow-xs)]'
+                    ? 'bg-[var(--brand)] text-white shadow-[var(--shadow-xs)]'
                     : 'text-[var(--gray-600)] hover:text-[var(--ink)] hover:bg-[var(--gray-50)]'
                 }`}>
                 {FILTER_LABELS[f]}
@@ -181,7 +181,7 @@ export default async function EstadiasPage({
         <div className="ml-auto flex items-center gap-2">
           <a href={`/api/estadias/export?filter=${filter}${q ? `&q=${encodeURIComponent(q)}` : ''}`}
             className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-[var(--gray-200)]
-                       bg-[var(--surface)] text-[var(--gray-600)] text-xs font-semibold hover:border-[var(--navy)]/30
+                       bg-[var(--surface)] text-[var(--gray-600)] text-xs font-semibold hover:border-[var(--brand)]/30
                        hover:text-[var(--ink)] transition-all">
             <Download size={13} strokeWidth={2} />
             Exportar CSV
@@ -246,12 +246,12 @@ export default async function EstadiasPage({
                       <td className="font-semibold text-[var(--ink)] whitespace-nowrap">
                         <span className="inline-flex items-center gap-2">
                           {guest?.id
-                            ? <Link href={`/admin/huespedes/${guest.id}`} className="hover:text-[var(--amber-dark)] hover:underline underline-offset-2 transition-colors">
+                            ? <Link href={`/admin/huespedes/${guest.id}`} className="hover:text-[var(--senal-dark)] hover:underline underline-offset-2 transition-colors">
                                 {q ? <Highlight text={nombre} q={q} /> : nombre}
                               </Link>
                             : (q ? <Highlight text={nombre} q={q} /> : nombre)}
                           {guest?.id && (stayCount.get(guest.id) ?? 0) > 1 && (
-                            <span className="badge badge-amber !text-[10px] !py-0.5" title="Esta persona tiene estadías previas">
+                            <span className="badge badge-senal !text-[10px] !py-0.5" title="Esta persona tiene estadías previas">
                               Repite · {stayCount.get(guest.id)}
                             </span>
                           )}
@@ -279,7 +279,7 @@ export default async function EstadiasPage({
                       </td>
                       <td className="text-right">
                         <Link href={`/admin/estadias/${stay.id}/editar`}
-                          className="text-[var(--ink)] text-xs font-semibold hover:text-[var(--navy-light)] hover:underline">
+                          className="text-[var(--ink)] text-xs font-semibold hover:text-[var(--brand-light)] hover:underline">
                           Editar
                         </Link>
                       </td>
@@ -316,7 +316,7 @@ function Highlight({ text, q }: { text: string; q: string }) {
   return (
     <>
       {text.slice(0, idx)}
-      <mark className="bg-[var(--amber)]/40 text-[var(--ink)] rounded px-0.5">{text.slice(idx, idx + q.length)}</mark>
+      <mark className="bg-[var(--senal)]/40 text-[var(--ink)] rounded px-0.5">{text.slice(idx, idx + q.length)}</mark>
       {text.slice(idx + q.length)}
     </>
   )

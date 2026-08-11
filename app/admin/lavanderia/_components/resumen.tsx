@@ -36,7 +36,7 @@ export function ResumenLavanderia({ grupos }: { grupos: GrupoResumen[] }) {
   }
 
   const kpis: { key: EstadoLav | 'total'; label: string; value: number; sub: string; color: string }[] = [
-    { key: 'total', label: 'Personas del proyecto', value: g.total, sub: `${cobertura}% con bolsa registrada`, color: 'var(--navy)' },
+    { key: 'total', label: 'Personas del proyecto', value: g.total, sub: `${cobertura}% con bolsa registrada`, color: 'var(--brand)' },
     { key: 'en_proceso', label: META.en_proceso.label, value: g.en_proceso, sub: `${pct(g.en_proceso, g.total)}% del total`, color: META.en_proceso.color },
     { key: 'entregada', label: META.entregada.label, value: g.entregada, sub: `${pct(g.entregada, g.total)}% del total`, color: META.entregada.color },
     { key: 'sin_bolsa', label: META.sin_bolsa.label, value: g.sin_bolsa, sub: `${pct(g.sin_bolsa, g.total)}% faltante`, color: META.sin_bolsa.color },
@@ -64,7 +64,7 @@ export function ResumenLavanderia({ grupos }: { grupos: GrupoResumen[] }) {
       <div className="bg-[var(--surface)] rounded-xl border border-[var(--gray-200)] p-4 mb-6">
         <div className="flex items-center justify-between text-xs text-[var(--gray-600)] mb-2">
           <span className="font-medium text-[var(--ink)]">Cobertura del proyecto</span>
-          <span>{conBolsa}/{g.total} con bolsa · <strong style={{ color: cobertura >= 80 ? META.entregada.color : 'var(--amber-dark)' }}>{cobertura}%</strong></span>
+          <span>{conBolsa}/{g.total} con bolsa · <strong style={{ color: cobertura >= 80 ? META.entregada.color : 'var(--senal-dark)' }}>{cobertura}%</strong></span>
         </div>
         <div className="h-2.5 rounded-full bg-[var(--gray-100)] overflow-hidden flex">
           <div style={{ width: `${pct(g.entregada, g.total)}%`, background: META.entregada.color }} />
@@ -88,7 +88,7 @@ export function ResumenLavanderia({ grupos }: { grupos: GrupoResumen[] }) {
             <div key={grupo.propiedad} className="bg-[var(--surface)] rounded-xl border border-[var(--gray-200)] overflow-hidden">
               <div className="px-5 py-4 flex flex-wrap items-center justify-between gap-3">
                 <div className="flex items-center gap-2.5 min-w-[12rem]">
-                  <div className="w-9 h-9 rounded-lg bg-[var(--navy)]/5 grid place-items-center"><Building2 size={17} strokeWidth={2} className="text-[var(--ink)]" /></div>
+                  <div className="w-9 h-9 rounded-lg bg-[var(--brand)]/5 grid place-items-center"><Building2 size={17} strokeWidth={2} className="text-[var(--ink)]" /></div>
                   <div>
                     <div className="text-sm font-semibold text-[var(--ink)]">{grupo.propiedad}</div>
                     <div className="text-[11px] text-[var(--gray-500)]">{c.total} {c.total === 1 ? 'persona' : 'personas'}</div>
@@ -99,7 +99,7 @@ export function ResumenLavanderia({ grupos }: { grupos: GrupoResumen[] }) {
                   <span className="inline-flex items-center gap-1.5" style={{ color: META.en_proceso.color }}><Package size={15} /> <strong>{c.en_proceso}</strong></span>
                   <span className="inline-flex items-center gap-1.5" style={{ color: META.sin_bolsa.color }}><AlertCircle size={15} /> <strong>{c.sin_bolsa}</strong></span>
                   <span className="text-[var(--gray-400)]">·</span>
-                  <span className="tabular-nums font-semibold" style={{ color: cob >= 80 ? META.entregada.color : 'var(--amber-dark)' }}>{cob}%</span>
+                  <span className="tabular-nums font-semibold" style={{ color: cob >= 80 ? META.entregada.color : 'var(--senal-dark)' }}>{cob}%</span>
                 </div>
               </div>
               <div className="h-1.5 bg-[var(--gray-100)] flex">

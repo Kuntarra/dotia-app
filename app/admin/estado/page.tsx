@@ -69,7 +69,7 @@ export default async function EstadoPage({ searchParams }: { searchParams: Promi
   return (
     <div className="p-8 max-w-6xl">
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-11 h-11 rounded-2xl bg-[var(--navy)] flex items-center justify-center shrink-0">
+        <div className="w-11 h-11 rounded-2xl bg-[var(--brand)] flex items-center justify-center shrink-0">
           <LayoutGrid size={19} strokeWidth={2} className="text-white" />
         </div>
         <div>
@@ -96,8 +96,8 @@ export default async function EstadoPage({ searchParams }: { searchParams: Promi
               {tiles.map((t) => (
                 <Link key={t.key} href={t.href} className="premium-card p-5 group">
                   <div className="flex items-center gap-3 mb-3">
-                    <div className="w-10 h-10 rounded-xl bg-[var(--navy)]/5 flex items-center justify-center shrink-0 group-hover:bg-[var(--navy)]/10 transition-colors">
-                      <t.Icon size={18} strokeWidth={2} className="text-[var(--navy)]" />
+                    <div className="w-10 h-10 rounded-xl bg-[var(--brand)]/5 flex items-center justify-center shrink-0 group-hover:bg-[var(--brand)]/10 transition-colors">
+                      <t.Icon size={18} strokeWidth={2} className="text-[var(--brand)]" />
                     </div>
                     <span className="text-sm font-semibold text-[var(--ink)]">{t.label}</span>
                   </div>

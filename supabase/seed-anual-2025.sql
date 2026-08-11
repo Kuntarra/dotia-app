@@ -1,5 +1,5 @@
 -- ============================================================
--- Sol Eterno — Seed anual 2025
+-- Dotia — Seed anual 2025 (datos de prueba del tenant Sol Eterno)
 -- 3 hostales (22/42/30 habitaciones), 5 empresas, ~800 estadías
 -- Ocupación realista y variada por empresa
 -- ============================================================

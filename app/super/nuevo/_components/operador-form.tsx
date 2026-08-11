@@ -5,7 +5,7 @@ import { useActionState } from 'react'
 import { createTenant } from '@/app/actions/tenants'
 import { AlertTriangle } from 'lucide-react'
 
-const INPUT = 'w-full px-3.5 py-2.5 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)] focus:border-transparent transition-shadow'
+const INPUT = 'w-full px-3.5 py-2.5 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand)] focus:border-transparent transition-shadow'
 const LABEL = 'block text-xs font-semibold text-[var(--gray-600)] mb-1.5'
 
 export function OperadorForm() {

@@ -52,7 +52,7 @@ export default function TerminosPage() {
       <h2>6. Contacto</h2>
       <p>
         Ante cualquier duda sobre estos términos, escríbenos a{' '}
-        <strong>contacto@soleterno.cl</strong> o coordina por WhatsApp con nuestra Dirección Comercial.
+        <strong>contacto@dotia.cl</strong> o coordina por WhatsApp con nuestra Dirección Comercial.
       </p>
     </LegalShell>
   )

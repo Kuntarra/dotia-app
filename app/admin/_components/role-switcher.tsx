@@ -8,9 +8,9 @@ import { quickLoginDemo, volverAMiCuenta } from '@/app/actions/demo'
 import { Repeat, ChevronDown, Undo2, FlaskConical } from 'lucide-react'
 
 const VIEWS = [
-  { label: 'Admin',     href: '/admin',      color: 'bg-[var(--navy)] text-white',         dot: 'bg-[var(--navy)]',  desc: 'Panel administrador' },
+  { label: 'Admin',     href: '/admin',      color: 'bg-[var(--brand)] text-white',         dot: 'bg-[var(--brand)]',  desc: 'Panel administrador' },
   { label: 'Recepción', href: '/recepcion',  color: 'bg-emerald-600 text-white',            dot: 'bg-emerald-500',    desc: 'Vista recepcionista' },
-  { label: 'Cliente',   href: '/alojamiento',color: 'bg-[var(--amber)] text-[var(--ink)]', dot: 'bg-[var(--amber)]', desc: 'Portal empresa' },
+  { label: 'Cliente',   href: '/alojamiento',color: 'bg-[var(--senal)] text-[var(--ink)]', dot: 'bg-[var(--senal)]', desc: 'Portal empresa' },
 ]
 
 interface User { id: string; full_name: string | null; role: string; email: string | null }
@@ -49,7 +49,7 @@ export function RoleSwitcher({ users, demoModalities, enDemo }: { users: User[];
             <div className="flex border-b border-[var(--gray-100)]">
               {(['demo', 'vistas', 'usuarios'] as const).map(t => (
                 <button key={t} onClick={() => setTab(t)}
-                  className={`flex-1 text-xs font-semibold py-2.5 capitalize transition-colors ${tab === t ? 'text-[var(--ink)] border-b-2 border-[var(--navy)]' : 'text-[var(--gray-500)] hover:text-[var(--ink)]'}`}>
+                  className={`flex-1 text-xs font-semibold py-2.5 capitalize transition-colors ${tab === t ? 'text-[var(--ink)] border-b-2 border-[var(--brand)]' : 'text-[var(--gray-500)] hover:text-[var(--ink)]'}`}>
                   {t === 'demo' ? 'Vista rápida' : t === 'vistas' ? 'Vistas' : 'Usuarios'}
                 </button>
               ))}
@@ -75,7 +75,7 @@ export function RoleSwitcher({ users, demoModalities, enDemo }: { users: User[];
               ))}
               {enDemo && (
                 <form action={volverAMiCuenta} className="px-3 pt-2 pb-1">
-                  <button className="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg bg-[var(--navy)] text-white text-sm font-semibold hover:bg-[var(--navy-dark)] transition-colors">
+                  <button className="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg bg-[var(--brand)] text-white text-sm font-semibold hover:bg-[var(--brand-dark)] transition-colors">
                     <Undo2 size={14} strokeWidth={2.25} /> Volver a mi cuenta
                   </button>
                 </form>

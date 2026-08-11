@@ -8,7 +8,7 @@ import { listTraslados } from '@/lib/data/transporte'
 
 const TIPO_LABEL: Record<string, string> = { movilizacion: 'Movilización', diario: 'Diario a faena' }
 const ESTADO_BADGE: Record<string, string> = {
-  planificado: 'badge-gray', en_curso: 'badge-amber', completado: 'badge-green', cancelado: 'badge-gray',
+  planificado: 'badge-gray', en_curso: 'badge-senal', completado: 'badge-green', cancelado: 'badge-gray',
 }
 
 export default async function TransportePage({ searchParams }: { searchParams: Promise<{ page?: string; diario?: string }> }) {

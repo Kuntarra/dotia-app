@@ -7,7 +7,7 @@ interface Props {
   searchParams: Promise<{ error?: string }>
 }
 
-const INPUT = 'w-full px-3.5 py-2.5 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm text-[var(--gray-900)] focus:outline-none focus:ring-2 focus:ring-[var(--navy)] focus:border-transparent transition-shadow'
+const INPUT = 'w-full px-3.5 py-2.5 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm text-[var(--gray-900)] focus:outline-none focus:ring-2 focus:ring-[var(--brand)] focus:border-transparent transition-shadow'
 const LABEL = 'block text-sm font-medium text-[var(--gray-900)] mb-1.5'
 
 export default async function NuevoClienteUserPage({ searchParams }: Props) {
@@ -75,7 +75,7 @@ export default async function NuevoClienteUserPage({ searchParams }: Props) {
         </div>
 
         <div className="flex gap-3">
-          <button type="submit" className="px-6 py-2.5 bg-[var(--navy)] hover:bg-[var(--navy-dark)] text-white text-sm font-semibold rounded-lg transition-colors">
+          <button type="submit" className="px-6 py-2.5 bg-[var(--brand)] hover:bg-[var(--brand-dark)] text-white text-sm font-semibold rounded-lg transition-colors">
             Crear usuario cliente
           </button>
           <Link href="/admin/usuarios" className="px-6 py-2.5 bg-[var(--surface)] hover:bg-[var(--gray-100)] text-[var(--ink)] text-sm font-medium rounded-lg border border-[var(--gray-200)] transition-colors">

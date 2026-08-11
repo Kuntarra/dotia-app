@@ -3,16 +3,22 @@ import { formatDate as fmt } from "@/lib/format"
 import { ROOM_TYPE_LABELS } from "@/lib/types"
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getMyTenantId } from '@/lib/tenant'
+import { PRODUCTO, PRODUCTO_BAJADA, PALETA, getMarcaCliente, slugCliente } from '@/lib/marca'
+import { MODULOS } from '@/lib/modulos'
 import React from 'react'
 import { renderToBuffer, Document, Page, View, Text, StyleSheet, Svg, Circle, Polygon } from '@react-pdf/renderer'
 
 const MONTHS = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
 
-const N = '#0B7E60', A = '#2FBF8F', G = '#6C757D', CREAM = '#F5F2EC', LINEW = '#E8E3D9'
+// El reporte de ocupación habla de estadías, o sea del módulo Hotel.
+const MODULO_HOTEL = MODULOS.find(m => m.k === 'hotel')!.label
+
+const N = PALETA.marca, A = PALETA.senal, G = PALETA.gris600, CREAM = PALETA.lienzo, LINEW = PALETA.filete
 
 const s = StyleSheet.create({
-  page:       { fontFamily: 'Helvetica', fontSize: 8, padding: 36, backgroundColor: '#ffffff', color: '#212529' },
+  page:       { fontFamily: 'Helvetica', fontSize: 8, padding: 36, backgroundColor: '#ffffff', color: PALETA.gris900 },
   header:     { backgroundColor: N, color: '#ffffff', padding: '22 24', borderTopLeftRadius: 8, borderTopRightRadius: 8, marginBottom: 0, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  hProducto:  { fontSize: 9, fontFamily: 'Times-Bold', color: 'rgba(255,255,255,0.5)', letterSpacing: 3, marginBottom: 14 },
   hEyebrow:   { fontSize: 8, color: A, letterSpacing: 2.4, fontFamily: 'Helvetica-Bold', marginBottom: 8 },
   hWordmark:  { fontSize: 23, fontFamily: 'Times-Bold', color: '#ffffff', letterSpacing: 3 },
   hRule:      { width: 34, height: 2, backgroundColor: A, marginTop: 11, marginBottom: 9 },
@@ -22,29 +28,36 @@ const s = StyleSheet.create({
   metaTitle:  { fontSize: 12, fontFamily: 'Times-Bold', color: N },
   metaSub:    { fontSize: 8, color: G },
   kpiGrid:    { flexDirection: 'row', gap: 8, marginBottom: 12 },
-  kpiCard:    { flex: 1, border: '1px solid #e9ecef', borderRadius: 5, padding: 9 },
+  kpiCard:    { flex: 1, border: `1px solid ${PALETA.gris200}`, borderRadius: 5, padding: 9 },
   kpiVal:     { fontSize: 16, fontFamily: 'Helvetica-Bold', color: N },
   kpiLabel:   { fontSize: 8, fontFamily: 'Helvetica-Bold', marginTop: 2 },
   kpiSub:     { fontSize: 7, color: G, marginTop: 1 },
   row2:       { flexDirection: 'row', gap: 10, marginBottom: 12 },
-  card:       { flex: 1, border: '1px solid #e9ecef', borderRadius: 5, overflow: 'hidden' },
+  card:       { flex: 1, border: `1px solid ${PALETA.gris200}`, borderRadius: 5, overflow: 'hidden' },
   cardHead:   { backgroundColor: N, color: '#ffffff', padding: '6 10', fontSize: 9, fontFamily: 'Helvetica-Bold' },
-  tableHead:  { flexDirection: 'row', backgroundColor: '#f1f3f5', borderBottom: '1px solid #dee2e6' },
-  tableRow:   { flexDirection: 'row', borderBottom: '1px solid #f1f3f5' },
-  tableFooter:{ flexDirection: 'row', backgroundColor: '#f1f3f5', borderTop: '2px solid #dee2e6' },
+  tableHead:  { flexDirection: 'row', backgroundColor: PALETA.gris100, borderBottom: `1px solid ${PALETA.gris300}` },
+  tableRow:   { flexDirection: 'row', borderBottom: `1px solid ${PALETA.gris100}` },
+  tableFooter:{ flexDirection: 'row', backgroundColor: PALETA.gris100, borderTop: `2px solid ${PALETA.gris300}` },
   th:         { fontSize: 7, fontFamily: 'Helvetica-Bold', color: G, padding: '4 6', textTransform: 'uppercase' },
   td:         { fontSize: 8, padding: '4 6' },
   tdBold:     { fontSize: 8, fontFamily: 'Helvetica-Bold', color: N, padding: '4 6' },
-  barBg:      { height: 5, backgroundColor: '#e9ecef', borderRadius: 3, marginTop: 2 },
+  barBg:      { height: 5, backgroundColor: PALETA.gris200, borderRadius: 3, marginTop: 2 },
   barFill:    { height: 5, borderRadius: 3 },
-  footer:     { marginTop: 12, textAlign: 'center', fontSize: 7, color: '#adb5bd' },
+  footer:     { marginTop: 12, textAlign: 'center', fontSize: 7, color: PALETA.gris500 },
   badge:      { fontSize: 7, padding: '1 5', borderRadius: 10 },
 })
 
 function barColor(pct: number) { return pct >= 70 ? N : A }
 
-const TRACK = '#21456B' // navy claro para el track del gauge sobre fondo navy
-const UP = '#46C28A', DOWN = '#E8836B'
+// Track del gauge: el verde profundo, un escalón bajo el fondo del membrete.
+// Era '#21456B' (azul), resto de cuando el membrete era azul marino: quedaba un
+// anillo azul sobre fondo verde.
+const TRACK = PALETA.marcaProfunda
+
+// Variación respecto al período anterior. Mismo par que el correo: verde sube,
+// terracota baja. Antes eran '#46C28A' y '#E8836B', dos tonos inventados fuera
+// de la paleta y demasiado claros para texto de 7,5 px sobre blanco.
+const UP = PALETA.marca, DOWN = PALETA.salida
 function deltaColor(v: number | null, positiveGood = true) {
   if (v === null || v === 0) return G
   return (v > 0) === positiveGood ? UP : DOWN
@@ -127,6 +140,7 @@ export async function GET(req: NextRequest) {
 
   const admin = createAdminClient()
   const tenantId = await getMyTenantId()
+  const cliente = (await getMarcaCliente()).nombre
   const hastaISO = hastaStr + 'T23:59:59'
 
   const [{ data: staysRaw }, { data: allocsRaw }] = await Promise.all([
@@ -209,16 +223,17 @@ export async function GET(req: NextRequest) {
   const COLS: [string, number][] = [['#',0.4],['Huésped',2],['RUT',1.2],['Empresa',1.5],['Propiedad',1.5],['Hab.',0.6],['Tipo',0.9],['Turno',0.8],['Entrada',1],['Salida',1],['Noches',0.7],['Estado',0.9]]
 
   const doc = (
-    <Document title={`Reporte Sol Eterno — ${tituloPeriodo}`}>
+    <Document title={`Reporte ${cliente} — ${tituloPeriodo}`}>
       <Page size="LETTER" style={s.page}>
 
-        {/* Membrete de marca */}
+        {/* Membrete de cuatro niveles: producto · módulo · cliente · alcance */}
         <View style={s.header}>
           <View>
-            <Text style={s.hEyebrow}>REPORTE DE OCUPACIÓN</Text>
-            <Text style={s.hWordmark}>SOL ETERNO</Text>
+            <Text style={s.hProducto}>{PRODUCTO.toUpperCase()}</Text>
+            <Text style={s.hEyebrow}>{MODULO_HOTEL.toUpperCase()} · REPORTE DE OCUPACIÓN</Text>
+            <Text style={s.hWordmark}>{cliente.toUpperCase()}</Text>
             <View style={s.hRule} />
-            <Text style={s.hTagline}>GESTIÓN DE ALOJAMIENTOS</Text>
+            <Text style={s.hTagline}>{PRODUCTO_BAJADA.toUpperCase()}</Text>
           </View>
           <View style={{ alignItems: 'center' }}>
             <Gauge pct={ocupPct} />
@@ -327,7 +342,7 @@ export async function GET(req: NextRequest) {
           </View>
         </View>
 
-        <Text style={s.footer}>Sol Eterno — Gestión de Alojamientos · {hoy}</Text>
+        <Text style={s.footer}>{PRODUCTO} · {PRODUCTO_BAJADA} · Generado el {hoy}</Text>
       </Page>
     </Document>
   )
@@ -338,7 +353,7 @@ export async function GET(req: NextRequest) {
   return new NextResponse(buffer as unknown as BodyInit, {
     headers: {
       'Content-Type': 'application/pdf',
-      'Content-Disposition': `attachment; filename="reporte_sol_eterno_${fechaArchivo}.pdf"`,
+      'Content-Disposition': `attachment; filename="reporte-${slugCliente(cliente)}-${fechaArchivo}.pdf"`,
     },
   })
 }

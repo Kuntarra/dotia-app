@@ -7,7 +7,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { formatRut } from '@/lib/rut'
 
-const INPUT = 'w-full px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm text-[var(--gray-900)] focus:outline-none focus:ring-2 focus:ring-[var(--navy)]'
+const INPUT = 'w-full px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm text-[var(--gray-900)] focus:outline-none focus:ring-2 focus:ring-[var(--brand)]'
 const LABEL = 'block text-xs font-medium text-[var(--gray-600)] mb-1'
 
 interface Props { params: Promise<{ id: string }>; searchParams: Promise<{ error?: string }> }
@@ -72,7 +72,7 @@ export default async function EditarPersonaPage({ params, searchParams }: Props)
           </div>
         </div>
         <div className="flex items-center gap-3 pt-2">
-          <SubmitButton pendingText="Guardando…" className="inline-flex items-center gap-2 px-5 py-2.5 bg-[var(--navy)] hover:bg-[var(--navy-dark)] text-white text-sm font-semibold rounded-lg">
+          <SubmitButton pendingText="Guardando…" className="inline-flex items-center gap-2 px-5 py-2.5 bg-[var(--brand)] hover:bg-[var(--brand-dark)] text-white text-sm font-semibold rounded-lg">
             <Save size={15} strokeWidth={2.25} /> Guardar cambios
           </SubmitButton>
           <Link href={`/admin/personal/${id}`} className="text-sm text-[var(--gray-600)] hover:text-[var(--ink)]">Cancelar</Link>

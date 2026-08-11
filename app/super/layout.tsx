@@ -8,14 +8,14 @@ export default async function SuperLayout({ children }: { children: React.ReactN
   return (
     <div className="min-h-screen bg-[var(--gray-100)]">
       {/* Barra superior de marca */}
-      <header className="bg-[var(--navy)] text-white">
+      <header className="bg-[var(--brand)] text-white">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="w-9 h-9 rounded-xl bg-[var(--amber)]/20 flex items-center justify-center">
-              <LayoutGrid size={18} strokeWidth={2} stroke="var(--amber)" />
+            <span className="w-9 h-9 rounded-xl bg-[var(--senal)]/20 flex items-center justify-center">
+              <LayoutGrid size={18} strokeWidth={2} stroke="var(--senal)" />
             </span>
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--amber)]">Consola SaaS</p>
+              <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--senal)]">Consola SaaS</p>
               <h1 className="font-display text-lg font-semibold leading-tight">Super Admin</h1>
             </div>
           </div>

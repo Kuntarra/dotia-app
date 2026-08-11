@@ -1,10 +1,12 @@
 import ExcelJS from 'exceljs'
 import { createClient } from '@/lib/supabase/server'
+import { PALETA } from '@/lib/marca'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
-const NAVY = 'FF0A2C4A'
+// Era 'FF0A2C4A', el azul marino de Sol Eterno. ARGB = opacidad + hex sin '#'.
+const NAVY = 'FF' + PALETA.marca.replace('#', '').toUpperCase()
 
 export async function GET() {
   // Guarda de rol admin

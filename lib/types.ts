@@ -163,8 +163,8 @@ export const SERVICES_BY_TYPE: Record<PropertyType, {
 }
 
 export const PROPERTY_TYPE_COLORS: Record<PropertyType, string> = {
-  hotel:        'bg-[var(--navy-5)] text-[var(--navy)]',
-  hostal:       'bg-[var(--amber)]/12 text-[var(--amber-dark)]',
+  hotel:        'bg-[var(--brand-5)] text-[var(--brand)]',
+  hostal:       'bg-[var(--senal)]/12 text-[var(--senal-dark)]',
   departamento: 'bg-[var(--gray-100)] text-[var(--gray-700)]',
 }
 

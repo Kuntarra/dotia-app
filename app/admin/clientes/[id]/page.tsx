@@ -59,7 +59,7 @@ export default async function ClienteDetailPage({ params, searchParams }: Props)
           <Link href="/admin/clientes" className="text-[var(--gray-600)] hover:text-[var(--ink)] transition-colors">
             <ArrowLeft size={18} strokeWidth={2} />
           </Link>
-          <div className="w-10 h-10 rounded-xl bg-[var(--amber)] flex items-center justify-center shrink-0">
+          <div className="w-10 h-10 rounded-xl bg-[var(--senal)] flex items-center justify-center shrink-0">
             <span className="text-[var(--ink)] text-xs font-black uppercase">{company.name.slice(0, 2)}</span>
           </div>
           <div>
@@ -131,7 +131,7 @@ export default async function ClienteDetailPage({ params, searchParams }: Props)
         </div>
 
         <div>
-          <button type="submit" className="px-6 py-2.5 bg-[var(--navy)] hover:bg-[var(--navy-dark)] text-white text-sm font-semibold rounded-lg transition-colors">
+          <button type="submit" className="px-6 py-2.5 bg-[var(--brand)] hover:bg-[var(--brand-dark)] text-white text-sm font-semibold rounded-lg transition-colors">
             Guardar cambios
           </button>
         </div>
@@ -205,7 +205,7 @@ export default async function ClienteDetailPage({ params, searchParams }: Props)
                 <input name="description" type="text" placeholder="Faena norte, turno 7x7" className={INPUT} />
               </div>
             </div>
-            <button type="submit" className="px-4 py-2 bg-[var(--navy)] hover:bg-[var(--navy-dark)] text-white text-sm font-semibold rounded-lg transition-colors">
+            <button type="submit" className="px-4 py-2 bg-[var(--brand)] hover:bg-[var(--brand-dark)] text-white text-sm font-semibold rounded-lg transition-colors">
               + Agregar proyecto
             </button>
           </form>
@@ -242,7 +242,7 @@ export default async function ClienteDetailPage({ params, searchParams }: Props)
                     <tr key={alloc.id} className="hover:bg-[var(--gray-50)]">
                       <td className="px-4 py-3">
                         {proj ? (
-                          <span className="text-xs font-medium bg-[var(--amber)]/20 text-[var(--ink)] px-2 py-0.5 rounded-full">
+                          <span className="text-xs font-medium bg-[var(--senal)]/20 text-[var(--ink)] px-2 py-0.5 rounded-full">
                             {proj.name}
                           </span>
                         ) : (

@@ -3,6 +3,7 @@ import { cookies } from 'next/headers'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getMyTenantId } from '@/lib/tenant'
+import { PRODUCTO } from '@/lib/marca'
 
 const MONTHS =['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
 
@@ -186,7 +187,7 @@ export default async function ClienteReportePage({
         <h1 className="font-display text-[1.9rem] font-semibold text-[var(--ink)] tracking-[-0.01em]">Reporte de ocupación</h1>
         <p className="text-sm text-[var(--gray-600)] mt-1">
           {company?.name}
-          {proyectoId && <span className="ml-2 text-xs bg-[var(--amber)]/20 text-[var(--ink)] font-medium px-2 py-0.5 rounded-full">{proyectoNombre}</span>}
+          {proyectoId && <span className="ml-2 text-xs bg-[var(--senal)]/20 text-[var(--ink)] font-medium px-2 py-0.5 rounded-full">{proyectoNombre}</span>}
           {propiedadId && <span className="ml-2 text-xs bg-[var(--gray-200)] text-[var(--ink)] font-medium px-2 py-0.5 rounded-full">{propiedadNombre}</span>}
           <span className="ml-2">· {tituloPeriodo}</span>
         </p>
@@ -201,7 +202,7 @@ export default async function ClienteReportePage({
           <div className="flex flex-col gap-1">
             <label className="text-xs text-[var(--gray-500)]">Período</label>
             <select name="periodo" defaultValue={periodo}
-              className="px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]">
+              className="px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand)]">
               <option value="mensual">Mensual</option>
               <option value="anual">Anual</option>
             </select>
@@ -211,7 +212,7 @@ export default async function ClienteReportePage({
           <div className="flex flex-col gap-1">
             <label className="text-xs text-[var(--gray-500)]">Año</label>
             <select name="anio" defaultValue={anio}
-              className="px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]">
+              className="px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand)]">
               {years.map(y => <option key={y} value={y}>{y}</option>)}
             </select>
           </div>
@@ -221,7 +222,7 @@ export default async function ClienteReportePage({
             <div className="flex flex-col gap-1">
               <label className="text-xs text-[var(--gray-500)]">Mes</label>
               <select name="mes" defaultValue={mes}
-                className="px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]">
+                className="px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand)]">
                 {MONTHS.map((m,i) => <option key={i+1} value={i+1}>{m}</option>)}
               </select>
             </div>
@@ -231,7 +232,7 @@ export default async function ClienteReportePage({
           <div className="flex flex-col gap-1">
             <label className="text-xs text-[var(--gray-500)]">Proyecto</label>
             <select name="proyecto" defaultValue={proyectoId ?? 'todos'}
-              className="px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]">
+              className="px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand)]">
               <option value="todos">Todos los proyectos</option>
               {proyectos.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
             </select>
@@ -241,7 +242,7 @@ export default async function ClienteReportePage({
           <div className="flex flex-col gap-1">
             <label className="text-xs text-[var(--gray-500)]">Hostal</label>
             <select name="propiedad" defaultValue={propiedadId ?? 'todas'}
-              className="px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]">
+              className="px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand)]">
               <option value="todas">Todos los hostales</option>
               {propiedadesDisp.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
             </select>
@@ -250,7 +251,7 @@ export default async function ClienteReportePage({
           {/* Botón */}
           <div className="flex flex-col gap-1 justify-end">
             <button type="submit"
-              className="px-4 py-2 bg-[var(--navy)] text-white text-sm font-semibold rounded-lg hover:bg-[var(--navy-dark)] transition-colors">
+              className="px-4 py-2 bg-[var(--brand)] text-white text-sm font-semibold rounded-lg hover:bg-[var(--brand-dark)] transition-colors">
               Aplicar
             </button>
           </div>
@@ -289,7 +290,7 @@ export default async function ClienteReportePage({
             </div>
             <div className="flex justify-between">
               <span>Camas usadas</span>
-              <span className="font-semibold text-[var(--amber-dark)]">{camasUsadas.toLocaleString('es-CL')}</span>
+              <span className="font-semibold text-[var(--senal-dark)]">{camasUsadas.toLocaleString('es-CL')}</span>
             </div>
             <div className="flex justify-between">
               <span>Camas sin usar</span>
@@ -300,9 +301,9 @@ export default async function ClienteReportePage({
 
         <div className="lg:col-span-3 grid grid-cols-2 gap-4">
           {[
-            { label:'Camas usadas',      value: camasUsadas,   sub:`${camasDisp} camas × ${diasPeriodo} días = ${camasTotal.toLocaleString('es-CL')} disponibles`, border:'border-t-[var(--navy)]' },
-            { label:'Camas sin usar',    value: camasLibres,   sub:`${100-ocupPct}% de capacidad libre`, border:'border-t-[var(--amber)]' },
-            { label:'Estadías del período', value: stays.length, sub:`${stays.filter(s=>!s.checked_out_at).length} activas al cierre`, border:'border-t-[var(--navy-light)]' },
+            { label:'Camas usadas',      value: camasUsadas,   sub:`${camasDisp} camas × ${diasPeriodo} días = ${camasTotal.toLocaleString('es-CL')} disponibles`, border:'border-t-[var(--brand)]' },
+            { label:'Camas sin usar',    value: camasLibres,   sub:`${100-ocupPct}% de capacidad libre`, border:'border-t-[var(--senal)]' },
+            { label:'Estadías del período', value: stays.length, sub:`${stays.filter(s=>!s.checked_out_at).length} activas al cierre`, border:'border-t-[var(--brand-light)]' },
             { label:'Días del período',  value: diasPeriodo,   sub:tituloPeriodo, border:'border-t-[var(--gray-300)]' },
           ].map(k => (
             <div key={k.label} className={`bg-[var(--surface)] rounded-xl border border-[var(--gray-200)] border-t-4 ${k.border} p-5`}>
@@ -325,13 +326,13 @@ export default async function ClienteReportePage({
                   <span className="text-sm font-medium text-[var(--ink)]">{p.nombre}</span>
                   <div className="flex items-center gap-4 text-xs text-[var(--gray-600)]">
                     <span>{p.estadias} estadías · {p.usadas} / {p.camas * diasPeriodo} camas-{periodo === 'anual' ? 'año' : 'mes'}</span>
-                    <span className={`font-bold text-base ${p.pct >= 70 ? 'text-[var(--ink)]' : 'text-[var(--amber-dark)]'}`}>
+                    <span className={`font-bold text-base ${p.pct >= 70 ? 'text-[var(--ink)]' : 'text-[var(--senal-dark)]'}`}>
                       {p.pct}%
                     </span>
                   </div>
                 </div>
                 <div className="h-2.5 bg-[var(--gray-100)] rounded-full overflow-hidden">
-                  <div className={`h-full rounded-full ${p.pct >= 70 ? 'bg-[var(--navy)]' : 'bg-[var(--amber)]'}`}
+                  <div className={`h-full rounded-full ${p.pct >= 70 ? 'bg-[var(--brand)]' : 'bg-[var(--senal)]'}`}
                     style={{ width: `${p.pct}%` }} />
                 </div>
               </div>
@@ -381,7 +382,7 @@ export default async function ClienteReportePage({
                       <td className="px-3 py-3 text-[var(--gray-600)] whitespace-nowrap">{s.shift_type ?? '—'}</td>
                       <td className="px-3 py-3 whitespace-nowrap text-[var(--gray-700)] tabular-nums">{fmt(s.checked_in_at)}</td>
                       <td className="px-3 py-3 whitespace-nowrap text-[var(--gray-700)] tabular-nums">
-                        {s.checked_out_at ? fmt(s.checked_out_at) : <span className="text-[var(--amber-dark)] font-medium">Activo</span>}
+                        {s.checked_out_at ? fmt(s.checked_out_at) : <span className="text-[var(--senal-dark)] font-medium">Activo</span>}
                       </td>
                       <td className="px-3 py-3 text-right font-bold text-[var(--ink)] tabular-nums">{n}</td>
                       <td className="px-3 py-3">
@@ -406,7 +407,7 @@ export default async function ClienteReportePage({
       </div>
 
       <p className="text-center text-xs text-[var(--gray-400)] mt-6">
-        Sol Eterno · {company?.name} · Generado el {now.toLocaleDateString('es-CL', { day:'2-digit', month:'long', year:'numeric' })}
+        {company?.name} · {PRODUCTO} · Generado el {now.toLocaleDateString('es-CL', { day:'2-digit', month:'long', year:'numeric' })}
       </p>
     </div>
   )

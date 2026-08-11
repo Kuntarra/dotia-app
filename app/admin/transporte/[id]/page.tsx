@@ -12,9 +12,9 @@ interface Props {
   searchParams: Promise<{ error?: string; agregados?: string; fuera?: string }>
 }
 
-const INPUT = 'px-3.5 py-2.5 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm text-[var(--gray-900)] focus:outline-none focus:ring-2 focus:ring-[var(--navy)]'
+const INPUT = 'px-3.5 py-2.5 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm text-[var(--gray-900)] focus:outline-none focus:ring-2 focus:ring-[var(--brand)]'
 const PAX_BADGE: Record<string, string> = {
-  asignado: 'badge-gray', subio: 'badge-amber', dejado: 'badge-green', no_show: 'badge-gray',
+  asignado: 'badge-gray', subio: 'badge-senal', dejado: 'badge-green', no_show: 'badge-gray',
 }
 const PAX_LABEL: Record<string, string> = {
   asignado: 'Asignado', subio: 'A bordo', dejado: 'Dejado', no_show: 'No se presentó',
@@ -98,7 +98,7 @@ export default async function TrasladoDetallePage({ params, searchParams }: Prop
               return (
                 <li key={tr.id} className="relative flex gap-4 pb-5 last:pb-0">
                   {!last && <span className="absolute left-[19px] top-11 bottom-0 w-px bg-[var(--gray-200)]" aria-hidden />}
-                  <span className="relative z-10 w-10 h-10 rounded-xl bg-[var(--navy)]/5 text-[var(--ink)] ring-4 ring-white flex items-center justify-center shrink-0">
+                  <span className="relative z-10 w-10 h-10 rounded-xl bg-[var(--brand)]/5 text-[var(--ink)] ring-4 ring-white flex items-center justify-center shrink-0">
                     <Icon size={17} strokeWidth={2} />
                   </span>
                   <div className="flex-1 min-w-0 pt-1">
@@ -131,7 +131,7 @@ export default async function TrasladoDetallePage({ params, searchParams }: Prop
               })}
             </select>
           </div>
-          <button type="submit" className="inline-flex items-center gap-2 px-5 py-2.5 bg-[var(--navy)] hover:bg-[var(--navy-dark)] text-white text-sm font-semibold rounded-lg"><Plus size={15} strokeWidth={2.25} /> Agregar</button>
+          <button type="submit" className="inline-flex items-center gap-2 px-5 py-2.5 bg-[var(--brand)] hover:bg-[var(--brand-dark)] text-white text-sm font-semibold rounded-lg"><Plus size={15} strokeWidth={2.25} /> Agregar</button>
         </form>
         {!dotaciones?.length && (
           <p className="text-xs text-[var(--gray-600)] mt-2">No hay personas asignadas{t.proyecto_id ? ' a este proyecto' : ''}. Asígnalas en Proyectos primero.</p>
@@ -166,7 +166,7 @@ export default async function TrasladoDetallePage({ params, searchParams }: Prop
                       {tramos.map((tr) => {
                         const on = asignados.get(px.id)?.has(tr.id) ?? false
                         const meta = MODO_META[tr.modo] ?? MODO_META.otro
-                        const chip = `inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-medium border transition-colors ${on ? 'bg-[var(--navy)] text-white border-[var(--navy)]' : 'bg-[var(--surface)] text-[var(--gray-500)] border-[var(--gray-200)]'}`
+                        const chip = `inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-medium border transition-colors ${on ? 'bg-[var(--brand)] text-white border-[var(--brand)]' : 'bg-[var(--surface)] text-[var(--gray-500)] border-[var(--gray-200)]'}`
                         if (!puedeEscribir) {
                           return on ? <span key={tr.id} className={chip}><meta.Icon size={11} strokeWidth={2} /> {meta.label}</span> : null
                         }
@@ -184,7 +184,7 @@ export default async function TrasladoDetallePage({ params, searchParams }: Prop
                 </div>
                 {puedeEscribir && (
                   <div className="flex items-center gap-2 shrink-0">
-                    <form action={subio}><button className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-[var(--amber)]/15 text-[var(--amber-dark)] text-xs font-semibold hover:bg-[var(--amber)]/25" title="Marcar a bordo"><Check size={13} strokeWidth={2.5} /> Subió</button></form>
+                    <form action={subio}><button className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-[var(--senal)]/15 text-[var(--senal-dark)] text-xs font-semibold hover:bg-[var(--senal)]/25" title="Marcar a bordo"><Check size={13} strokeWidth={2.5} /> Subió</button></form>
                     <form action={dejado}><button className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-green-100 text-green-700 text-xs font-semibold hover:bg-green-200" title="Marcar dejado"><MapPin size={13} strokeWidth={2.5} /> Dejado</button></form>
                     <form action={noShow}><button className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-[var(--gray-100)] text-[var(--gray-600)] text-xs font-semibold hover:bg-[var(--gray-200)]" title="No se presentó"><X size={13} strokeWidth={2.5} /></button></form>
                   </div>

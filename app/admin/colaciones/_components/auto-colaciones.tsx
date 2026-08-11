@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation'
 import { hoyChile, sumarDias } from '@/lib/fechas'
 import { User, Users, UsersRound, ChevronUp, ChevronDown, CalendarRange, CalendarDays } from 'lucide-react'
 
-const INPUT = 'px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm text-[var(--gray-900)] focus:outline-none focus:ring-2 focus:ring-[var(--navy)]'
+const INPUT = 'px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm text-[var(--gray-900)] focus:outline-none focus:ring-2 focus:ring-[var(--brand)]'
 const LABEL = 'block text-xs font-medium text-[var(--gray-600)] mb-1'
 
 type Opt = { id: string; nombre: string }
@@ -56,7 +56,7 @@ export function AutoColaciones({ fecha, modo, scope, refId, dotaciones, cuadrill
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
           {MODOS.map(({ v, label, desc, Icon }) => (
             <button type="button" key={v} onClick={() => push({ modo: v })}
-              className={`text-left px-4 py-3 rounded-xl border transition-colors ${modo === v ? 'bg-[var(--navy)] text-white border-[var(--navy)]' : 'bg-[var(--surface)] text-[var(--gray-700)] border-[var(--gray-200)] hover:bg-[var(--gray-100)]'}`}>
+              className={`text-left px-4 py-3 rounded-xl border transition-colors ${modo === v ? 'bg-[var(--brand)] text-white border-[var(--brand)]' : 'bg-[var(--surface)] text-[var(--gray-700)] border-[var(--gray-200)] hover:bg-[var(--gray-100)]'}`}>
               <span className="inline-flex items-center gap-2 text-sm font-semibold"><Icon size={15} strokeWidth={2} /> {label}</span>
               <span className={`block text-[11px] leading-snug mt-1 ${modo === v ? 'text-white/80' : 'text-[var(--gray-500)]'}`}>{desc}</span>
             </button>
@@ -71,7 +71,7 @@ export function AutoColaciones({ fecha, modo, scope, refId, dotaciones, cuadrill
           <div className="flex flex-wrap gap-2">
             {SCOPES.map(({ v, label, Icon }) => (
               <button type="button" key={v} onClick={() => push({ scope: v, ref: '' })}
-                className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-lg border text-sm font-medium transition-colors ${scope === v ? 'bg-[var(--navy)] text-white border-[var(--navy)]' : 'bg-[var(--surface)] text-[var(--gray-700)] border-[var(--gray-200)] hover:bg-[var(--gray-100)]'}`}>
+                className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-lg border text-sm font-medium transition-colors ${scope === v ? 'bg-[var(--brand)] text-white border-[var(--brand)]' : 'bg-[var(--surface)] text-[var(--gray-700)] border-[var(--gray-200)] hover:bg-[var(--gray-100)]'}`}>
                 <Icon size={15} strokeWidth={2} /> {label}
               </button>
             ))}

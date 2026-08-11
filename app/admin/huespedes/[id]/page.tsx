@@ -57,7 +57,7 @@ export default async function HuespedPage({ params }: { params: Promise<{ id: st
 
       {/* Cabecera */}
       <div className="bg-[var(--surface)] rounded-2xl border border-[var(--gray-200)] shadow-[var(--shadow-sm)] p-6 flex items-start gap-5">
-        <div className="w-16 h-16 rounded-2xl bg-[var(--navy)] flex items-center justify-center shrink-0">
+        <div className="w-16 h-16 rounded-2xl bg-[var(--brand)] flex items-center justify-center shrink-0">
           <span className="text-white text-lg font-bold">{initials || '?'}</span>
         </div>
         <div className="flex-1 min-w-0">
@@ -102,7 +102,7 @@ export default async function HuespedPage({ params }: { params: Promise<{ id: st
               return (
                 <div key={s.id} className="flex items-center gap-4 px-5 py-4 hover:bg-[var(--gray-50)] transition-colors">
                   <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 font-display font-semibold text-sm"
-                    style={{ background: 'rgb(11 126 96 / 0.12)', color: 'var(--amber-dark)' }}>
+                    style={{ background: 'rgb(11 126 96 / 0.12)', color: 'var(--senal-dark)' }}>
                     {list.length - i}
                   </div>
                   <div className="flex-1 min-w-0">
@@ -136,7 +136,7 @@ function Stat({ icon, value, label }: { icon: React.ReactNode; value: number; la
   return (
     <div className="bg-[var(--surface)] rounded-2xl border border-[var(--gray-200)] shadow-[var(--shadow-sm)] p-5">
       <div className="w-9 h-9 rounded-xl flex items-center justify-center mb-3"
-        style={{ background: 'rgb(11 126 96 / 0.12)', color: 'var(--amber-dark)' }}>
+        style={{ background: 'rgb(11 126 96 / 0.12)', color: 'var(--senal-dark)' }}>
         {icon}
       </div>
       <p className="font-display text-[2rem] font-semibold leading-none text-[var(--ink)] tabular-nums">{value}</p>

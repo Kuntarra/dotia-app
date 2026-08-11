@@ -23,7 +23,7 @@ export function LogoUploader({ action, current, nombre }: { action: (formData: F
           onChange={(e) => { const f = e.target.files?.[0]; setPreview(f ? URL.createObjectURL(f) : null) }}
           className="block text-xs text-[var(--gray-600)] file:mr-2 file:px-3 file:py-2 file:rounded-lg file:border-0 file:bg-[var(--gray-100)] file:text-[var(--ink)] file:text-sm file:font-semibold file:cursor-pointer"
         />
-        <button type="submit" className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--navy)] hover:bg-[var(--navy-dark)] text-white text-sm font-semibold rounded-lg"><ImageUp size={15} strokeWidth={2} /> Guardar logo</button>
+        <button type="submit" className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--brand)] hover:bg-[var(--brand-dark)] text-white text-sm font-semibold rounded-lg"><ImageUp size={15} strokeWidth={2} /> Guardar logo</button>
         <p className="text-[11px] text-[var(--gray-500)]">PNG, JPG, WEBP o SVG · máx 2 MB · idealmente fondo transparente.</p>
       </div>
     </form>

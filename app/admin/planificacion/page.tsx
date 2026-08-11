@@ -70,7 +70,7 @@ export default async function PlanificacionPage({ searchParams }: { searchParams
     <div className="p-8 max-w-6xl">
       {/* Encabezado */}
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-11 h-11 rounded-2xl bg-[var(--navy)] flex items-center justify-center shrink-0">
+        <div className="w-11 h-11 rounded-2xl bg-[var(--brand)] flex items-center justify-center shrink-0">
           <CalendarRange size={19} strokeWidth={2} className="text-white" />
         </div>
         <div>
@@ -95,7 +95,7 @@ export default async function PlanificacionPage({ searchParams }: { searchParams
               const activo = p.id === proyectoSel?.id
               return (
                 <Link key={p.id} href={`/admin/planificacion?proyecto=${p.id}`}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors border ${activo ? 'bg-[var(--navy)] text-white border-[var(--navy)]' : 'bg-[var(--surface)] text-[var(--ink)] border-[var(--gray-200)] hover:bg-[var(--gray-100)]'}`}>
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors border ${activo ? 'bg-[var(--brand)] text-white border-[var(--brand)]' : 'bg-[var(--surface)] text-[var(--ink)] border-[var(--gray-200)] hover:bg-[var(--gray-100)]'}`}>
                   {p.nombre}
                 </Link>
               )

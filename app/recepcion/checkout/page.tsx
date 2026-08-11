@@ -126,7 +126,7 @@ export default async function CheckoutPage({
             <Link href="/recepcion/checkout"
               className={`px-3.5 py-1.5 rounded-lg text-sm font-medium transition-all ${
                 !selectedPropertyId
-                  ? 'bg-[var(--navy)] text-white shadow-[var(--shadow-xs)]'
+                  ? 'bg-[var(--brand)] text-white shadow-[var(--shadow-xs)]'
                   : 'text-[var(--gray-600)] hover:text-[var(--ink)] hover:bg-[var(--gray-50)]'
               }`}>
               Todos
@@ -135,7 +135,7 @@ export default async function CheckoutPage({
               <Link key={p.id} href={`/recepcion/checkout?property=${p.id}`}
                 className={`px-3.5 py-1.5 rounded-lg text-sm font-medium transition-all ${
                   selectedPropertyId === p.id
-                    ? 'bg-[var(--navy)] text-white shadow-[var(--shadow-xs)]'
+                    ? 'bg-[var(--brand)] text-white shadow-[var(--shadow-xs)]'
                     : 'text-[var(--gray-600)] hover:text-[var(--ink)] hover:bg-[var(--gray-50)]'
                 }`}>
                 {p.name}
@@ -173,10 +173,10 @@ export default async function CheckoutPage({
                             hover:shadow-[var(--shadow-md)] hover:-translate-y-0.5 transition-all duration-200
                             ${isOverdue ? 'border-red-200' : 'border-[var(--gray-200)]'}`}>
                 {/* Top accent */}
-                <div className={`h-0.5 ${isOverdue ? 'bg-red-400' : 'bg-gradient-to-r from-[var(--navy)] via-[var(--amber)] to-[var(--navy)]'}`} />
+                <div className={`h-0.5 ${isOverdue ? 'bg-red-400' : 'bg-gradient-to-r from-[var(--brand)] via-[var(--senal)] to-[var(--brand)]'}`} />
 
                 <div className="p-5 flex items-start gap-4">
-                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${isOverdue ? 'bg-red-100' : 'bg-[var(--navy)]'}`}>
+                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${isOverdue ? 'bg-red-100' : 'bg-[var(--brand)]'}`}>
                     <span className={`text-xs font-bold ${isOverdue ? 'text-red-700' : 'text-white'}`}>{initials || '?'}</span>
                   </div>
 
@@ -240,7 +240,7 @@ function Highlight({ text, q }: { text: string; q: string }) {
   return (
     <>
       {text.slice(0, idx)}
-      <mark className="bg-[var(--amber)]/40 text-[var(--ink)] rounded px-0.5">{text.slice(idx, idx + q.length)}</mark>
+      <mark className="bg-[var(--senal)]/40 text-[var(--ink)] rounded px-0.5">{text.slice(idx, idx + q.length)}</mark>
       {text.slice(idx + q.length)}
     </>
   )

@@ -48,7 +48,7 @@ export default async function ClientesPage() {
                 className="premium-card group block p-5">
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-[var(--amber)] flex items-center justify-center shrink-0">
+                    <div className="w-10 h-10 rounded-xl bg-[var(--senal)] flex items-center justify-center shrink-0">
                       <span className="text-[var(--ink)] text-xs font-black uppercase">
                         {company.name.slice(0, 2)}
                       </span>

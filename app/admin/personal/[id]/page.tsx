@@ -187,7 +187,7 @@ export default async function FichaPersonaPage({ params, searchParams }: Props) 
       <div className="flex items-center gap-3 mb-6">
         <Link href="/admin/personal" className="text-[var(--gray-600)] hover:text-[var(--ink)]"><ArrowLeft size={18} strokeWidth={2} /></Link>
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-2xl bg-[var(--amber)] flex items-center justify-center shrink-0">
+          <div className="w-12 h-12 rounded-2xl bg-[var(--senal)] flex items-center justify-center shrink-0">
             <span className="text-[var(--ink)] text-sm font-black uppercase">{persona.nombres.slice(0, 1)}{persona.apellido_paterno.slice(0, 1)}</span>
           </div>
           <div>
@@ -239,7 +239,7 @@ export default async function FichaPersonaPage({ params, searchParams }: Props) 
           </div>
           <form action={toggleActiva}>
             <SubmitButton pendingText="Guardando…"
-              className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${dir?.activa ? 'bg-[var(--surface)] border border-[var(--gray-200)] text-[var(--gray-700)] hover:bg-[var(--gray-100)]' : 'bg-[var(--navy)] text-white hover:bg-[var(--navy-dark)]'}`}>
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${dir?.activa ? 'bg-[var(--surface)] border border-[var(--gray-200)] text-[var(--gray-700)] hover:bg-[var(--gray-100)]' : 'bg-[var(--brand)] text-white hover:bg-[var(--brand-dark)]'}`}>
               <Power size={15} strokeWidth={2.25} /> {dir?.activa ? 'Marcar inactiva' : 'Reactivar'}
             </SubmitButton>
           </form>
@@ -259,12 +259,12 @@ export default async function FichaPersonaPage({ params, searchParams }: Props) 
           <form action={moverCuadrilla} className="flex items-end gap-2 flex-wrap">
             <div>
               <label className="block text-xs font-medium text-[var(--gray-600)] mb-1">Asignar a</label>
-              <select name="cuadrilla_id" defaultValue={dir?.cuadrilla_id ?? ''} className="px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]">
+              <select name="cuadrilla_id" defaultValue={dir?.cuadrilla_id ?? ''} className="px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand)]">
                 <option value="">— Sin cuadrilla —</option>
                 {(cuadrillas ?? []).map((c) => <option key={c.id} value={c.id}>{c.nombre}</option>)}
               </select>
             </div>
-            <SubmitButton pendingText="Guardando…" className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--navy)] hover:bg-[var(--navy-dark)] text-white text-sm font-semibold rounded-lg">
+            <SubmitButton pendingText="Guardando…" className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--brand)] hover:bg-[var(--brand-dark)] text-white text-sm font-semibold rounded-lg">
               <Save size={14} strokeWidth={2.25} /> Guardar
             </SubmitButton>
           </form>
@@ -272,7 +272,7 @@ export default async function FichaPersonaPage({ params, searchParams }: Props) 
             <summary className="text-xs text-[var(--gray-500)] cursor-pointer hover:text-[var(--ink)]">Crear una cuadrilla nueva</summary>
             <form action={crearCuadrilla} className="flex items-end gap-2 mt-2 flex-wrap">
               <input type="hidden" name="back" value={`/admin/personal/${id}`} />
-              <input name="nombre" placeholder="Cuadrilla A" className="px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]" required />
+              <input name="nombre" placeholder="Cuadrilla A" className="px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand)]" required />
               <SubmitButton pendingText="Creando…" className="px-4 py-2 bg-[var(--surface)] border border-[var(--gray-200)] text-[var(--gray-700)] hover:bg-[var(--gray-100)] text-sm font-semibold rounded-lg">Crear</SubmitButton>
             </form>
           </details>
@@ -321,13 +321,13 @@ export default async function FichaPersonaPage({ params, searchParams }: Props) 
           <form action={crearAcceso} className="grid grid-cols-1 md:grid-cols-3 gap-3 items-end">
             <div>
               <label htmlFor="email" className="block text-xs font-medium text-[var(--gray-600)] mb-1">Correo de acceso</label>
-              <input id="email" name="email" type="email" required placeholder="persona@empresa.cl" className="w-full px-3.5 py-2.5 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]" />
+              <input id="email" name="email" type="email" required placeholder="persona@empresa.cl" className="w-full px-3.5 py-2.5 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand)]" />
             </div>
             <div>
               <label htmlFor="password" className="block text-xs font-medium text-[var(--gray-600)] mb-1">Clave (mín. 6)</label>
-              <input id="password" name="password" type="password" autoComplete="new-password" required minLength={6} placeholder="clave inicial" className="w-full px-3.5 py-2.5 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]" />
+              <input id="password" name="password" type="password" autoComplete="new-password" required minLength={6} placeholder="clave inicial" className="w-full px-3.5 py-2.5 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand)]" />
             </div>
-            <SubmitButton pendingText="Creando acceso…" className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-[var(--navy)] hover:bg-[var(--navy-dark)] text-white text-sm font-semibold rounded-lg">
+            <SubmitButton pendingText="Creando acceso…" className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-[var(--brand)] hover:bg-[var(--brand-dark)] text-white text-sm font-semibold rounded-lg">
               <KeyRound size={15} strokeWidth={2.25} /> Crear acceso
             </SubmitButton>
             <p className="md:col-span-3 text-xs text-[var(--gray-600)]">Esto crea el usuario para que esta persona pueda iniciar sesión. Luego marcas sus módulos y nivel.</p>
@@ -344,10 +344,10 @@ export default async function FichaPersonaPage({ params, searchParams }: Props) 
                 return (
                   <div key={m.k} className="flex items-center gap-3 py-1.5">
                     <label className="flex items-center gap-2 w-40 shrink-0 cursor-pointer">
-                      <input type="checkbox" name={`mod_${m.k}`} defaultChecked={activo} className="w-4 h-4 accent-[var(--navy)]" />
+                      <input type="checkbox" name={`mod_${m.k}`} defaultChecked={activo} className="w-4 h-4 accent-[var(--brand)]" />
                       <span className="text-sm text-[var(--ink)] font-medium">{m.label}</span>
                     </label>
-                    <select name={`nivel_${m.k}`} defaultValue={permisos[m.k] ?? 'visor'} className="px-3 py-1.5 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]">
+                    <select name={`nivel_${m.k}`} defaultValue={permisos[m.k] ?? 'visor'} className="px-3 py-1.5 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand)]">
                       <option value="admin_modulo">Supervisor de módulo</option>
                       <option value="actuador">Revisor</option>
                       <option value="visor">Visualizador</option>
@@ -355,7 +355,7 @@ export default async function FichaPersonaPage({ params, searchParams }: Props) 
                   </div>
                 )
               })}
-              <SubmitButton pendingText="Guardando…" className="inline-flex items-center gap-2 mt-3 px-5 py-2.5 bg-[var(--navy)] hover:bg-[var(--navy-dark)] text-white text-sm font-semibold rounded-lg">
+              <SubmitButton pendingText="Guardando…" className="inline-flex items-center gap-2 mt-3 px-5 py-2.5 bg-[var(--brand)] hover:bg-[var(--brand-dark)] text-white text-sm font-semibold rounded-lg">
                 <Save size={15} strokeWidth={2.25} /> Guardar permisos
               </SubmitButton>
               <p className="text-xs text-[var(--gray-600)] mt-1">Marca el módulo y elige el nivel. El alcance (todo el proyecto o solo el módulo) lo aplica el sistema según el tipo de empresa.</p>

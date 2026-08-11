@@ -2,11 +2,16 @@ import { renderToBuffer, Document, Page, View, Text, StyleSheet, Svg, Circle, Po
 import { createAdminClient } from '@/lib/supabase/admin'
 import { buildScopeFilter, scopeLabel, type Scope, type Subscription } from '@/lib/email/digest'
 import { ROOM_TYPE_LABELS } from '@/lib/types'
+import { PRODUCTO, PRODUCTO_BAJADA, PALETA, getMarcaClientePorId } from '@/lib/marca'
+import { MODULOS } from '@/lib/modulos'
+
+const MODULO_HOTEL = MODULOS.find(m => m.k === 'hotel')!.label
 
 const MONTHS = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
-const N = '#0B7E60', A = '#2FBF8F', G = '#6C757D', CREAM = '#F5F2EC', LINEW = '#E8E3D9'
-const TRACK = '#1A5B45' // verde claro para el track del gauge sobre fondo verde
-const UP = '#46C28A', DOWN = '#E8836B' // tonos legibles sobre navy y sobre blanco
+const N = PALETA.marca, A = PALETA.senal, G = PALETA.gris600, CREAM = PALETA.lienzo, LINEW = PALETA.filete
+const TRACK = PALETA.marcaProfunda
+// Verde sube, terracota baja: el mismo par que usan el correo y el otro PDF.
+const UP = PALETA.marca, DOWN = PALETA.salida
 
 function deltaColor(v: number | null, positiveGood = true) {
   if (v === null || v === 0) return G
@@ -51,9 +56,10 @@ function Gauge({ pct }: { pct: number }) {
 }
 
 const s = StyleSheet.create({
-  page:       { fontFamily: 'Helvetica', fontSize: 8, padding: 34, backgroundColor: '#ffffff', color: '#16242F' },
+  page:       { fontFamily: 'Helvetica', fontSize: 8, padding: 34, backgroundColor: '#ffffff', color: PALETA.tinta },
   header:     { backgroundColor: N, color: '#ffffff', padding: '22 24', borderTopLeftRadius: 8, borderTopRightRadius: 8, marginBottom: 0, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   hEyebrow:   { fontSize: 8, color: A, letterSpacing: 2.4, fontFamily: 'Helvetica-Bold', marginBottom: 8 },
+  hProducto:  { fontSize: 9, fontFamily: 'Times-Bold', color: 'rgba(255,255,255,0.5)', letterSpacing: 3, marginBottom: 14 },
   hWordmark:  { fontSize: 23, fontFamily: 'Times-Bold', color: '#ffffff', letterSpacing: 3 },
   hRule:      { width: 34, height: 2, backgroundColor: A, marginTop: 11, marginBottom: 9 },
   hTagline:   { fontSize: 7.5, color: 'rgba(255,255,255,0.55)', letterSpacing: 2 },
@@ -62,23 +68,23 @@ const s = StyleSheet.create({
   metaTitle:  { fontSize: 12, fontFamily: 'Times-Bold', color: N },
   metaSub:    { fontSize: 8, color: G },
   kpiGrid:    { flexDirection: 'row', gap: 8, marginBottom: 14 },
-  kpiCard:    { flex: 1, border: '1px solid #E8E3D9', borderRadius: 5, padding: 10 },
+  kpiCard:    { flex: 1, border: `1px solid ${PALETA.filete}`, borderRadius: 5, padding: 10 },
   kpiVal:     { fontSize: 17, fontFamily: 'Helvetica-Bold', color: N },
   kpiLabel:   { fontSize: 8, fontFamily: 'Helvetica-Bold', marginTop: 2 },
   kpiSub:     { fontSize: 7, color: G, marginTop: 1 },
   row2:       { flexDirection: 'row', gap: 10, marginBottom: 14 },
-  card:       { flex: 1, border: '1px solid #E8E3D9', borderRadius: 5, overflow: 'hidden' },
+  card:       { flex: 1, border: `1px solid ${PALETA.filete}`, borderRadius: 5, overflow: 'hidden' },
   cardHead:   { backgroundColor: N, color: '#ffffff', padding: '6 10', fontSize: 9, fontFamily: 'Helvetica-Bold' },
-  tableHead:  { flexDirection: 'row', backgroundColor: '#F5F2EC', borderBottom: '1px solid #E8E3D9' },
-  tableRow:   { flexDirection: 'row', borderBottom: '1px solid #F0EDE5' },
-  tableFooter:{ flexDirection: 'row', backgroundColor: '#F5F2EC', borderTop: '2px solid #E8E3D9' },
+  tableHead:  { flexDirection: 'row', backgroundColor: PALETA.gris100, borderBottom: `1px solid ${PALETA.filete}` },
+  tableRow:   { flexDirection: 'row', borderBottom: `1px solid ${PALETA.gris100}` },
+  tableFooter:{ flexDirection: 'row', backgroundColor: PALETA.gris100, borderTop: `2px solid ${PALETA.filete}` },
   th:         { fontSize: 7, fontFamily: 'Helvetica-Bold', color: G, padding: '4 6', textTransform: 'uppercase' },
   td:         { fontSize: 8, padding: '4 6' },
   tdBold:     { fontSize: 8, fontFamily: 'Helvetica-Bold', color: N, padding: '4 6' },
-  barBg:      { height: 5, backgroundColor: '#EAE5DB', borderRadius: 3, marginTop: 2 },
+  barBg:      { height: 5, backgroundColor: PALETA.gris200, borderRadius: 3, marginTop: 2 },
   barFill:    { height: 5, borderRadius: 3 },
   sectionLbl: { fontSize: 8, fontFamily: 'Helvetica-Bold', color: A, letterSpacing: 1.5, textTransform: 'uppercase', marginBottom: 8 },
-  footer:     { marginTop: 14, textAlign: 'center', fontSize: 7, color: '#9a958c' },
+  footer:     { marginTop: 14, textAlign: 'center', fontSize: 7, color: PALETA.gris500 },
 })
 
 const barColor = (pct: number) => (pct >= 70 ? N : A)
@@ -106,6 +112,7 @@ export async function renderReportPdf(scope: Scope, freq: Subscription['frequenc
   const hastaISO = hasta.toISOString()
   const periodoInicio = desde, periodoFin = hasta
   const applyScope = await buildScopeFilter(scope)
+  const cliente = (await getMarcaClientePorId(scope.tenant_id)).nombre
 
   // Período anterior (para comparación)
   const prevInicio = new Date(desde)
@@ -180,14 +187,18 @@ export async function renderReportPdf(scope: Scope, freq: Subscription['frequenc
   const COLS: [string, number][] = [['Huésped', 2], ['RUT', 1.2], ['Empresa', 1.5], ['Propiedad', 1.5], ['Hab.', 0.6], ['Tipo', 0.9], ['Turno', 0.8], ['Entrada', 1], ['Salida', 1], ['Noches', 0.7]]
 
   const doc = (
-    <Document title={`Reporte dotia — ${titulo}`}>
+    <Document title={`Reporte ${cliente} — ${titulo}`}>
       <Page size="LETTER" style={s.page}>
         <View style={s.header}>
+          {/* Membrete de cuatro niveles, igual que el correo y el otro PDF. Antes
+              el wordmark grande era «dotia»: correcto en el nombre, pero al revés
+              en la jerarquía — el protagonista del reporte es el cliente. */}
           <View>
-            <Text style={s.hEyebrow}>REPORTE DE OCUPACIÓN</Text>
-            <Text style={s.hWordmark}>dotia</Text>
+            <Text style={s.hProducto}>{PRODUCTO.toUpperCase()}</Text>
+            <Text style={s.hEyebrow}>{MODULO_HOTEL.toUpperCase()} · REPORTE DE OCUPACIÓN</Text>
+            <Text style={s.hWordmark}>{cliente.toUpperCase()}</Text>
             <View style={s.hRule} />
-            <Text style={s.hTagline}>TRAZABILIDAD DE PERSONAL</Text>
+            <Text style={s.hTagline}>{PRODUCTO_BAJADA.toUpperCase()}</Text>
           </View>
           <View style={{ alignItems: 'center' }}>
             <Gauge pct={ocupPct} />

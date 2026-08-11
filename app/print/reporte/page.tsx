@@ -3,9 +3,15 @@ import { getMyTenantId } from '@/lib/tenant'
 import { formatDate as fmt } from "@/lib/format"
 import { ROOM_TYPE_LABELS } from "@/lib/types"
 import { AutoPrint } from './_auto-print'
+import { PRODUCTO, PRODUCTO_BAJADA, PALETA, getMarcaCliente } from '@/lib/marca'
+import { MODULOS } from '@/lib/modulos'
 
 const MONTHS = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
-const N = '#0B7E60', A = '#2FBF8F', G = '#6C757D'
+
+// El reporte de ocupación habla de estadías, o sea del módulo Hotel.
+const MODULO_HOTEL = MODULOS.find(m => m.k === 'hotel')!.label
+
+const N = PALETA.marca, A = PALETA.senal, G = PALETA.gris600
 
 export default async function ReportePrintPage({
   searchParams,
@@ -40,6 +46,7 @@ export default async function ReportePrintPage({
 
   const admin = createAdminClient()
   const tenantId = await getMyTenantId()
+  const cliente = (await getMarcaCliente()).nombre.toUpperCase()
   const [{ data: staysRaw }, { data: allocsRaw }] = await Promise.all([
     admin.from('stays').select(`
       id, shift_type, checked_in_at, checked_out_at,
@@ -94,14 +101,14 @@ export default async function ReportePrintPage({
 
   const css = `
     *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:Arial,Helvetica,sans-serif;font-size:9px;color:#212529;background:#fff;padding:20px}
+    body{font-family:Arial,Helvetica,sans-serif;font-size:9px;color:${PALETA.gris900};background:#fff;padding:20px}
     table{border-collapse:collapse;width:100%}
     th,td{text-align:left;padding:5px 9px}
-    thead th{background:#f1f3f5;font-size:10px;font-weight:700;color:#6C757D;text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid #dee2e6}
-    tbody tr{border-bottom:1px solid #f1f3f5}
-    tfoot td{background:#f1f3f5;font-weight:700;border-top:2px solid #dee2e6}
-    .badge-ok{background:#d1fae5;color:#065f46;padding:1px 7px;border-radius:20px;font-size:10px;font-weight:600}
-    .badge-done{background:#f1f3f5;color:#6C757D;padding:1px 7px;border-radius:20px;font-size:10px}
+    thead th{background:${PALETA.gris100};font-size:10px;font-weight:700;color:${PALETA.gris600};text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid ${PALETA.gris300}}
+    tbody tr{border-bottom:1px solid ${PALETA.gris100}}
+    tfoot td{background:${PALETA.gris100};font-weight:700;border-top:2px solid ${PALETA.gris300}}
+    .badge-ok{background:${PALETA.tinte};color:${PALETA.marca};padding:1px 7px;border-radius:20px;font-size:10px;font-weight:600}
+    .badge-done{background:${PALETA.gris100};color:${PALETA.gris600};padding:1px 7px;border-radius:20px;font-size:10px}
     @page{size:letter portrait;margin:1.5cm}
     @media print{body{padding:0}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
   `
@@ -114,7 +121,8 @@ export default async function ReportePrintPage({
       {/* Header */}
       <div style={{background:N,color:'#fff',padding:'14px 20px',borderRadius:8,marginBottom:14,display:'flex',justifyContent:'space-between',alignItems:'flex-end'}}>
         <div>
-          <div style={{fontSize:10,color:'rgba(255,255,255,.5)',fontWeight:700,letterSpacing:'.08em',textTransform:'uppercase',marginBottom:3}}>Reporte de Ocupación — Sol Eterno</div>
+          <div style={{fontSize:10,color:'rgba(255,255,255,.45)',fontWeight:700,letterSpacing:'.16em',textTransform:'uppercase',marginBottom:7}}>{PRODUCTO} · {MODULO_HOTEL}</div>
+          <div style={{fontSize:14,fontWeight:700,letterSpacing:'.1em',textTransform:'uppercase',marginBottom:3}}>{cliente}</div>
           <div style={{fontSize:24,fontWeight:700}}>{tituloPeriodo}</div>
           <div style={{fontSize:11,color:'rgba(255,255,255,.6)',marginTop:2}}>{diasPeriodo} días · {porPropiedad.length} propiedad{porPropiedad.length!==1?'es':''} · Generado el {hoy}</div>
         </div>
@@ -132,7 +140,7 @@ export default async function ReportePrintPage({
           {label:'Camas-noche libres',value:camasLibres.toLocaleString('es-CL'),  sub:`${100-ocupPct}% sin ocupar`, color:G},
           {label:'Estadías totales', value:stays.length.toString(),               sub:`${stays.filter(s=>!s.checked_out_at).length} activas al cierre`, color:A},
         ].map(k=>(
-          <div key={k.label} style={{border:'1px solid #e9ecef',borderTop:`4px solid ${k.color}`,borderRadius:8,padding:'10px 13px'}}>
+          <div key={k.label} style={{border:`1px solid ${PALETA.gris200}`,borderTop:`4px solid ${k.color}`,borderRadius:8,padding:'10px 13px'}}>
             <div style={{fontSize:20,fontWeight:700,color:N}}>{k.value}</div>
             <div style={{fontSize:11,fontWeight:600,marginTop:2}}>{k.label}</div>
             <div style={{fontSize:10,color:G,marginTop:2}}>{k.sub}</div>
@@ -142,7 +150,7 @@ export default async function ReportePrintPage({
 
       <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12,marginBottom:14}}>
         {/* Por propiedad */}
-        <div style={{border:'1px solid #e9ecef',borderRadius:8,overflow:'hidden'}}>
+        <div style={{border:`1px solid ${PALETA.gris200}`,borderRadius:8,overflow:'hidden'}}>
           <div style={{background:N,color:'#fff',padding:'7px 12px',fontSize:11,fontWeight:700}}>Ocupación por propiedad</div>
           <div style={{padding:'10px 14px'}}>
             {porPropiedad.map(p=>(
@@ -151,7 +159,7 @@ export default async function ReportePrintPage({
                   <span style={{fontWeight:600,color:N}}>{p.nombre}</span>
                   <span style={{color:G}}>{p.estadias} estadías · {p.usado}/{p.camasNoche} <strong style={{color:p.pct>=70?N:A}}>{p.pct}%</strong></span>
                 </div>
-                <div style={{height:7,background:'#e9ecef',borderRadius:4,overflow:'hidden'}}>
+                <div style={{height:7,background:PALETA.gris200,borderRadius:4,overflow:'hidden'}}>
                   <div style={{height:'100%',width:`${p.pct}%`,background:p.pct>=70?N:A,borderRadius:4}}/>
                 </div>
               </div>
@@ -159,7 +167,7 @@ export default async function ReportePrintPage({
           </div>
         </div>
         {/* Por empresa */}
-        <div style={{border:'1px solid #e9ecef',borderRadius:8,overflow:'hidden'}}>
+        <div style={{border:`1px solid ${PALETA.gris200}`,borderRadius:8,overflow:'hidden'}}>
           <div style={{background:N,color:'#fff',padding:'7px 12px',fontSize:11,fontWeight:700}}>Resumen por empresa</div>
           <table>
             <thead><tr><th>Empresa</th><th style={{textAlign:'right'}}>Estadías</th><th style={{textAlign:'right'}}>Noches</th><th style={{textAlign:'right'}}>%</th></tr></thead>
@@ -179,7 +187,7 @@ export default async function ReportePrintPage({
       </div>
 
       {/* Listado */}
-      <div style={{border:'1px solid #e9ecef',borderRadius:8,overflow:'hidden'}}>
+      <div style={{border:`1px solid ${PALETA.gris200}`,borderRadius:8,overflow:'hidden'}}>
         <div style={{background:N,color:'#fff',padding:'7px 12px',fontSize:11,fontWeight:700}}>Listado completo de huéspedes — {stays.length} registros</div>
         <table>
           <thead>
@@ -212,7 +220,7 @@ export default async function ReportePrintPage({
         </table>
       </div>
 
-      <div style={{textAlign:'center',marginTop:12,fontSize:10,color:'#adb5bd'}}>Sol Eterno — Gestión de Alojamientos · {hoy}</div>
+      <div style={{textAlign:'center',marginTop:12,fontSize:10,color:PALETA.gris500}}>{PRODUCTO} · {PRODUCTO_BAJADA} · Generado el {hoy}</div>
     </>
   )
 }

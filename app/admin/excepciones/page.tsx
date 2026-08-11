@@ -7,7 +7,7 @@ import { formatRut } from '@/lib/rut'
 import { TriangleAlert, Filter } from 'lucide-react'
 import Link from 'next/link'
 
-const INPUT = 'px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm text-[var(--gray-900)] focus:outline-none focus:ring-2 focus:ring-[var(--navy)]'
+const INPUT = 'px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm text-[var(--gray-900)] focus:outline-none focus:ring-2 focus:ring-[var(--brand)]'
 const LABEL = 'block text-xs font-medium text-[var(--gray-600)] mb-1'
 
 const TIPO_LABEL: Record<string, string> = {
@@ -17,7 +17,7 @@ const TIPO_LABEL: Record<string, string> = {
   no_entregado: 'Servicio no entregado / falla',
 }
 const ESTADO_LABEL: Record<string, string> = { abierta: 'Abierta', en_revision: 'En revisión', resuelta: 'Resuelta', rechazada: 'Rechazada' }
-const ESTADO_BADGE: Record<string, string> = { abierta: 'badge-amber', en_revision: 'badge', resuelta: 'badge-green', rechazada: 'badge-gray' }
+const ESTADO_BADGE: Record<string, string> = { abierta: 'badge-senal', en_revision: 'badge', resuelta: 'badge-green', rechazada: 'badge-gray' }
 const MOD_LABEL = Object.fromEntries(MODULOS.map((m) => [m.k, m.label]))
 const FILTROS = [['', 'Todas'], ['abierta', 'Abiertas'], ['en_revision', 'En revisión'], ['resuelta', 'Resueltas'], ['rechazada', 'Rechazadas']] as const
 
@@ -47,7 +47,7 @@ export default async function ExcepcionesPage({ searchParams }: { searchParams: 
   return (
     <div className="p-8 max-w-5xl">
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-11 h-11 rounded-2xl bg-[var(--navy)] flex items-center justify-center shrink-0">
+        <div className="w-11 h-11 rounded-2xl bg-[var(--brand)] flex items-center justify-center shrink-0">
           <TriangleAlert size={19} strokeWidth={2} className="text-white" />
         </div>
         <div>
@@ -94,7 +94,7 @@ export default async function ExcepcionesPage({ searchParams }: { searchParams: 
             <input name="descripcion" placeholder="Qué pasó (ej. 18 raciones entregadas de 20 requeridas)" className={`${INPUT} w-full`} />
           </div>
           <div className="md:col-span-2">
-            <button type="submit" className="px-5 py-2.5 bg-[var(--navy)] hover:bg-[var(--navy-dark)] text-white text-sm font-semibold rounded-lg">Abrir excepción</button>
+            <button type="submit" className="px-5 py-2.5 bg-[var(--brand)] hover:bg-[var(--brand-dark)] text-white text-sm font-semibold rounded-lg">Abrir excepción</button>
           </div>
         </form>
       </div>
@@ -104,7 +104,7 @@ export default async function ExcepcionesPage({ searchParams }: { searchParams: 
         <Filter size={14} className="text-[var(--gray-500)]" />
         {FILTROS.map(([v, l]) => (
           <Link key={v} href={v ? `/admin/excepciones?estado=${v}` : '/admin/excepciones'}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${(filtro ?? '') === v ? 'bg-[var(--navy)] text-white border-[var(--navy)]' : 'bg-[var(--surface)] text-[var(--gray-700)] border-[var(--gray-200)] hover:bg-[var(--gray-100)]'}`}>
+            className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${(filtro ?? '') === v ? 'bg-[var(--brand)] text-white border-[var(--brand)]' : 'bg-[var(--surface)] text-[var(--gray-700)] border-[var(--gray-200)] hover:bg-[var(--gray-100)]'}`}>
             {l}
           </Link>
         ))}
@@ -149,7 +149,7 @@ export default async function ExcepcionesPage({ searchParams }: { searchParams: 
                     </div>
                     <input name="responsable_nombre" placeholder="Responsable" className={`${INPUT} w-32`} />
                     <input name="resolucion" placeholder="Nota / resolución" className={`${INPUT} flex-1 min-w-[160px]`} />
-                    <SubmitButton pendingText="…" className="px-4 py-2 bg-[var(--navy)] hover:bg-[var(--navy-dark)] text-white text-sm font-semibold rounded-lg">Guardar</SubmitButton>
+                    <SubmitButton pendingText="…" className="px-4 py-2 bg-[var(--brand)] hover:bg-[var(--brand-dark)] text-white text-sm font-semibold rounded-lg">Guardar</SubmitButton>
                   </form>
                 )}
               </div>

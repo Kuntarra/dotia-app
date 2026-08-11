@@ -60,7 +60,7 @@ export default async function PersonalPage({ searchParams }: Props) {
   const pageHref = (p: number) => `/admin/personal?${new URLSearchParams({ ...(term ? { q: term } : {}), page: String(p) })}`
   const cupoPct = cupo.limite ? Math.min(100, Math.round((cupo.usadas / cupo.limite) * 100)) : 0
   // Semáforo estándar: verde < 75%, ámbar 75–89%, rojo ≥ 90%.
-  const cupoColor = cupoPct >= 90 ? 'bg-red-500' : cupoPct >= 75 ? 'bg-[var(--amber)]' : 'bg-emerald-500'
+  const cupoColor = cupoPct >= 90 ? 'bg-red-500' : cupoPct >= 75 ? 'bg-[var(--senal)]' : 'bg-emerald-500'
   const puedeEscribir = await puedeGestionar('personal')
 
   return (
@@ -138,7 +138,7 @@ export default async function PersonalPage({ searchParams }: Props) {
             name="q"
             defaultValue={term}
             placeholder="Buscar por nombre o RUT…"
-            className="w-full pl-9 pr-3.5 py-2.5 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm text-[var(--gray-900)] focus:outline-none focus:ring-2 focus:ring-[var(--navy)] focus:border-transparent"
+            className="w-full pl-9 pr-3.5 py-2.5 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm text-[var(--gray-900)] focus:outline-none focus:ring-2 focus:ring-[var(--brand)] focus:border-transparent"
           />
         </form>
 

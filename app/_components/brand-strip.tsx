@@ -25,11 +25,11 @@ function LogoBox({ m, size = 'md' }: { m: Marca; size?: 'sm' | 'md' }) {
 // Tira de marcas para comunicar el match: Plataforma · una empresa · sus socios.
 export function BrandStrip({ propia, socios, rolPropia, rolSocios }: { propia: Marca; socios: Marca[]; rolPropia: string; rolSocios: string }) {
   return (
-    <div className="bg-gradient-to-br from-[var(--navy)]/[0.04] to-[var(--surface)] rounded-2xl border border-[var(--gray-200)] p-5 mb-5">
+    <div className="bg-gradient-to-br from-[var(--brand)]/[0.04] to-[var(--surface)] rounded-2xl border border-[var(--gray-200)] p-5 mb-5">
       <div className="flex flex-wrap items-center gap-x-6 gap-y-4">
         {/* Plataforma */}
         <div className="flex items-center gap-2.5">
-          <div className="w-14 h-14 rounded-xl bg-[var(--navy)] grid place-items-center shrink-0">
+          <div className="w-14 h-14 rounded-xl bg-[var(--brand)] grid place-items-center shrink-0">
             <span className="font-display text-lg font-bold text-white">D</span>
           </div>
           <div>
@@ -40,7 +40,7 @@ export function BrandStrip({ propia, socios, rolPropia, rolSocios }: { propia: M
 
         <LogoBox m={{ ...propia, rol: rolPropia }} />
 
-        {socios.length > 0 && <Handshake size={20} className="text-[var(--amber-dark)]" />}
+        {socios.length > 0 && <Handshake size={20} className="text-[var(--senal-dark)]" />}
 
         <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
           {socios.map((s, i) => <LogoBox key={i} m={{ ...s, rol: rolSocios }} size="sm" />)}

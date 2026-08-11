@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { ROOM_TYPE_LABELS } from "@/lib/types"
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getMyTenantId, modulosActivosTenant } from '@/lib/tenant'
+import { PRODUCTO, PRODUCTO_BAJADA } from '@/lib/marca'
 import { PrintButton } from './_components/print-button'
 import { ReportFilters } from './_components/report-filters'
 import { Bed, Moon, Users, CalendarDays, FileSpreadsheet, Bus, BedDouble, UtensilsCrossed, Package, Shirt } from 'lucide-react'
@@ -233,7 +234,7 @@ export default async function ReportesPage({
     <div className="min-h-screen bg-[var(--gray-100)]">
 
       {/* ── Header ── */}
-      <div className="bg-[var(--navy)] text-white px-8 py-8 relative overflow-hidden">
+      <div className="bg-[var(--brand)] text-white px-8 py-8 relative overflow-hidden">
         <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.03]" aria-hidden="true">
           <defs>
             <pattern id="rp" width="52" height="52" patternUnits="userSpaceOnUse">
@@ -277,13 +278,13 @@ export default async function ReportesPage({
         {moduloResumen.length > 0 && (
           <div>
             <h2 className="flex items-center gap-2.5 text-sm font-bold text-[var(--ink)] mb-4">
-              <span className="w-1 h-4 rounded-full bg-[var(--amber)]" />Resumen por módulo
+              <span className="w-1 h-4 rounded-full bg-[var(--senal)]" />Resumen por módulo
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
               {moduloResumen.map((m) => (
                 <Link key={m.label} href={m.href}
                   className="bg-[var(--surface)] rounded-2xl border border-[var(--gray-200)] shadow-[var(--shadow-sm)] p-5 hover:shadow-[var(--shadow-md)] hover:-translate-y-0.5 transition-all duration-200 block">
-                  <div className="w-9 h-9 rounded-xl bg-[var(--navy-5)] text-[var(--ink)] flex items-center justify-center mb-3">{m.icon}</div>
+                  <div className="w-9 h-9 rounded-xl bg-[var(--brand-5)] text-[var(--ink)] flex items-center justify-center mb-3">{m.icon}</div>
                   <p className="font-display text-[1.8rem] font-semibold leading-none text-[var(--ink)] data-number">{m.value.toLocaleString('es-CL')}</p>
                   <p className="text-sm font-semibold text-[var(--ink)] mt-2">{m.label}</p>
                   <p className="text-xs text-[var(--gray-500)]">{m.unit} en el período</p>
@@ -314,7 +315,7 @@ export default async function ReportesPage({
                 <svg viewBox="0 0 120 120" className="w-full h-full -rotate-90">
                   <circle cx="60" cy="60" r="52" fill="none" stroke="var(--gray-200)" strokeWidth="10"/>
                   <circle cx="60" cy="60" r="52" fill="none"
-                    stroke={ocupacionPct >= 70 ? 'var(--navy)' : 'var(--amber)'}
+                    stroke={ocupacionPct >= 70 ? 'var(--brand)' : 'var(--senal)'}
                     strokeWidth="10" strokeLinecap="round" strokeDasharray={`${dash} ${circ}`} />
                 </svg>
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
@@ -353,7 +354,7 @@ export default async function ReportesPage({
         {porPropiedad.length > 0 && (
           <div className="bg-[var(--surface)] rounded-2xl border border-[var(--gray-200)] shadow-[var(--shadow-sm)] p-6">
             <h2 className="flex items-center gap-2.5 text-sm font-bold text-[var(--ink)] mb-5">
-              <span className="w-1 h-4 rounded-full bg-[var(--amber)]" />Ocupación por propiedad
+              <span className="w-1 h-4 rounded-full bg-[var(--senal)]" />Ocupación por propiedad
             </h2>
             <div className="space-y-5">
               {porPropiedad.map(p => (
@@ -362,13 +363,13 @@ export default async function ReportesPage({
                     <span className="text-sm font-medium text-[var(--ink)]">{p.nombre}</span>
                     <div className="flex items-center gap-4 text-xs text-[var(--gray-600)]">
                       <span>{p.estadias} estadías · {p.nochesUsadas} camas usadas / {p.camasNoche} disponibles</span>
-                      <span className={`font-bold text-base ${p.pct >= 70 ? 'text-[var(--ink)]' : 'text-[var(--amber-dark)]'}`}>
+                      <span className={`font-bold text-base ${p.pct >= 70 ? 'text-[var(--ink)]' : 'text-[var(--senal-dark)]'}`}>
                         {p.pct}%
                       </span>
                     </div>
                   </div>
                   <div className="h-3 bg-[var(--gray-200)] rounded-full overflow-hidden">
-                    <div className={`h-full rounded-full ${p.pct >= 70 ? 'bg-[var(--navy)]' : 'bg-[var(--amber)]'}`}
+                    <div className={`h-full rounded-full ${p.pct >= 70 ? 'bg-[var(--brand)]' : 'bg-[var(--senal)]'}`}
                       style={{ width: `${p.pct}%` }} />
                   </div>
                 </div>
@@ -382,7 +383,7 @@ export default async function ReportesPage({
           <div className="bg-[var(--surface)] rounded-2xl border border-[var(--gray-200)] shadow-[var(--shadow-sm)] overflow-hidden">
             <div className="px-6 py-4 border-b border-[var(--gray-100)]">
               <h2 className="flex items-center gap-2.5 text-sm font-bold text-[var(--ink)]">
-                <span className="w-1 h-4 rounded-full bg-[var(--amber)]" />Resumen por empresa
+                <span className="w-1 h-4 rounded-full bg-[var(--senal)]" />Resumen por empresa
               </h2>
             </div>
             <table className="w-full text-sm">
@@ -405,7 +406,7 @@ export default async function ReportesPage({
                       <td className="px-6 py-3.5 w-48">
                         <div className="flex items-center gap-2">
                           <div className="flex-1 h-1.5 bg-[var(--gray-100)] rounded-full">
-                            <div className="h-full bg-[var(--amber)] rounded-full" style={{ width: `${pct}%` }} />
+                            <div className="h-full bg-[var(--senal)] rounded-full" style={{ width: `${pct}%` }} />
                           </div>
                           <span className="text-xs text-[var(--gray-500)] w-8 text-right">{pct}%</span>
                         </div>
@@ -430,7 +431,7 @@ export default async function ReportesPage({
         <div className="bg-[var(--surface)] rounded-2xl border border-[var(--gray-200)] shadow-[var(--shadow-sm)] overflow-hidden">
           <div className="px-6 py-4 border-b border-[var(--gray-100)] flex items-center justify-between">
             <h2 className="flex items-center gap-2.5 text-sm font-bold text-[var(--ink)]">
-              <span className="w-1 h-4 rounded-full bg-[var(--amber)]" />Listado completo de huéspedes
+              <span className="w-1 h-4 rounded-full bg-[var(--senal)]" />Listado completo de huéspedes
             </h2>
             <span className="text-xs text-[var(--gray-500)] bg-[var(--gray-100)] px-2.5 py-1 rounded-full font-medium">
               {stays.length} registros
@@ -473,7 +474,7 @@ export default async function ReportesPage({
                         <td className="px-3 py-3 text-[var(--gray-600)] whitespace-nowrap">{stay.shift_type ?? '—'}</td>
                         <td className="px-3 py-3 whitespace-nowrap text-[var(--gray-700)] tabular-nums">{fmt(stay.checked_in_at)}</td>
                         <td className="px-3 py-3 whitespace-nowrap text-[var(--gray-700)] tabular-nums">
-                          {stay.checked_out_at ? fmt(stay.checked_out_at) : <span className="text-[var(--amber-dark)] font-medium">En hotel</span>}
+                          {stay.checked_out_at ? fmt(stay.checked_out_at) : <span className="text-[var(--senal-dark)] font-medium">En hotel</span>}
                         </td>
                         <td className="px-3 py-3 text-right font-bold text-[var(--ink)] tabular-nums">{n}</td>
                         <td className="px-3 py-3 text-center">
@@ -500,7 +501,7 @@ export default async function ReportesPage({
         </>)}
 
         <p className="text-center text-xs text-[var(--gray-400)] pb-4">
-          Sol Eterno · Generado el {new Date().toLocaleDateString('es-CL', { day:'2-digit', month:'long', year:'numeric' })}
+          {PRODUCTO} · {PRODUCTO_BAJADA} · Generado el {new Date().toLocaleDateString('es-CL', { day:'2-digit', month:'long', year:'numeric' })}
         </p>
       </div>
     </div>
@@ -530,8 +531,8 @@ function Delta({ value, kind = 'pts', positiveGood = true, suffix = '' }: {
 // Fila con micro-barra de proporción (desglose del gauge).
 function BarRow({ label, value, total, color }: { label: string; value: number; total: number; color: 'amber' | 'gray' }) {
   const pct = total > 0 ? Math.round((value / total) * 100) : 0
-  const bar = color === 'amber' ? 'bg-[var(--amber)]' : 'bg-[var(--gray-300)]'
-  const txt = color === 'amber' ? 'text-[var(--amber-dark)]' : 'text-[var(--gray-500)]'
+  const bar = color === 'amber' ? 'bg-[var(--senal)]' : 'bg-[var(--gray-300)]'
+  const txt = color === 'amber' ? 'text-[var(--senal-dark)]' : 'text-[var(--gray-500)]'
   return (
     <div>
       <div className="flex justify-between mb-1">
@@ -549,7 +550,7 @@ function Kpi({ icon, label, value, unit = '', sub, accent = 'navy', delta = null
   icon: ReactNode; label: string; value: number; unit?: string; sub: string
   accent?: 'navy' | 'amber'; delta?: number | null; deltaKind?: 'pts' | 'pct' | 'count'; bare?: boolean
 }) {
-  const iconBg = accent === 'amber' ? 'bg-[var(--amber)]/12 text-[var(--amber-dark)]' : 'bg-[var(--navy-5)] text-[var(--ink)]'
+  const iconBg = accent === 'amber' ? 'bg-[var(--senal)]/12 text-[var(--senal-dark)]' : 'bg-[var(--brand-5)] text-[var(--ink)]'
   const display = Number.isInteger(value) ? value.toLocaleString('es-CL') : value.toFixed(1)
   const wrap = bare
     ? 'p-6 hover:bg-[var(--gray-50)]/60 transition-colors'

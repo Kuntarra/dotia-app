@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { UsersRound, Users, Plus } from 'lucide-react'
 
-const INPUT = 'px-3.5 py-2.5 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm text-[var(--gray-900)] focus:outline-none focus:ring-2 focus:ring-[var(--navy)]'
+const INPUT = 'px-3.5 py-2.5 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm text-[var(--gray-900)] focus:outline-none focus:ring-2 focus:ring-[var(--brand)]'
 
 type Opt = { id: string; nombre: string }
 type Scope = 'cuadrilla' | 'todos'
@@ -18,7 +18,7 @@ export function ManifiestoMasivo({ action, cuadrillas }: { action: (formData: Fo
       <div className="flex flex-wrap gap-2">
         {([['cuadrilla', 'Una cuadrilla', UsersRound], ['todos', 'Todos en faena', Users]] as const).map(([v, label, Icon]) => (
           <button type="button" key={v} onClick={() => { setScope(v); setRef('') }}
-            className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-lg border text-sm font-medium transition-colors ${scope === v ? 'bg-[var(--navy)] text-white border-[var(--navy)]' : 'bg-[var(--surface)] text-[var(--gray-700)] border-[var(--gray-200)] hover:bg-[var(--gray-100)]'}`}>
+            className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-lg border text-sm font-medium transition-colors ${scope === v ? 'bg-[var(--brand)] text-white border-[var(--brand)]' : 'bg-[var(--surface)] text-[var(--gray-700)] border-[var(--gray-200)] hover:bg-[var(--gray-100)]'}`}>
             <Icon size={15} strokeWidth={2} /> {label}
           </button>
         ))}
@@ -34,9 +34,9 @@ export function ManifiestoMasivo({ action, cuadrillas }: { action: (formData: Fo
             {!cuadrillas.length && <p className="text-[11px] text-[var(--gray-500)] mt-1">No hay cuadrillas creadas.</p>}
           </div>
         ) : (
-          <div className="flex-1 px-3 py-2 rounded-lg bg-[var(--navy)]/5 text-sm text-[var(--ink)] font-medium">Todas las personas en faena en la fecha del traslado</div>
+          <div className="flex-1 px-3 py-2 rounded-lg bg-[var(--brand)]/5 text-sm text-[var(--ink)] font-medium">Todas las personas en faena en la fecha del traslado</div>
         )}
-        <button type="submit" className="inline-flex items-center gap-2 px-5 py-2.5 bg-[var(--navy)] hover:bg-[var(--navy-dark)] text-white text-sm font-semibold rounded-lg whitespace-nowrap"><Plus size={15} strokeWidth={2.25} /> Agregar al manifiesto</button>
+        <button type="submit" className="inline-flex items-center gap-2 px-5 py-2.5 bg-[var(--brand)] hover:bg-[var(--brand-dark)] text-white text-sm font-semibold rounded-lg whitespace-nowrap"><Plus size={15} strokeWidth={2.25} /> Agregar al manifiesto</button>
       </div>
       <p className="text-[11px] text-[var(--gray-500)]">Solo planifica la lista (quién debería ir). No supera la capacidad del vehículo. El embarque se marca persona por persona abajo.</p>
     </form>

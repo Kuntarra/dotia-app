@@ -5,7 +5,7 @@ import { ArrowLeft } from 'lucide-react'
 export function LegalShell({ title, updated, children }: { title: string; updated: string; children: ReactNode }) {
   return (
     <div className="min-h-dvh bg-[var(--gray-100)]">
-      <header className="bg-[var(--navy)] text-white">
+      <header className="bg-[var(--brand)] text-white">
         <div className="max-w-3xl mx-auto px-6 py-8">
           <Link href="/login"
             className="inline-flex items-center gap-1.5 text-white/60 hover:text-white text-sm transition-colors mb-6">
@@ -17,7 +17,7 @@ export function LegalShell({ title, updated, children }: { title: string; update
             <img src="/logo-simbolo.png" alt="dotia" className="w-9 h-9 object-contain" />
             <div className="leading-none">
               <p className="font-display font-semibold text-[17px] tracking-[-0.01em]">dotia</p>
-              <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[var(--amber-light)] mt-1">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[var(--senal-light)] mt-1">
                 Trazabilidad de personal
               </p>
             </div>

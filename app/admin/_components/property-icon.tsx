@@ -3,18 +3,18 @@ import { Hotel, House, Building2 } from 'lucide-react'
 
 const ICONS: Record<PropertyType, { icon: React.ReactNode; bg: string; fg: string }> = {
   hotel: {
-    bg: 'bg-[var(--navy)]',
-    fg: 'text-[var(--amber)]',
+    bg: 'bg-[var(--brand)]',
+    fg: 'text-[var(--senal)]',
     icon: <Hotel className="w-full h-full" strokeWidth={1.6} />,
   },
   hostal: {
-    bg: 'bg-[var(--amber)]',
+    bg: 'bg-[var(--senal)]',
     fg: 'text-[var(--ink)]',
     icon: <House className="w-full h-full" strokeWidth={1.6} />,
   },
   departamento: {
-    bg: 'bg-[var(--navy-light)]',
-    fg: 'text-[var(--amber-light)]',
+    bg: 'bg-[var(--brand-light)]',
+    fg: 'text-[var(--senal-light)]',
     icon: <Building2 className="w-full h-full" strokeWidth={1.6} />,
   },
 }

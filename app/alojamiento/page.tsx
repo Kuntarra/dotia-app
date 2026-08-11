@@ -71,13 +71,13 @@ export default async function AlojamientoPage() {
       <div className="grid grid-cols-2 xl:grid-cols-4 gap-4 mb-8">
         {[
           { label: 'Huéspedes activos',   value: activos.length,    dot: 'bg-emerald-500', num: 'text-emerald-600' },
-          { label: 'Habitaciones asig.',  value: habitaciones,       dot: 'bg-[var(--navy)]', num: 'text-[var(--ink)]' },
-          { label: 'Camas asignadas',     value: totalCamas,         dot: 'bg-[var(--amber)]', num: 'text-[var(--amber-dark)]' },
+          { label: 'Habitaciones asig.',  value: habitaciones,       dot: 'bg-[var(--brand)]', num: 'text-[var(--ink)]' },
+          { label: 'Camas asignadas',     value: totalCamas,         dot: 'bg-[var(--senal)]', num: 'text-[var(--senal-dark)]' },
           { label: 'Estadías históricas', value: stays?.length ?? 0, dot: 'bg-[var(--gray-300)]', num: 'text-[var(--gray-700)]' },
         ].map(k => (
           <div key={k.label} className="bg-[var(--surface)] rounded-2xl border border-[var(--gray-200)] p-5 shadow-[var(--shadow-sm)]
                                         hover:shadow-[var(--shadow-md)] hover:-translate-y-0.5 transition-all duration-200">
-            <div className="w-2 h-2 rounded-full mb-3 bg-[var(--amber)]" />
+            <div className="w-2 h-2 rounded-full mb-3 bg-[var(--senal)]" />
             <p className="font-display text-[2.25rem] font-semibold leading-none tracking-[-0.01em] text-[var(--ink)] data-number">{k.value}</p>
             <p className="text-sm font-medium text-[var(--ink)] mt-2">{k.label}</p>
           </div>

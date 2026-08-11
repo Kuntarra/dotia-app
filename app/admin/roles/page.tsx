@@ -7,14 +7,14 @@ import { MODULOS } from '@/lib/modulos'
 
 interface Props { searchParams: Promise<{ error?: string; success?: string }> }
 
-const INPUT = 'px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]'
+const INPUT = 'px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand)]'
 const LABEL = 'block text-xs font-medium text-[var(--gray-600)] mb-1'
 const MOD_LABEL: Record<string, string> = Object.fromEntries(MODULOS.map((m) => [m.k, m.label]))
 const NIVEL_LABEL: Record<string, string> = {
   admin_modulo: 'Supervisor de módulo', actuador: 'Revisor', visor: 'Visualizador',
 }
 const NIVEL_BADGE: Record<string, string> = {
-  admin_modulo: 'badge-green', actuador: 'badge-amber', visor: 'badge-gray',
+  admin_modulo: 'badge-green', actuador: 'badge-senal', visor: 'badge-gray',
 }
 
 export default async function RolesPage({ searchParams }: Props) {
@@ -59,19 +59,19 @@ export default async function RolesPage({ searchParams }: Props) {
                   </div>
                   <div className="flex items-center gap-4">
                     <label className="flex items-center gap-1.5 cursor-pointer">
-                      <input type="checkbox" name="es_titular" defaultChecked={!!c.es_titular} className="w-4 h-4 accent-[var(--navy)]" />
+                      <input type="checkbox" name="es_titular" defaultChecked={!!c.es_titular} className="w-4 h-4 accent-[var(--brand)]" />
                       <span className="text-sm text-[var(--ink)]">Titular</span>
                     </label>
                     <label className="flex items-center gap-1.5 cursor-pointer">
-                      <input type="checkbox" name="es_planificador" defaultChecked={!!c.es_planificador} className="w-4 h-4 accent-[var(--navy)]" />
+                      <input type="checkbox" name="es_planificador" defaultChecked={!!c.es_planificador} className="w-4 h-4 accent-[var(--brand)]" />
                       <span className="text-sm text-[var(--ink)]">Planificador</span>
                     </label>
                     <label className="flex items-center gap-1.5 cursor-pointer">
-                      <input type="checkbox" name="ve_costos" defaultChecked={!!c.ve_costos} className="w-4 h-4 accent-[var(--navy)]" />
+                      <input type="checkbox" name="ve_costos" defaultChecked={!!c.ve_costos} className="w-4 h-4 accent-[var(--brand)]" />
                       <span className="text-sm text-[var(--ink)]">Ve costos</span>
                     </label>
                   </div>
-                  <SubmitButton pendingText="Guardando…" className="px-3 py-1.5 bg-[var(--navy)] hover:bg-[var(--navy-dark)] text-white text-xs font-semibold rounded-lg">
+                  <SubmitButton pendingText="Guardando…" className="px-3 py-1.5 bg-[var(--brand)] hover:bg-[var(--brand-dark)] text-white text-xs font-semibold rounded-lg">
                     Guardar
                   </SubmitButton>
                 </form>
@@ -119,7 +119,7 @@ export default async function RolesPage({ searchParams }: Props) {
                   </select>
                 </div>
                 <div className="col-span-2 md:col-span-5">
-                  <button type="submit" className="px-5 py-2 bg-[var(--navy)] hover:bg-[var(--navy-dark)] text-white text-sm font-semibold rounded-lg">Asignar</button>
+                  <button type="submit" className="px-5 py-2 bg-[var(--brand)] hover:bg-[var(--brand-dark)] text-white text-sm font-semibold rounded-lg">Asignar</button>
                 </div>
               </form>
             </div>

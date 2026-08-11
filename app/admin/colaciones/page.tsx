@@ -65,9 +65,9 @@ export default async function ColacionesPage({ searchParams }: Props) {
 
         {/* Automático por TURNO: deriva las colaciones de las rotaciones, no del bus */}
         {puedeEscribir && (
-        <div className="bg-gradient-to-br from-[var(--navy)]/[0.04] to-white rounded-xl border border-[var(--navy)]/15 p-5 mb-6">
+        <div className="bg-gradient-to-br from-[var(--brand)]/[0.04] to-white rounded-xl border border-[var(--brand)]/15 p-5 mb-6">
           <div className="flex items-center gap-2 mb-1">
-            <Sparkles size={16} strokeWidth={2} className="text-[var(--amber-dark)]" />
+            <Sparkles size={16} strokeWidth={2} className="text-[var(--senal-dark)]" />
             <h2 className="text-sm font-semibold text-[var(--ink)]">Automático por turno</h2>
           </div>
           <p className="text-xs text-[var(--gray-600)] mb-4">El sistema lee los turnos (rotaciones) y calcula las colaciones del día. Elige qué generar y para quién; lo apruebas con un clic.</p>
@@ -105,7 +105,7 @@ export default async function ColacionesPage({ searchParams }: Props) {
                 <input type="hidden" name="modo" value={sugModo} />
                 <input type="hidden" name="scope" value={sugScope} />
                 <input type="hidden" name="ref" value={sugScope === 'todos' ? '' : sugRef} />
-                <button type="submit" className="px-5 py-2.5 bg-[var(--navy)] hover:bg-[var(--navy-dark)] text-white text-sm font-semibold rounded-lg whitespace-nowrap">
+                <button type="submit" className="px-5 py-2.5 bg-[var(--brand)] hover:bg-[var(--brand-dark)] text-white text-sm font-semibold rounded-lg whitespace-nowrap">
                   Generar {totalGen} {totalGen === 1 ? 'colación' : 'colaciones'}
                 </button>
               </form>

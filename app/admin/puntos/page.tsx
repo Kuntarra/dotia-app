@@ -4,7 +4,7 @@ import { crearPunto, desactivarPunto } from '@/app/actions/puntos'
 import { SubmitButton } from '@/app/_components/submit-button'
 import { MapPin, Building2 } from 'lucide-react'
 
-const INPUT = 'px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm text-[var(--gray-900)] focus:outline-none focus:ring-2 focus:ring-[var(--navy)]'
+const INPUT = 'px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm text-[var(--gray-900)] focus:outline-none focus:ring-2 focus:ring-[var(--brand)]'
 const LABEL = 'block text-xs font-medium text-[var(--gray-600)] mb-1'
 
 export default async function PuntosPage() {
@@ -22,7 +22,7 @@ export default async function PuntosPage() {
   return (
     <div className="p-8 max-w-4xl">
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-11 h-11 rounded-2xl bg-[var(--navy)] flex items-center justify-center shrink-0">
+        <div className="w-11 h-11 rounded-2xl bg-[var(--brand)] flex items-center justify-center shrink-0">
           <MapPin size={19} strokeWidth={2} className="text-white" />
         </div>
         <div>
@@ -42,7 +42,7 @@ export default async function PuntosPage() {
             <input name="direccion" placeholder="Ruta A-1, Iquique" className={`${INPUT} w-full`} />
           </div>
           <div>
-            <button type="submit" className="w-full px-4 py-2 bg-[var(--navy)] hover:bg-[var(--navy-dark)] text-white text-sm font-semibold rounded-lg">Crear punto</button>
+            <button type="submit" className="w-full px-4 py-2 bg-[var(--brand)] hover:bg-[var(--brand-dark)] text-white text-sm font-semibold rounded-lg">Crear punto</button>
           </div>
         </form>
       </div>

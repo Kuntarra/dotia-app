@@ -1,5 +1,5 @@
 -- ============================================================
--- Sol Eterno — Schema completo con RLS
+-- Dotia — Schema completo con RLS
 -- Ejecutar en: Supabase Dashboard → SQL Editor → New query
 -- ============================================================
 

@@ -2,10 +2,20 @@
 // Reconexión Git verificada.
 import { Resend } from 'resend'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { PRODUCTO, PRODUCTO_BAJADA, PALETA, getMarcaClientePorId, slugCliente, type Membrete } from '@/lib/marca'
+import { MODULOS } from '@/lib/modulos'
+
+// El resumen de movimientos habla de estadías, o sea del módulo Hotel.
+const MODULO_HOTEL = MODULOS.find(m => m.k === 'hotel')!.label
 
 const TZ = 'America/Santiago'
-const NAVY = '#0A2C4A', GOLD = '#E0A33A', INK = '#16242F', MUTED = '#6E6E68', LINE = '#E8E3D9', CREAM = '#F5F2EC'
-const GOLDD = '#9A7016' // oro oscuro, legible como texto sobre blanco
+// Colores tomados de la paleta única de Dotia. Los nombres viejos (NAVY, GOLD)
+// se conservan como alias locales para no reescribir 40 plantillas de golpe,
+// pero ya no apuntan al azul y dorado de Sol Eterno.
+const NAVY = PALETA.marcaProfunda   // fondo del membrete y titulares
+const GOLD = PALETA.senal           // acento sobre verde profundo
+const GOLDD = PALETA.salida         // terracota: "sale", frente al verde de "entra"
+const INK = PALETA.tinta, MUTED = PALETA.tenue, LINE = PALETA.filete, CREAM = PALETA.lienzo
 
 export type Scope = {
   scope_type: 'all' | 'company' | 'property' | 'project' | 'each_project'
@@ -123,6 +133,9 @@ export type DigestData = {
   periodLabel: string
   periodWord: string
   scopeText: string
+  // Nombre del cliente dueño de la operación, para el membrete. Viaja en los
+  // datos porque el correo se arma sin sesión (lo dispara el cron).
+  cliente: string
   checkins: Movimiento[]
   checkouts: Movimiento[]
 }
@@ -142,6 +155,7 @@ export async function getDigestData(scope: Scope, freq: Subscription['frequency'
   return {
     periodLabel, periodWord,
     scopeText: await scopeLabel(scope),
+    cliente: (await getMarcaClientePorId(scope.tenant_id)).nombre,
     checkins:  ((ins  ?? []) as any[]).map(s => mapMov(s, s.checked_in_at)),
     checkouts: ((outs ?? []) as any[]).map(s => mapMov(s, s.checked_out_at)),
   }
@@ -154,20 +168,42 @@ function preheader(text: string): string {
   return `<div style="display:none;max-height:0;overflow:hidden;mso-hide:all;opacity:0;font-size:1px;line-height:1px;color:${CREAM}">${text}</div>`
 }
 
-// Membrete: eyebrow (alcance) + wordmark serif + filete dorado + bajada.
-function letterhead(eyebrow: string): string {
-  return `<tr><td style="background:${NAVY};padding:32px 36px 28px;border-radius:18px 18px 0 0">
-    <div style="font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:${GOLD};font-weight:700">${eyebrow}</div>
-    <div style="font-family:${SERIF};font-size:26px;letter-spacing:.16em;color:#ffffff;margin-top:12px">SOL&nbsp;ETERNO</div>
+// Membrete de cuatro niveles, del más general al más específico:
+//
+//   dotia                    HOTEL     ← producto (discreto) · módulo (chip)
+//   SOL ETERNO                         ← el cliente, protagonista
+//   ─────                              ← filete dorado
+//   HOTEL VIVAR 2                      ← el lugar o alcance
+//
+// La jerarquía se sostiene con tamaño y peso, no con cuatro líneas iguales: el
+// ojo cae primero en el cliente, y los otros tres niveles lo sitúan sin competir.
+// Tablas y estilos en línea porque los clientes de correo no soportan flexbox.
+function letterhead(m: Membrete): string {
+  const modulo = m.modulo
+    ? `<td align="right" style="vertical-align:middle">
+         <span style="display:inline-block;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:${GOLD};font-weight:700;border:1px solid rgba(47,191,143,.45);border-radius:999px;padding:5px 12px;white-space:nowrap">${m.modulo}</span>
+       </td>`
+    : ''
+  const lugar = m.lugar
+    ? `<div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.55)">${m.lugar}</div>`
+    : `<div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.55)">${PRODUCTO_BAJADA}</div>`
+  return `<tr><td style="background:${NAVY};padding:26px 36px 28px;border-radius:18px 18px 0 0">
+    <table width="100%" cellpadding="0" cellspacing="0"><tr>
+      <td style="vertical-align:middle">
+        <span style="font-family:${SERIF};font-size:13px;letter-spacing:.28em;text-transform:uppercase;color:rgba(255,255,255,.5)">${PRODUCTO}</span>
+      </td>
+      ${modulo}
+    </tr></table>
+    <div style="font-family:${SERIF};font-size:27px;letter-spacing:.14em;color:#ffffff;margin-top:22px;line-height:1.15">${m.cliente.toUpperCase()}</div>
     <div style="width:36px;height:2px;background:${GOLD};margin:14px 0 11px;font-size:0;line-height:0">&nbsp;</div>
-    <div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.55)">Gestión de Alojamientos</div>
+    ${lugar}
   </td></tr>`
 }
 
 // Título del reporte dentro del cuerpo blanco (serif, capitalizado).
 function reportTitle(title: string, periodLabel: string): string {
   return `<div style="padding:26px 36px 0">
-    <div style="font-family:${SERIF};font-size:23px;color:${NAVY};text-transform:capitalize">${title}</div>
+    <div style="font-family:${SERIF};font-size:23px;color:${NAVY}">${title}</div>
     <div style="font-size:13px;color:${MUTED};margin-top:3px">${periodLabel}</div>
   </div>`
 }
@@ -186,23 +222,24 @@ function statBand(items: { value: number | string; label: string; accent: string
   </div>`
 }
 
-// Pie de marca con filete superior.
+// Colofón: acá va el PRODUCTO, no el cliente. El wordmark ya dice quién lo
+// generó, así que la línea de abajo no lo repite: solo qué es y cuándo salió.
 function mailFooter(): string {
   return `<div style="padding:24px 36px 30px">
     <div style="height:1px;background:${LINE};margin:0 0 16px;font-size:0;line-height:0">&nbsp;</div>
-    <div style="font-family:${SERIF};font-size:13px;letter-spacing:.16em;color:${NAVY}">SOL ETERNO</div>
-    <div style="font-size:11px;color:${MUTED};margin-top:5px">Reporte generado automáticamente · ${fmtDate(new Date())} · Sistema de Gestión de Alojamientos</div>
+    <div style="font-family:${SERIF};font-size:13px;letter-spacing:.16em;color:${NAVY}">${PRODUCTO.toUpperCase()}</div>
+    <div style="font-size:11px;color:${MUTED};margin-top:5px">${PRODUCTO_BAJADA} · Reporte generado automáticamente el ${fmtDate(new Date())}</div>
   </div>`
 }
 
 // Envoltorio común: fondo cálido, contenedor centrado, membrete + cuerpo blanco + pie.
-function shell(eyebrow: string, preheaderText: string, body: string, width = 660): string {
+function shell(membrete: Membrete, preheaderText: string, body: string, width = 660): string {
   return `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
   <body style="margin:0;padding:0;background:${CREAM};-webkit-font-smoothing:antialiased;font-family:-apple-system,Helvetica,Arial,sans-serif">
     ${preheader(preheaderText)}
     <table width="100%" cellpadding="0" cellspacing="0" style="background:${CREAM};padding:28px 12px"><tr><td align="center">
       <table width="${width}" cellpadding="0" cellspacing="0" style="max-width:${width}px;width:100%">
-        ${letterhead(eyebrow)}
+        ${letterhead(membrete)}
         <tr><td style="background:#ffffff;border:1px solid ${LINE};border-top:none;border-radius:0 0 18px 18px">
           ${body}
         </td></tr>
@@ -211,10 +248,10 @@ function shell(eyebrow: string, preheaderText: string, body: string, width = 660
   </body></html>`
 }
 
-// Etiqueta de sección con marca dorada.
+// Etiqueta de sección con filete de marca.
 function sectionLabel(text: string): string {
   return `<div style="margin:0 0 14px">
-    <span style="display:inline-block;width:14px;height:3px;border-radius:2px;background:${GOLD};vertical-align:middle;margin-right:9px"></span>
+    <span style="display:inline-block;width:14px;height:3px;border-radius:2px;background:${PALETA.marca};vertical-align:middle;margin-right:9px"></span>
     <span style="font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:${NAVY};vertical-align:middle">${text}</span>
   </div>`
 }
@@ -235,10 +272,10 @@ function movList(rows: Movimiento[], accent: string): string {
   const head = ['Hora', 'Nombre', 'RUT', 'Teléfono', 'Empresa', 'Hab.', 'Turno']
   const cell = 'padding:8px 12px'
   const body = rows.map((m, i) => `
-    <tr style="background:${i % 2 ? '#FBFAF6' : '#ffffff'}">
+    <tr style="background:${i % 2 ? PALETA.lienzo : '#ffffff'}">
       <td style="${cell};color:${MUTED};white-space:nowrap;font-variant-numeric:tabular-nums">${m.hora}</td>
       <td style="${cell};color:${INK};font-weight:600">${m.nombre}</td>
-      <td style="${cell};color:${MUTED};font-family:'SFMono-Regular',Consolas,monospace;font-size:12px">${m.rut}</td>
+      <td style="${cell};color:${MUTED};font-family:'SFMono-Regular',Consolas,monospace;font-size:12px;white-space:nowrap">${m.rut}</td>
       <td style="${cell};color:${MUTED}">${m.telefono}</td>
       <td style="${cell};color:${INK}">${m.empresa}</td>
       <td style="${cell};color:${MUTED}">${m.habitacion}</td>
@@ -278,13 +315,14 @@ function propertyCard(g: { propiedad: string; ins: Movimiento[]; outs: Movimient
 }
 
 export function renderDigestHtml(data: DigestData): string {
-  const eyebrow = `Movimientos · ${data.scopeText}`
   const groups = propertyGroups(data.checkins, data.checkouts)
   const body = `
     ${reportTitle(`Movimientos ${data.periodWord}`, data.periodLabel)}
     ${statBand([
       { value: data.checkins.length, label: 'Check-ins', accent: NAVY },
-      { value: data.checkouts.length, label: 'Check-outs', accent: GOLD },
+      // El acento claro (senal) es ilegible como número sobre blanco: sobre
+      // fondo claro el contrapunto del verde es la terracota.
+      { value: data.checkouts.length, label: 'Check-outs', accent: GOLDD },
     ])}
     <div style="padding:24px 36px 8px">
       ${sectionLabel('Movimientos por propiedad')}
@@ -297,12 +335,11 @@ export function renderDigestHtml(data: DigestData): string {
     </div>
     ${mailFooter()}`
   const pre = `${data.checkins.length} check-in · ${data.checkouts.length} check-out — ${data.periodLabel}`
-  return shell(eyebrow, pre, body)
+  return shell({ modulo: MODULO_HOTEL, cliente: data.cliente, lugar: data.scopeText }, pre, body)
 }
 
 // Cuerpo de presentación para el reporte completo (el detalle va en el PDF adjunto).
 function renderIntroHtml(data: DigestData): string {
-  const eyebrow = `Reporte de ocupación · ${data.scopeText}`
   const body = `
     ${reportTitle(`Reporte ${data.periodWord}`, data.periodLabel)}
     <div style="padding:22px 36px 0">
@@ -315,13 +352,13 @@ function renderIntroHtml(data: DigestData): string {
         </td>
         <td style="padding:16px 18px 16px 6px;vertical-align:middle">
           <div style="font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:${MUTED}">Documento adjunto</div>
-          <div style="font-family:${SERIF};font-size:15px;color:${NAVY};margin-top:3px">reporte_sol_eterno.pdf</div>
+          <div style="font-family:${SERIF};font-size:15px;color:${NAVY};margin-top:3px">reporte-${slugCliente(data.cliente)}.pdf</div>
         </td>
       </tr></table>
     </div>
     ${mailFooter()}`
   const pre = `Reporte ${data.periodWord} de ocupación — ${data.periodLabel} (PDF adjunto)`
-  return shell(eyebrow, pre, body, 560)
+  return shell({ modulo: MODULO_HOTEL, cliente: data.cliente, lugar: data.scopeText }, pre, body, 560)
 }
 
 function resend() {
@@ -329,7 +366,7 @@ function resend() {
   if (!apiKey) return null
   return new Resend(apiKey)
 }
-const FROM = process.env.DIGEST_FROM || 'dotia <onboarding@resend.dev>'
+const FROM = process.env.DIGEST_FROM || `${PRODUCTO} <contacto@dotia.cl>`
 
 // Enviar una suscripción concreta (o una prueba con ventana diaria).
 // `config: true` marca un error de CONFIGURACIÓN (permanente, ej. el scope
@@ -373,7 +410,7 @@ export async function sendSubscription(sub: Subscription, opts?: { test?: boolea
     const fechaArchivo = new Intl.DateTimeFormat('en-GB', { timeZone: TZ, day: '2-digit', month: '2-digit', year: 'numeric' }).format(opts?.ref ?? new Date()).replace(/\//g, '-')
     subject = `dotia · Reporte ${data.periodWord} — ${data.scopeText}`
     html = renderIntroHtml(data)
-    attachments = [{ filename: `reporte_dotia_${slug}_${fechaArchivo}.pdf`, content: pdf }]
+    attachments = [{ filename: `reporte-${slugCliente(data.cliente)}-${slug}-${fechaArchivo}.pdf`, content: pdf }]
   } else {
     const hasMovements = data.checkins.length > 0 || data.checkouts.length > 0
     subject = hasMovements
@@ -415,13 +452,15 @@ async function sendAlert(subject: string, lines: string[]): Promise<void> {
     ${reportTitle('Alerta del sistema de correos', fmtDate(new Date()))}
     <div style="padding:22px 36px 0">
       <p style="font-size:15px;color:${INK};line-height:1.6;margin:0 0 16px">Se detectó un problema en el envío automático de resúmenes:</p>
-      <div style="border:1px solid ${LINE};border-left:3px solid #C0392B;border-radius:8px;padding:14px 18px;background:#FCF6F5">
+      <div style="border:1px solid ${LINE};border-left:2px solid ${PALETA.salida};border-radius:8px;padding:14px 18px;background:${PALETA.salidaTinte}">
         ${lines.map(l => `<div style="font-size:13px;color:${INK};margin:3px 0;font-family:Consolas,monospace">${l}</div>`).join('')}
       </div>
     </div>
     ${mailFooter()}`
   try {
-    await r.emails.send({ from: FROM, to: [ALERT_TO], subject: `⚠️ dotia · ${subject}`, html: shell('Alerta del sistema', subject, body, 560) })
+    // La alerta es interna (va al dueño del sistema), así que el membrete lleva
+    // el producto y no un cliente: no es el reporte de nadie.
+    await r.emails.send({ from: FROM, to: [ALERT_TO], subject: `⚠️ ${PRODUCTO.toLowerCase()} · ${subject}`, html: shell({ cliente: PRODUCTO, lugar: 'Alerta del sistema' }, subject, body, 560) })
   } catch { /* el aviso es best-effort */ }
 }
 

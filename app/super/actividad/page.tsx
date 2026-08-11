@@ -13,11 +13,11 @@ const ENTIDADES: { k: string; label: string }[] = [
 ]
 const ENTIDAD_LABEL: Record<string, string> = Object.fromEntries(ENTIDADES.map((e) => [e.k, e.label]))
 const ENTIDAD_BADGE: Record<string, string> = {
-  persona: 'badge-navy', acceso: 'badge-amber', dotacion: 'badge-green',
-  rotacion: 'badge-gray', tenant_modulos: 'badge-navy', vinculo: 'badge-green', proveedor: 'badge-amber',
+  persona: 'badge-brand', acceso: 'badge-senal', dotacion: 'badge-green',
+  rotacion: 'badge-gray', tenant_modulos: 'badge-brand', vinculo: 'badge-green', proveedor: 'badge-senal',
 }
 
-const INPUT = 'w-full px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]'
+const INPUT = 'w-full px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand)]'
 
 function fmtFecha(iso: string) {
   return new Date(iso).toLocaleString('es-CL', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })
@@ -67,7 +67,7 @@ export default async function ActividadPage({ searchParams }: Props) {
             <label className="block text-xs font-medium text-[var(--gray-600)] mb-1">Hasta</label>
             <input type="date" name="hasta" defaultValue={hasta ?? ''} className={INPUT} />
           </div>
-          <button type="submit" className="inline-flex items-center justify-center gap-2 px-5 py-2 bg-[var(--navy)] hover:bg-[var(--navy-dark)] text-white text-sm font-semibold rounded-lg">
+          <button type="submit" className="inline-flex items-center justify-center gap-2 px-5 py-2 bg-[var(--brand)] hover:bg-[var(--brand-dark)] text-white text-sm font-semibold rounded-lg">
             <Activity size={15} strokeWidth={2.25} /> Filtrar
           </button>
         </form>

@@ -5,7 +5,7 @@ import { Plus, FolderKanban } from 'lucide-react'
 const ESTADO_BADGE: Record<string, string> = {
   planificado: 'badge-gray',
   activo: 'badge-green',
-  suspendido: 'badge-amber',
+  suspendido: 'badge-senal',
   cerrado: 'badge-gray',
 }
 

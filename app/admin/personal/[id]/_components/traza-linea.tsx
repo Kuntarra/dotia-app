@@ -73,7 +73,7 @@ export function TrazaLinea({ puntos, tramos, fecha, personaId, estadoDia, turnoL
             </button>
             <span className="text-xs font-medium text-[var(--ink)] capitalize px-2 min-w-[128px] text-center border-x border-[var(--gray-100)]">
               {fechaLabel}
-              {esHoy && <span className="ml-1.5 text-[10px] font-bold uppercase text-[var(--amber-dark)]">hoy</span>}
+              {esHoy && <span className="ml-1.5 text-[10px] font-bold uppercase text-[var(--senal-dark)]">hoy</span>}
             </span>
             <button onClick={() => moverDia(1)} title="Día siguiente" aria-label="Día siguiente"
               className="p-2 hover:bg-[var(--gray-100)] text-[var(--gray-600)] transition-colors">
@@ -86,8 +86,8 @@ export function TrazaLinea({ puntos, tramos, fecha, personaId, estadoDia, turnoL
       {!puntos.length ? (
         estadoDia === 'descanso' ? (
           <div className="py-10 text-center">
-            <div className="w-11 h-11 rounded-2xl bg-[var(--amber)]/12 flex items-center justify-center mx-auto mb-3">
-              <Coffee size={20} strokeWidth={1.75} className="text-[var(--amber-dark)]" />
+            <div className="w-11 h-11 rounded-2xl bg-[var(--senal)]/12 flex items-center justify-center mx-auto mb-3">
+              <Coffee size={20} strokeWidth={1.75} className="text-[var(--senal-dark)]" />
             </div>
             <p className="text-sm font-semibold text-[var(--ink)]">Día de descanso</p>
             <p className="text-xs text-[var(--gray-600)] mt-1">
@@ -144,11 +144,11 @@ export function TrazaLinea({ puntos, tramos, fecha, personaId, estadoDia, turnoL
                       {/* Nodo del lugar */}
                       {actual ? (
                         <div className="relative z-10 flex flex-col items-center">
-                          <span className="absolute bottom-[calc(100%+6px)] whitespace-nowrap px-2.5 py-1 rounded-full bg-[var(--amber)]/12 border border-[var(--amber)]/40 text-[10px] font-bold uppercase tracking-wide text-[var(--amber-dark)]">
+                          <span className="absolute bottom-[calc(100%+6px)] whitespace-nowrap px-2.5 py-1 rounded-full bg-[var(--senal)]/12 border border-[var(--senal)]/40 text-[10px] font-bold uppercase tracking-wide text-[var(--senal-dark)]">
                             Aquí, ahora
                           </span>
-                          <div className="w-10 h-10 rounded-full bg-[var(--navy)] flex items-center justify-center animate-pin-breathe">
-                            <User size={17} strokeWidth={2.25} className="text-[var(--amber-light)]" />
+                          <div className="w-10 h-10 rounded-full bg-[var(--brand)] flex items-center justify-center animate-pin-breathe">
+                            <User size={17} strokeWidth={2.25} className="text-[var(--senal-light)]" />
                           </div>
                         </div>
                       ) : recorrido ? (
@@ -188,13 +188,13 @@ export function TrazaLinea({ puntos, tramos, fecha, personaId, estadoDia, turnoL
                   <div key={p.key}
                     className={`rounded-xl border overflow-hidden transition-shadow duration-200
                       ${actual
-                        ? 'border-[var(--amber)]/60 bg-[var(--surface)] shadow-[0_1px_2px_rgb(14_34_56/0.04),0_10px_28px_-14px_rgb(224_163_58/0.45)] ring-1 ring-[var(--amber)]/25'
+                        ? 'border-[var(--senal)]/60 bg-[var(--surface)] shadow-[0_1px_2px_rgb(14_34_56/0.04),0_10px_28px_-14px_rgb(224_163_58/0.45)] ring-1 ring-[var(--senal)]/25'
                         : 'border-[var(--gray-200)] bg-[var(--surface)]'}`}>
 
                     {/* Cabecera del lugar */}
-                    <div className={`flex items-center gap-2.5 px-4 py-3 border-b ${actual ? 'border-[var(--amber)]/20 bg-[var(--amber)]/[0.04]' : 'border-[var(--gray-100)] bg-[var(--gray-50)]'}`}>
-                      <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${actual ? 'bg-[var(--navy)]' : 'bg-[var(--navy)]/8'}`}>
-                        <PIcon size={15} strokeWidth={2} className={actual ? 'text-[var(--amber-light)]' : 'text-[var(--navy)]'} />
+                    <div className={`flex items-center gap-2.5 px-4 py-3 border-b ${actual ? 'border-[var(--senal)]/20 bg-[var(--senal)]/[0.04]' : 'border-[var(--gray-100)] bg-[var(--gray-50)]'}`}>
+                      <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${actual ? 'bg-[var(--brand)]' : 'bg-[var(--brand)]/8'}`}>
+                        <PIcon size={15} strokeWidth={2} className={actual ? 'text-[var(--senal-light)]' : 'text-[var(--brand)]'} />
                       </div>
                       <span className="text-sm font-semibold text-[var(--ink)] flex-1 truncate">{p.nombre}</span>
                       <span className={`text-[11px] font-semibold tabular-nums px-2 py-0.5 rounded-full

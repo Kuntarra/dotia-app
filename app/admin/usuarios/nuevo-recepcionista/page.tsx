@@ -7,7 +7,7 @@ interface Props {
   searchParams: Promise<{ error?: string }>
 }
 
-const INPUT = 'w-full px-3.5 py-2.5 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm text-[var(--gray-900)] focus:outline-none focus:ring-2 focus:ring-[var(--navy)] focus:border-transparent transition-shadow'
+const INPUT = 'w-full px-3.5 py-2.5 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm text-[var(--gray-900)] focus:outline-none focus:ring-2 focus:ring-[var(--brand)] focus:border-transparent transition-shadow'
 const LABEL = 'block text-sm font-medium text-[var(--gray-900)] mb-1.5'
 
 export default async function NuevoRecepcionistaPage({ searchParams }: Props) {
@@ -48,7 +48,7 @@ export default async function NuevoRecepcionistaPage({ searchParams }: Props) {
             </div>
             <div>
               <label htmlFor="email" className={LABEL}>Correo electrónico *</label>
-              <input id="email" name="email" type="email" required placeholder="ana@soleterno.cl" className={INPUT} />
+              <input id="email" name="email" type="email" required placeholder="ana@empresa.cl" className={INPUT} />
             </div>
             <div>
               <label htmlFor="password" className={LABEL}>Contraseña temporal *</label>
@@ -71,7 +71,7 @@ export default async function NuevoRecepcionistaPage({ searchParams }: Props) {
                     type="checkbox"
                     name="property_ids"
                     value={p.id}
-                    className="w-4 h-4 rounded border-[var(--gray-200)] accent-[var(--navy)] cursor-pointer"
+                    className="w-4 h-4 rounded border-[var(--gray-200)] accent-[var(--brand)] cursor-pointer"
                   />
                   <div>
                     <p className="text-sm font-medium text-[var(--ink)]">{p.name}</p>
@@ -84,7 +84,7 @@ export default async function NuevoRecepcionistaPage({ searchParams }: Props) {
         </div>
 
         <div className="flex gap-3">
-          <button type="submit" className="px-6 py-2.5 bg-[var(--navy)] hover:bg-[var(--navy-light)] text-white text-sm font-semibold rounded-lg transition-colors">
+          <button type="submit" className="px-6 py-2.5 bg-[var(--brand)] hover:bg-[var(--brand-light)] text-white text-sm font-semibold rounded-lg transition-colors">
             Crear recepcionista
           </button>
           <Link href="/admin/usuarios" className="px-6 py-2.5 bg-[var(--surface)] hover:bg-[var(--gray-100)] text-[var(--ink)] text-sm font-medium rounded-lg border border-[var(--gray-200)] transition-colors">

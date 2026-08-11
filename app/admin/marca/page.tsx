@@ -26,7 +26,7 @@ export default async function MarcaPage({ searchParams }: Props) {
 
         <div className="bg-[var(--surface)] rounded-2xl border border-[var(--gray-200)] p-6">
           <div className="flex items-center gap-2 mb-1.5">
-            <ImageIcon size={17} strokeWidth={2} className="text-[var(--navy)]" />
+            <ImageIcon size={17} strokeWidth={2} className="text-[var(--brand)]" />
             <h2 className="text-base font-semibold text-[var(--ink)]">Logo de tu empresa</h2>
           </div>
           <p className="text-sm text-[var(--gray-600)] mb-5">

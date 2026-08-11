@@ -2,8 +2,12 @@ import { createClient } from '@/lib/supabase/server'
 import { formatRut } from '@/lib/rut'
 import { notFound } from 'next/navigation'
 import { AutoPrint } from './_auto-print'
+import { PRODUCTO, PALETA, getMarcaCliente } from '@/lib/marca'
+import { MODULOS } from '@/lib/modulos'
 
-const N = '#0B7E60', A = '#2FBF8F', G = '#6C757D'
+const MODULO_LAVANDERIA = MODULOS.find(m => m.k === 'lavanderia')!.label
+
+const N = PALETA.marca, A = PALETA.senal, G = PALETA.gris600
 
 function fmt(d: string | null | undefined) {
   return d ? new Date(d + 'T00:00:00').toLocaleDateString('es-CL', { day: '2-digit', month: 'long', year: 'numeric' }) : '—'
@@ -14,6 +18,7 @@ interface Props { params: Promise<{ id: string }> }
 export default async function BoletaLavanderiaPage({ params }: Props) {
   const { id } = await params
   const supabase = await createClient()
+  const cliente = (await getMarcaCliente()).nombre
 
   const { data: bolsa } = await supabase
     .from('lavanderia_bolsas')
@@ -45,15 +50,15 @@ export default async function BoletaLavanderiaPage({ params }: Props) {
 
   const css = `
     *{box-sizing:border-box;margin:0;padding:0}
-    html,body{font-family:Arial,Helvetica,sans-serif;color:#212529;background:#fff}
+    html,body{font-family:Arial,Helvetica,sans-serif;color:${PALETA.gris900};background:#fff}
     .sheet{width:100%}
     .copia{padding:6mm 8mm;height:139mm;overflow:hidden;page-break-inside:avoid;break-inside:avoid;display:flex;flex-direction:column}
-    .copia--top{border-bottom:1px dashed #adb5bd}
+    .copia--top{border-bottom:1px dashed ${PALETA.gris500}}
     table{border-collapse:collapse;width:100%}
     th,td{text-align:left;padding:3px 8px;font-size:11px}
-    thead th{background:#f1f3f5;font-size:9px;font-weight:700;color:${G};text-transform:uppercase;letter-spacing:.04em}
-    tbody tr{border-bottom:1px solid #f1f3f5}
-    tfoot td{background:#f1f3f5;font-weight:700}
+    thead th{background:${PALETA.gris100};font-size:9px;font-weight:700;color:${G};text-transform:uppercase;letter-spacing:.04em}
+    tbody tr{border-bottom:1px solid ${PALETA.gris100}}
+    tfoot td{background:${PALETA.gris100};font-weight:700}
     .fl{font-size:8px;color:${G};text-transform:uppercase;letter-spacing:.04em;font-weight:700}
     .fv{font-size:11px;color:${N};font-weight:600}
     @page{size:letter portrait;margin:0}
@@ -66,7 +71,7 @@ export default async function BoletaLavanderiaPage({ params }: Props) {
   const colB = dosCols ? items.slice(mid) : []
 
   const ColTabla = ({ rows }: { rows: typeof items }) => (
-    <div style={{ border: '1px solid #e9ecef', borderRadius: 7, overflow: 'hidden' }}>
+    <div style={{ border: `1px solid ${PALETA.gris200}`, borderRadius: 7, overflow: 'hidden' }}>
       <table>
         <thead><tr><th>Ítem</th><th style={{ textAlign: 'right' }}>Cant.</th></tr></thead>
         <tbody>
@@ -83,14 +88,14 @@ export default async function BoletaLavanderiaPage({ params }: Props) {
       {/* Header */}
       <div style={{ background: N, color: '#fff', padding: '8px 14px', borderRadius: 7, marginBottom: 8, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
-          <div style={{ fontSize: 8, color: 'rgba(255,255,255,.5)', fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase' }}>Boleta de lavandería · Sol Eterno</div>
+          <div style={{ fontSize: 8, color: 'rgba(255,255,255,.5)', fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase' }}>{PRODUCTO} · {MODULO_LAVANDERIA} · {cliente}</div>
           <div style={{ fontSize: 15, fontWeight: 700, marginTop: 1 }}>{planilla?.nombre ?? 'Bolsa de ropa'}</div>
         </div>
         <span style={{ background: A, color: N, fontSize: 9, fontWeight: 700, padding: '3px 10px', borderRadius: 20, textTransform: 'uppercase', letterSpacing: '.04em', whiteSpace: 'nowrap' }}>{label}</span>
       </div>
 
       {/* Persona */}
-      <div style={{ border: '1px solid #e9ecef', borderRadius: 7, padding: '8px 12px', marginBottom: 7 }}>
+      <div style={{ border: `1px solid ${PALETA.gris200}`, borderRadius: 7, padding: '8px 12px', marginBottom: 7 }}>
         <div style={{ marginBottom: 6 }}><span className="fl">Nombre</span><div className="fv" style={{ fontSize: 13 }}>{nombre}</div></div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8 }}>
           <div><span className="fl">RUT / Doc.</span><div className="fv" style={{ fontFamily: 'monospace' }}>{doc}</div></div>
@@ -102,7 +107,7 @@ export default async function BoletaLavanderiaPage({ params }: Props) {
 
       {/* Fechas */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.4fr', gap: 7, marginBottom: 7 }}>
-        <div style={{ border: '1px solid #e9ecef', borderRadius: 7, padding: '7px 11px' }}>
+        <div style={{ border: `1px solid ${PALETA.gris200}`, borderRadius: 7, padding: '7px 11px' }}>
           <span className="fl">Fecha de entrega</span><div className="fv" style={{ fontSize: 12 }}>{fmt(entrega)}</div>
         </div>
         <div style={{ border: `1px solid ${A}`, background: '#fffaf0', borderRadius: 7, padding: '7px 11px' }}>
@@ -118,7 +123,7 @@ export default async function BoletaLavanderiaPage({ params }: Props) {
           <ColTabla rows={colA} />
           {dosCols && <ColTabla rows={colB} />}
         </div>
-        <div style={{ background: '#f1f3f5', fontWeight: 700, fontSize: 11, color: N, padding: '5px 12px', borderRadius: 6, marginTop: 6, display: 'flex', justifyContent: 'space-between' }}>
+        <div style={{ background: PALETA.gris100, fontWeight: 700, fontSize: 11, color: N, padding: '5px 12px', borderRadius: 6, marginTop: 6, display: 'flex', justifyContent: 'space-between' }}>
           <span>{items.length} {items.length === 1 ? 'ítem' : 'ítems'}</span>
           <span>Total de prendas: {total}</span>
         </div>
@@ -128,7 +133,7 @@ export default async function BoletaLavanderiaPage({ params }: Props) {
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32, marginTop: 10 }}>
         {['Entrega (recepción)', 'Recibe conforme (huésped)'].map((l) => (
           <div key={l} style={{ textAlign: 'center' }}>
-            <div style={{ borderTop: '1px solid #adb5bd', paddingTop: 3, fontSize: 9, color: G }}>{l}</div>
+            <div style={{ borderTop: `1px solid ${PALETA.gris500}`, paddingTop: 3, fontSize: 9, color: G }}>{l}</div>
           </div>
         ))}
       </div>

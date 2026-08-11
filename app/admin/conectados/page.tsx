@@ -122,7 +122,7 @@ export default async function ConectadosPage({ searchParams }: { searchParams: P
   return (
     <div className="p-8 max-w-5xl">
       <div className="flex items-center gap-3 mb-2">
-        <div className="w-10 h-10 rounded-xl bg-[var(--navy)] flex items-center justify-center">
+        <div className="w-10 h-10 rounded-xl bg-[var(--brand)] flex items-center justify-center">
           <Link2 size={18} strokeWidth={2} className="text-white" />
         </div>
         <div>
@@ -139,11 +139,11 @@ export default async function ConectadosPage({ searchParams }: { searchParams: P
 
       {/* Embudo: el Invitado puede pedir convertirse en Socio Dotia */}
       {miTenant?.es_invitado && (
-        <div className="mt-5 rounded-2xl border border-[var(--amber)]/40 bg-gradient-to-br from-[var(--amber)]/10 to-white p-5 flex flex-wrap items-center justify-between gap-4">
+        <div className="mt-5 rounded-2xl border border-[var(--senal)]/40 bg-gradient-to-br from-[var(--senal)]/10 to-white p-5 flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-start gap-3">
-            <div className="w-10 h-10 rounded-xl bg-[var(--amber)]/20 grid place-items-center shrink-0"><Star size={18} className="text-[var(--amber-dark)]" /></div>
+            <div className="w-10 h-10 rounded-xl bg-[var(--senal)]/20 grid place-items-center shrink-0"><Star size={18} className="text-[var(--senal-dark)]" /></div>
             <div>
-              <p className="text-sm font-semibold text-[var(--ink)]">Estás como <span className="text-[var(--amber-dark)]">○ Invitado</span></p>
+              <p className="text-sm font-semibold text-[var(--ink)]">Estás como <span className="text-[var(--senal-dark)]">○ Invitado</span></p>
               <p className="text-xs text-[var(--gray-600)] max-w-md mt-0.5">Como Invitado operas solo este proyecto. Hazte <strong>★ Socio Dotia</strong> para tener tu propio panel completo, historial y gestionar todos tus servicios.</p>
             </div>
           </div>
@@ -151,7 +151,7 @@ export default async function ConectadosPage({ searchParams }: { searchParams: P
             <span className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg bg-[var(--gray-100)] text-[var(--gray-600)] text-sm font-semibold"><CheckCircle2 size={15} /> Solicitud enviada</span>
           ) : (
             <form action={solicitarSocio}>
-              <button className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[var(--amber)] hover:brightness-95 text-[var(--ink)] text-sm font-bold"><Star size={15} /> Quiero ser Socio</button>
+              <button className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[var(--senal)] hover:brightness-95 text-[var(--ink)] text-sm font-bold"><Star size={15} /> Quiero ser Socio</button>
             </form>
           )}
         </div>
@@ -171,15 +171,15 @@ export default async function ConectadosPage({ searchParams }: { searchParams: P
           <form action={conectarPorCodigo} className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-end">
             <div>
               <label htmlFor="codigo" className="block text-xs font-medium text-[var(--gray-600)] mb-1">Código del proyecto</label>
-              <input id="codigo" name="codigo" required placeholder="Ej: A1B2C3D4" className="w-full px-3.5 py-2.5 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm uppercase tracking-wide focus:outline-none focus:ring-2 focus:ring-[var(--navy)]" />
+              <input id="codigo" name="codigo" required placeholder="Ej: A1B2C3D4" className="w-full px-3.5 py-2.5 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm uppercase tracking-wide focus:outline-none focus:ring-2 focus:ring-[var(--brand)]" />
             </div>
             <div>
               <label htmlFor="modulo" className="block text-xs font-medium text-[var(--gray-600)] mb-1">Atiendo con el módulo</label>
-              <select id="modulo" name="modulo" required defaultValue={misModulos[0] ?? ''} className="w-full px-3.5 py-2.5 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]">
+              <select id="modulo" name="modulo" required defaultValue={misModulos[0] ?? ''} className="w-full px-3.5 py-2.5 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand)]">
                 {(misModulos.length ? misModulos : ['transporte']).map((m) => <option key={m} value={m}>{MODULO_LABEL[m] ?? m}</option>)}
               </select>
             </div>
-            <button type="submit" className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-[var(--navy)] hover:bg-[var(--navy-dark)] text-white text-sm font-semibold rounded-lg"><Link2 size={15} strokeWidth={2.25} /> Conectarme</button>
+            <button type="submit" className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-[var(--brand)] hover:bg-[var(--brand-dark)] text-white text-sm font-semibold rounded-lg"><Link2 size={15} strokeWidth={2.25} /> Conectarme</button>
           </form>
         </div>
       )}
@@ -211,7 +211,7 @@ export default async function ConectadosPage({ searchParams }: { searchParams: P
                     </p>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
-                    <span className="badge badge-amber capitalize">{modulo === 'default' ? 'Servicio' : modulo}</span>
+                    <span className="badge badge-senal capitalize">{modulo === 'default' ? 'Servicio' : modulo}</span>
                     <span className="inline-flex items-center gap-1 text-xs text-[var(--gray-600)]"><Users size={13} strokeWidth={2} /> {dots.length}</span>
                   </div>
                 </div>

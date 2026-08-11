@@ -44,7 +44,7 @@ export default async function BuscarPage({
     <div className="px-8 py-8 max-w-4xl">
       <span className="section-label">Búsqueda</span>
       <h1 className="font-display text-[2rem] font-semibold text-[var(--ink)] leading-tight tracking-[-0.01em]">
-        {q ? <>Resultados para <span className="italic text-[var(--amber-dark)]">“{q}”</span></> : 'Buscar'}
+        {q ? <>Resultados para <span className="italic text-[var(--senal-dark)]">“{q}”</span></> : 'Buscar'}
       </h1>
       <p className="text-sm text-[var(--gray-600)] mt-1">
         {q ? `${total} coincidencia${total !== 1 ? 's' : ''} en huéspedes, propiedades y empresas` : 'Escribe en la barra superior para buscar.'}
@@ -104,7 +104,7 @@ function ResultGroup({ icon, title, count, children }: { icon: React.ReactNode; 
     <section>
       <div className="flex items-center gap-2 mb-3">
         <span className="w-7 h-7 rounded-lg flex items-center justify-center"
-          style={{ background: 'rgb(11 126 96 / 0.12)', color: 'var(--amber-dark)' }}>{icon}</span>
+          style={{ background: 'rgb(11 126 96 / 0.12)', color: 'var(--senal-dark)' }}>{icon}</span>
         <h2 className="font-display text-base font-semibold text-[var(--ink)]">{title}</h2>
         <span className="text-xs text-[var(--gray-500)] bg-[var(--gray-100)] px-2 py-0.5 rounded-full font-medium">{count}</span>
       </div>

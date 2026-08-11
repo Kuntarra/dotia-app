@@ -176,7 +176,7 @@ export default async function PropiedadDetailPage({ params, searchParams }: Prop
                 <input name="capacity" type="number" min="1" required defaultValue="1" className={INPUT} />
               </div>
             </div>
-            <button type="submit" className="px-4 py-2 bg-[var(--navy)] hover:bg-[var(--navy-dark)] text-white text-sm font-semibold rounded-lg transition-colors">
+            <button type="submit" className="px-4 py-2 bg-[var(--brand)] hover:bg-[var(--brand-dark)] text-white text-sm font-semibold rounded-lg transition-colors">
               + Agregar habitación
             </button>
           </form>

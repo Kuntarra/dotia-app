@@ -95,13 +95,13 @@ export default async function SuperPage({
                 {tenants.map(t => (
                   <tr key={t.id} className={!t.active ? 'opacity-50' : ''}>
                     <td>
-                      <Link href={`/super/${t.id}`} className="font-semibold text-[var(--ink)] hover:text-[var(--amber-dark)] hover:underline">
+                      <Link href={`/super/${t.id}`} className="font-semibold text-[var(--ink)] hover:text-[var(--senal-dark)] hover:underline">
                         {t.name}
                       </Link>
                       <div className="flex flex-wrap items-center gap-1.5 mt-0.5">
                         <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-[var(--gray-100)] text-[var(--gray-600)]">{t.tipo === 'proveedor' ? 'Proveedor' : 'Mandante'}</span>
                         {t.es_invitado && <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-amber-100 text-amber-700">○ Invitado</span>}
-                        {t.solicito_socio_at && <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-[var(--amber)]/25 text-[var(--amber-dark)]">★ Quiere ser Socio</span>}
+                        {t.solicito_socio_at && <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-[var(--senal)]/25 text-[var(--senal-dark)]">★ Quiere ser Socio</span>}
                       </div>
                       <div className="text-[11px] text-[var(--gray-500)] mt-0.5">{t.rut ?? 'sin RUT'} {!t.active && '· suspendido'}</div>
                     </td>

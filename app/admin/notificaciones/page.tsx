@@ -96,7 +96,7 @@ export default async function NotificacionesPage({
                 {subs.map((s: any) => (
                   <div key={s.id} className="flex items-center gap-3 px-5 py-4">
                     <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
-                      style={{ background: 'rgb(11 126 96 / 0.12)', color: 'var(--amber-dark)' }}>
+                      style={{ background: 'rgb(11 126 96 / 0.12)', color: 'var(--senal-dark)' }}>
                       <Mail size={15} strokeWidth={1.75} />
                     </div>
                     <div className="min-w-0 flex-1">
@@ -104,7 +104,7 @@ export default async function NotificacionesPage({
                         {s.email}{s.name ? <span className="text-[var(--gray-500)] font-normal"> · {s.name}</span> : null}
                       </p>
                       <p className="text-xs text-[var(--gray-500)] truncate">
-                        {scopeLabel(s)} · <span className="text-[var(--amber-dark)] font-medium">{s.report_type === 'full' ? 'Completo' : 'Movimientos'}</span>
+                        {scopeLabel(s)} · <span className="text-[var(--senal-dark)] font-medium">{s.report_type === 'full' ? 'Completo' : 'Movimientos'}</span>
                       </p>
                       <p className="text-[11px] text-[var(--gray-400)] mt-0.5 flex items-center gap-1">
                         <Clock size={11} strokeWidth={1.75} />{freqLabel(s)}

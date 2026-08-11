@@ -48,7 +48,7 @@ export default function PrivacidadPage() {
       <h2>6. Derechos del titular</h2>
       <p>
         Toda persona puede solicitar acceso, rectificación o eliminación de sus datos escribiendo a{' '}
-        <strong>contacto@soleterno.cl</strong>. Atenderemos la solicitud en los plazos que establece la ley.
+        <strong>contacto@dotia.cl</strong>. Atenderemos la solicitud en los plazos que establece la ley.
       </p>
     </LegalShell>
   )

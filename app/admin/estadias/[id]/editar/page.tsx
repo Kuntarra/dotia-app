@@ -45,7 +45,7 @@ export default async function EditarEstadiePage({
 
   const action = updateStay.bind(null, id)
 
-  const INPUT = 'w-full px-3.5 py-2.5 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm text-[var(--gray-900)] focus:outline-none focus:ring-2 focus:ring-[var(--navy)] focus:border-transparent transition-shadow'
+  const INPUT = 'w-full px-3.5 py-2.5 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm text-[var(--gray-900)] focus:outline-none focus:ring-2 focus:ring-[var(--brand)] focus:border-transparent transition-shadow'
   const LABEL = 'block text-sm font-medium text-[var(--gray-900)] mb-1.5'
 
   return (
@@ -145,13 +145,13 @@ export default async function EditarEstadiePage({
         <div className="flex gap-3">
           <button
             type="submit"
-            className="px-6 py-2.5 bg-[var(--navy)] hover:bg-[var(--navy-dark)] text-white text-sm font-semibold rounded-xl transition-colors"
+            className="px-6 py-2.5 bg-[var(--brand)] hover:bg-[var(--brand-dark)] text-white text-sm font-semibold rounded-xl transition-colors"
           >
             Guardar cambios
           </button>
           <Link
             href="/admin/estadias"
-            className="px-6 py-2.5 bg-[var(--surface)] border border-[var(--gray-200)] text-[var(--gray-700)] text-sm font-medium rounded-xl hover:border-[var(--navy)] transition-colors"
+            className="px-6 py-2.5 bg-[var(--surface)] border border-[var(--gray-200)] text-[var(--gray-700)] text-sm font-medium rounded-xl hover:border-[var(--brand)] transition-colors"
           >
             Cancelar
           </Link>

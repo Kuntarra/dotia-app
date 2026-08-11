@@ -59,10 +59,10 @@ export default async function ImportarPersonalPage({ searchParams }: Props) {
             name="file"
             accept=".xlsx"
             required
-            className="text-sm text-[var(--gray-900)] file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[var(--navy)] file:text-white hover:file:bg-[var(--navy-dark)] file:cursor-pointer"
+            className="text-sm text-[var(--gray-900)] file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[var(--brand)] file:text-white hover:file:bg-[var(--brand-dark)] file:cursor-pointer"
           />
         </div>
-        <button type="submit" className="inline-flex items-center gap-2 px-6 py-2.5 bg-[var(--navy)] hover:bg-[var(--navy-dark)] text-white text-sm font-semibold rounded-lg transition-colors">
+        <button type="submit" className="inline-flex items-center gap-2 px-6 py-2.5 bg-[var(--brand)] hover:bg-[var(--brand-dark)] text-white text-sm font-semibold rounded-lg transition-colors">
           <Upload size={15} strokeWidth={2.25} />
           Importar
         </button>

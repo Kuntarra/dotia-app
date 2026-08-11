@@ -5,6 +5,7 @@ import ExcelJS from 'exceljs'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getMyTenantId } from '@/lib/tenant'
+import { PRODUCTO, PALETA, getMarcaCliente, slugCliente } from '@/lib/marca'
 import { hoyChile } from '@/lib/fechas'
 
 export const runtime = 'nodejs'
@@ -12,7 +13,11 @@ export const dynamic = 'force-dynamic'
 
 const MONTHS = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
 
-const NAVY = 'FF0A2C4A', GOLD = 'FFE0A33A', LIGHT = 'FFF1F3F5'
+// Excel pide los colores en ARGB (opacidad + hex, sin '#'), así que la paleta
+// se traduce acá. Antes eran 'FF0A2C4A' y 'FFE0A33A': el azul y el dorado de
+// Sol Eterno, el primer cliente.
+const argb = (hex: string) => 'FF' + hex.replace('#', '').toUpperCase()
+const NAVY = argb(PALETA.marca), GOLD = argb(PALETA.senal), LIGHT = argb(PALETA.tinte)
 
 export async function GET(req: NextRequest) {
   // ── Guarda de rol admin ──
@@ -50,6 +55,7 @@ export async function GET(req: NextRequest) {
 
   const admin = createAdminClient()
   const tenantId = await getMyTenantId()
+  const cliente = (await getMarcaCliente()).nombre
   const desdeISO = desdeStr + 'T00:00:00'
   const hastaISO = hastaStr + 'T23:59:59'
 
@@ -114,7 +120,9 @@ export async function GET(req: NextRequest) {
 
   // ── Construcción del workbook ──
   const wb = new ExcelJS.Workbook()
-  wb.creator = 'Sol Eterno'
+  // "Autor" del archivo: lo que Windows muestra en Propiedades → Detalles.
+  // Quien genera el archivo es el sistema, no el cliente.
+  wb.creator = PRODUCTO
   wb.created = new Date()
 
   const headerRow = (ws: ExcelJS.Worksheet, row: number, cols: string[]) => {
@@ -132,7 +140,7 @@ export async function GET(req: NextRequest) {
   // ── Hoja 1: Resumen ──
   const r1 = wb.addWorksheet('Resumen', { properties: { defaultColWidth: 22 } })
   r1.mergeCells('A1:B1')
-  r1.getCell('A1').value = 'Sol Eterno · Reporte de Ocupación'
+  r1.getCell('A1').value = `${cliente} · Reporte de Ocupación`
   r1.getCell('A1').font = { bold: true, size: 16, color: { argb: NAVY } }
   r1.getCell('A3').value = 'Período'; r1.getCell('B3').value = tituloPeriodo
   r1.getCell('A4').value = 'Días del período'; r1.getCell('B4').value = diasPeriodo
@@ -221,7 +229,7 @@ export async function GET(req: NextRequest) {
   return new Response(buffer as ArrayBuffer, {
     headers: {
       'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-      'Content-Disposition': `attachment; filename="reporte-sol-eterno-${slug}-${fecha}.xlsx"`,
+      'Content-Disposition': `attachment; filename="reporte-${slugCliente(cliente)}-${slug}-${fecha}.xlsx"`,
     },
   })
 }

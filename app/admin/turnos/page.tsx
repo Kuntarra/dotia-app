@@ -4,7 +4,7 @@ import { crearTipoTurno, desactivarTipoTurno } from '@/app/actions/turnos'
 import { SubmitButton } from '@/app/_components/submit-button'
 import { CalendarRange } from 'lucide-react'
 
-const INPUT = 'px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm text-[var(--gray-900)] focus:outline-none focus:ring-2 focus:ring-[var(--navy)]'
+const INPUT = 'px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm text-[var(--gray-900)] focus:outline-none focus:ring-2 focus:ring-[var(--brand)]'
 const LABEL = 'block text-xs font-medium text-[var(--gray-600)] mb-1'
 const JORNADA: Record<string, string> = { dia: 'Día', noche: 'Noche', rotativa: 'Rotativa' }
 
@@ -20,7 +20,7 @@ export default async function TurnosPage() {
   return (
     <div className="p-8 max-w-4xl">
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-11 h-11 rounded-2xl bg-[var(--navy)] flex items-center justify-center shrink-0">
+        <div className="w-11 h-11 rounded-2xl bg-[var(--brand)] flex items-center justify-center shrink-0">
           <CalendarRange size={19} strokeWidth={2} className="text-white" />
         </div>
         <div>
@@ -59,7 +59,7 @@ export default async function TurnosPage() {
                 <option value="noche">Noche</option>
                 <option value="rotativa">Rotativa</option>
               </select>
-              <button type="submit" className="px-4 py-2 bg-[var(--navy)] hover:bg-[var(--navy-dark)] text-white text-sm font-semibold rounded-lg">Crear</button>
+              <button type="submit" className="px-4 py-2 bg-[var(--brand)] hover:bg-[var(--brand-dark)] text-white text-sm font-semibold rounded-lg">Crear</button>
             </div>
           </div>
         </form>

@@ -78,9 +78,9 @@ export default async function HistorialPage({
         {/* Buscador */}
         <form method="GET" className="flex gap-2">
           <input name="q" defaultValue={q} type="text" placeholder="Buscar por nombre o RUT…"
-            className="px-3.5 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm w-56 focus:outline-none focus:ring-2 focus:ring-[var(--navy)]" />
+            className="px-3.5 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm w-56 focus:outline-none focus:ring-2 focus:ring-[var(--brand)]" />
           <button type="submit"
-            className="px-4 py-2 bg-[var(--navy)] text-white text-sm font-semibold rounded-lg hover:bg-[var(--navy-dark)] transition-colors">
+            className="px-4 py-2 bg-[var(--brand)] text-white text-sm font-semibold rounded-lg hover:bg-[var(--brand-dark)] transition-colors">
             Buscar
           </button>
         </form>

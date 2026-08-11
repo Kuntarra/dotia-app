@@ -41,7 +41,7 @@ export default async function CostosPage({ searchParams }: { searchParams: Promi
   return (
     <div className="p-8 max-w-5xl">
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-11 h-11 rounded-2xl bg-[var(--navy)] flex items-center justify-center shrink-0">
+        <div className="w-11 h-11 rounded-2xl bg-[var(--brand)] flex items-center justify-center shrink-0">
           <Coins size={19} strokeWidth={2} className="text-white" />
         </div>
         <div>
@@ -75,14 +75,14 @@ export default async function CostosPage({ searchParams }: { searchParams: Promi
                 <td className="px-5 py-3.5 font-medium text-[var(--ink)]">{LABELS[r.modulo] ?? r.modulo}</td>
                 <td className="px-4 py-3.5 text-[var(--gray-600)]">{r.unidad}</td>
                 <td className="px-4 py-3.5 text-right tabular-nums text-[var(--gray-700)]">{Number(r.cantidad_confirmada).toLocaleString('es-CL')}</td>
-                <td className="px-4 py-3.5 text-right tabular-nums text-[var(--gray-700)]">{r.tarifa_clp ? clp(r.tarifa_clp) : <span className="text-[var(--amber-dark)] text-xs">sin tarifa</span>}</td>
+                <td className="px-4 py-3.5 text-right tabular-nums text-[var(--gray-700)]">{r.tarifa_clp ? clp(r.tarifa_clp) : <span className="text-[var(--senal-dark)] text-xs">sin tarifa</span>}</td>
                 <td className="px-5 py-3.5 text-right tabular-nums font-semibold text-[var(--ink)]">{clp(r.subtotal_clp)}</td>
               </tr>
             ))}
           </tbody>
           {filas.length > 0 && (
             <tfoot>
-              <tr className="border-t-2 border-[var(--gray-200)] bg-[var(--navy)]/[0.03]">
+              <tr className="border-t-2 border-[var(--gray-200)] bg-[var(--brand)]/[0.03]">
                 <td colSpan={4} className="px-5 py-3.5 font-semibold text-[var(--ink)] inline-flex items-center gap-2"><TrendingUp size={16} strokeWidth={2} /> Total del período</td>
                 <td className="px-5 py-3.5 text-right tabular-nums font-bold text-[var(--ink)] text-base">{clp(total)}</td>
               </tr>
@@ -90,7 +90,7 @@ export default async function CostosPage({ searchParams }: { searchParams: Promi
           )}
         </table>
       </div>
-      {faltanTarifas && <p className="text-xs text-[var(--amber-dark)] mb-6">Hay módulos con cantidad confirmada pero sin tarifa cargada: su subtotal es $0 hasta que definas la tarifa abajo.</p>}
+      {faltanTarifas && <p className="text-xs text-[var(--senal-dark)] mb-6">Hay módulos con cantidad confirmada pero sin tarifa cargada: su subtotal es $0 hasta que definas la tarifa abajo.</p>}
 
       {/* Gestión de tarifas (solo administración) */}
       {puedeEditar && (

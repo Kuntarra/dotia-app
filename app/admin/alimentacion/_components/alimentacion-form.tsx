@@ -5,7 +5,7 @@ import { aplicarAlimentacion } from '@/app/actions/modulos'
 import { hoyChile, sumarDias } from '@/lib/fechas'
 import { User, Users, UsersRound, ChevronUp, ChevronDown, CalendarDays, CalendarRange } from 'lucide-react'
 
-const INPUT = 'px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm text-[var(--gray-900)] focus:outline-none focus:ring-2 focus:ring-[var(--navy)]'
+const INPUT = 'px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm text-[var(--gray-900)] focus:outline-none focus:ring-2 focus:ring-[var(--brand)]'
 const LABEL = 'block text-xs font-medium text-[var(--gray-600)] mb-1'
 const POS = [['hotel', 'Hotel'], ['faena', 'Faena'], ['colacion', 'Colación'], ['no', 'No']] as const
 
@@ -55,7 +55,7 @@ export function AlimentacionForm({ dotaciones, cuadrillas }: { dotaciones: Opt[]
         <div className="flex flex-wrap gap-2">
           {SCOPES.map(({ v, label, Icon }) => (
             <button type="button" key={v} onClick={() => { setScope(v); setRef('') }}
-              className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-lg border text-sm font-medium transition-colors ${scope === v ? 'bg-[var(--navy)] text-white border-[var(--navy)]' : 'bg-[var(--surface)] text-[var(--gray-700)] border-[var(--gray-200)] hover:bg-[var(--gray-100)]'}`}>
+              className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-lg border text-sm font-medium transition-colors ${scope === v ? 'bg-[var(--brand)] text-white border-[var(--brand)]' : 'bg-[var(--surface)] text-[var(--gray-700)] border-[var(--gray-200)] hover:bg-[var(--gray-100)]'}`}>
               <Icon size={15} strokeWidth={2} /> {label}
             </button>
           ))}
@@ -82,7 +82,7 @@ export function AlimentacionForm({ dotaciones, cuadrillas }: { dotaciones: Opt[]
           </>)}
           {scope === 'todos' && (<>
             <label className={LABEL}>Alcance</label>
-            <div className="px-3 py-2 rounded-lg bg-[var(--navy)]/5 text-sm text-[var(--ink)] font-medium">Todas las personas en faena</div>
+            <div className="px-3 py-2 rounded-lg bg-[var(--brand)]/5 text-sm text-[var(--ink)] font-medium">Todas las personas en faena</div>
           </>)}
         </div>
 
@@ -91,7 +91,7 @@ export function AlimentacionForm({ dotaciones, cuadrillas }: { dotaciones: Opt[]
           <div className="flex gap-2">
             {([['dia', 'Un día', CalendarDays], ['turno', 'Por turno', CalendarRange]] as const).map(([v, label, Icon]) => (
               <button type="button" key={v} onClick={() => setModo(v)}
-                className={`flex-1 inline-flex items-center justify-center gap-2 px-3 py-2 rounded-lg border text-sm font-medium transition-colors ${modo === v ? 'bg-[var(--navy)] text-white border-[var(--navy)]' : 'bg-[var(--surface)] text-[var(--gray-700)] border-[var(--gray-200)] hover:bg-[var(--gray-100)]'}`}>
+                className={`flex-1 inline-flex items-center justify-center gap-2 px-3 py-2 rounded-lg border text-sm font-medium transition-colors ${modo === v ? 'bg-[var(--brand)] text-white border-[var(--brand)]' : 'bg-[var(--surface)] text-[var(--gray-700)] border-[var(--gray-200)] hover:bg-[var(--gray-100)]'}`}>
                 <Icon size={15} strokeWidth={2} /> {label}
               </button>
             ))}
@@ -118,11 +118,11 @@ export function AlimentacionForm({ dotaciones, cuadrillas }: { dotaciones: Opt[]
             <span className={LABEL}>Días del turno a excluir</span>
             <div className="flex flex-col gap-1.5 pt-0.5">
               <label className="inline-flex items-center gap-2 text-sm text-[var(--gray-700)]">
-                <input type="checkbox" name="excl_primer" checked={exclPrimer} onChange={(e) => setExclPrimer(e.target.checked)} className="w-4 h-4 accent-[var(--navy)]" />
+                <input type="checkbox" name="excl_primer" checked={exclPrimer} onChange={(e) => setExclPrimer(e.target.checked)} className="w-4 h-4 accent-[var(--brand)]" />
                 Excluir <strong>primer día</strong> (llegada / viaje)
               </label>
               <label className="inline-flex items-center gap-2 text-sm text-[var(--gray-700)]">
-                <input type="checkbox" name="excl_ultimo" checked={exclUltimo} onChange={(e) => setExclUltimo(e.target.checked)} className="w-4 h-4 accent-[var(--navy)]" />
+                <input type="checkbox" name="excl_ultimo" checked={exclUltimo} onChange={(e) => setExclUltimo(e.target.checked)} className="w-4 h-4 accent-[var(--brand)]" />
                 Excluir <strong>último día</strong> (regreso / viaje)
               </label>
             </div>
@@ -138,7 +138,7 @@ export function AlimentacionForm({ dotaciones, cuadrillas }: { dotaciones: Opt[]
       </div>
 
       <div>
-        <button type="submit" className="px-5 py-2.5 bg-[var(--navy)] hover:bg-[var(--navy-dark)] text-white text-sm font-semibold rounded-lg">
+        <button type="submit" className="px-5 py-2.5 bg-[var(--brand)] hover:bg-[var(--brand-dark)] text-white text-sm font-semibold rounded-lg">
           {modo === 'turno' ? 'Aplicar a todo el turno' : 'Aplicar al día'}
         </button>
         <p className="text-xs text-[var(--gray-600)] mt-2">

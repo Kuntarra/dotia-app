@@ -7,8 +7,12 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { puedeGestionar } from '@/lib/rbac'
 import { getMyTenantId } from '@/lib/tenant'
 import { registrarActividad } from './_log'
+import { PRODUCTO, PRODUCTO_BAJADA, PALETA } from '@/lib/marca'
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://gestion.soleterno.cl'
+// El dominio propio del producto. gestion.soleterno.cl era el dominio del primer
+// tenant: la app vivia prestada ahi y las invitaciones salian con esa direccion,
+// que confunde apenas entra un segundo cliente.
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://app.dotia.cl'
 const enc = encodeURIComponent
 
 function slugify(s: string) {
@@ -97,22 +101,24 @@ async function enviarCorreoInvitacion(p: { email: string; nombre: string; tempPa
   try {
     const { Resend } = await import('resend')
     const resend = new Resend(apiKey)
-    const from = process.env.DIGEST_FROM || 'dotia <onboarding@resend.dev>'
+    const from = process.env.DIGEST_FROM || `${PRODUCTO} <contacto@dotia.cl>`
     const html = `
-      <div style="font-family:Arial,Helvetica,sans-serif;max-width:520px;margin:0 auto;color:#212529">
-        <div style="background:#0B7E60;color:#fff;padding:18px 22px;border-radius:10px">
-          <div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.6)">Invitación a un proyecto</div>
+      <div style="font-family:Arial,Helvetica,sans-serif;max-width:520px;margin:0 auto;color:${PALETA.gris900}">
+        <div style="background:${PALETA.marcaProfunda};color:#fff;padding:18px 22px;border-radius:10px">
+          <div style="font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.5)">${PRODUCTO}</div>
+          <div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:${PALETA.senal};margin-top:10px">Invitación a un proyecto</div>
           <div style="font-size:20px;font-weight:700;margin-top:2px">${p.proyecto}</div>
         </div>
-        <p style="margin:18px 2px">Hola ${p.nombre}, te invitaron a participar como proveedor en el proyecto <strong>${p.proyecto}</strong> a través de la plataforma de gestión de personal en terreno.</p>
-        <div style="border:1px solid #e9ecef;border-radius:10px;padding:14px 18px;margin:6px 2px">
+        <p style="margin:18px 2px">Hola ${p.nombre}, te invitaron a participar como proveedor en el proyecto <strong>${p.proyecto}</strong>.</p>
+        <div style="border:1px solid ${PALETA.filete};border-radius:10px;padding:14px 18px;margin:6px 2px">
           <p style="margin:0 0 8px"><strong>Tu acceso:</strong></p>
           <p style="margin:2px 0">Sitio: <a href="${SITE_URL}/login">${SITE_URL}/login</a></p>
           <p style="margin:2px 0">Correo: <strong>${p.email}</strong></p>
           <p style="margin:2px 0">Contraseña temporal: <strong>${p.tempPass}</strong></p>
           <p style="margin:2px 0">Código del proyecto: <strong style="letter-spacing:.15em">${p.codigo}</strong></p>
         </div>
-        <p style="margin:14px 2px;font-size:13px;color:#6C757D">Inicia sesión y cambia tu contraseña. Verás el personal del proyecto donde te contrataron y podrás registrar tu servicio.</p>
+        <p style="margin:14px 2px;font-size:13px;color:${PALETA.tenue}">Inicia sesión y cambia tu contraseña. Verás el personal del proyecto donde te contrataron y podrás registrar tu servicio.</p>
+        <p style="margin:20px 2px 2px;font-size:11px;color:${PALETA.tenue};border-top:1px solid ${PALETA.filete};padding-top:12px">${PRODUCTO} · ${PRODUCTO_BAJADA}</p>
       </div>`
     await resend.emails.send({ from, to: [p.email], subject: `Invitación al proyecto ${p.proyecto}`, html })
   } catch {

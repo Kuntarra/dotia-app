@@ -13,9 +13,9 @@ function Lockup({ size = 56, dark = false }: { size?: number; dark?: boolean }) 
         className="object-contain select-none" draggable={false} style={{ height: size, width: size }} />
       <div className="text-left leading-none">
         <div className="font-display font-semibold tracking-[-0.01em]"
-          style={{ fontSize: size * 0.42, color: dark ? '#fff' : 'var(--navy)' }}>dotia</div>
+          style={{ fontSize: size * 0.42, color: dark ? '#fff' : 'var(--brand)' }}>dotia</div>
         <div className="font-semibold uppercase mt-1.5"
-          style={{ fontSize: Math.max(8, size * 0.13), letterSpacing: '0.22em', color: 'var(--amber)' }}>
+          style={{ fontSize: Math.max(8, size * 0.13), letterSpacing: '0.22em', color: 'var(--senal)' }}>
           Trazabilidad de personal
         </div>
       </div>
@@ -59,8 +59,8 @@ export default async function LoginPage({ searchParams }: Props) {
         <div className="relative flex flex-col justify-center flex-1 px-14 pb-8">
           {/* Eyebrow */}
           <div className="inline-flex items-center gap-2.5 mb-7 self-start">
-            <span className="w-6 h-px bg-[var(--amber)]" />
-            <span className="text-[var(--amber-light)] text-[11px] font-semibold tracking-[0.24em] uppercase">
+            <span className="w-6 h-px bg-[var(--senal)]" />
+            <span className="text-[var(--senal-light)] text-[11px] font-semibold tracking-[0.24em] uppercase">
               Sistema de gestión corporativo
             </span>
           </div>
@@ -69,7 +69,7 @@ export default async function LoginPage({ searchParams }: Props) {
           <h1 className="font-display text-white font-medium leading-[1.08] tracking-[-0.015em] mb-6"
             style={{ fontSize: 'clamp(2.4rem, 4vw, 3.3rem)', maxWidth: '15ch' }}>
             Sabes dónde está cada persona.{' '}
-            <span style={{ color: 'var(--amber-light)', fontStyle: 'italic' }}>Siempre.</span>
+            <span style={{ color: 'var(--senal-light)', fontStyle: 'italic' }}>Siempre.</span>
           </h1>
 
           <p className="text-white/55 text-[15px] font-light leading-relaxed" style={{ maxWidth: '42ch' }}>
@@ -81,7 +81,7 @@ export default async function LoginPage({ searchParams }: Props) {
           <div className="flex items-center gap-6 mt-12 pt-7 border-t border-white/12">
             {['Iquique', 'Antofagasta', 'Calama'].map(c => (
               <div key={c} className="flex items-center gap-1.5">
-                <MapPin size={12} strokeWidth={2} className="text-[var(--amber)] opacity-75" />
+                <MapPin size={12} strokeWidth={2} className="text-[var(--senal)] opacity-75" />
                 <span className="text-white/55 text-xs font-medium tracking-wide">{c}</span>
               </div>
             ))}

@@ -5,7 +5,7 @@ import { aplicarColaciones } from '@/app/actions/modulos'
 import { hoyChile, sumarDias } from '@/lib/fechas'
 import { User, Users, UsersRound, ChevronUp, ChevronDown } from 'lucide-react'
 
-const INPUT = 'px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm text-[var(--gray-900)] focus:outline-none focus:ring-2 focus:ring-[var(--navy)]'
+const INPUT = 'px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm text-[var(--gray-900)] focus:outline-none focus:ring-2 focus:ring-[var(--brand)]'
 const LABEL = 'block text-xs font-medium text-[var(--gray-600)] mb-1'
 const PUNTOS = [
   ['origen', 'Origen'], ['aeropuerto_llegada', 'Aeropuerto llegada'], ['transporte_ida', 'Transporte ida'],
@@ -42,7 +42,7 @@ export function ColacionesForm({ dotaciones, cuadrillas }: { dotaciones: Opt[]; 
         <div className="flex flex-wrap gap-2">
           {SCOPES.map(({ v, label, Icon }) => (
             <button type="button" key={v} onClick={() => { setScope(v); setRef('') }}
-              className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-lg border text-sm font-medium transition-colors ${scope === v ? 'bg-[var(--navy)] text-white border-[var(--navy)]' : 'bg-[var(--surface)] text-[var(--gray-700)] border-[var(--gray-200)] hover:bg-[var(--gray-100)]'}`}>
+              className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-lg border text-sm font-medium transition-colors ${scope === v ? 'bg-[var(--brand)] text-white border-[var(--brand)]' : 'bg-[var(--surface)] text-[var(--gray-700)] border-[var(--gray-200)] hover:bg-[var(--gray-100)]'}`}>
               <Icon size={15} strokeWidth={2} /> {label}
             </button>
           ))}
@@ -69,7 +69,7 @@ export function ColacionesForm({ dotaciones, cuadrillas }: { dotaciones: Opt[]; 
           </>)}
           {scope === 'todos' && (<>
             <label className={LABEL}>Alcance</label>
-            <div className="px-3 py-2 rounded-lg bg-[var(--navy)]/5 text-sm text-[var(--ink)] font-medium">Todas las personas en faena ese día</div>
+            <div className="px-3 py-2 rounded-lg bg-[var(--brand)]/5 text-sm text-[var(--ink)] font-medium">Todas las personas en faena ese día</div>
           </>)}
         </div>
 
@@ -112,7 +112,7 @@ export function ColacionesForm({ dotaciones, cuadrillas }: { dotaciones: Opt[]; 
       </div>
 
       <div>
-        <button type="submit" className="px-5 py-2.5 bg-[var(--navy)] hover:bg-[var(--navy-dark)] text-white text-sm font-semibold rounded-lg">Generar colaciones</button>
+        <button type="submit" className="px-5 py-2.5 bg-[var(--brand)] hover:bg-[var(--brand-dark)] text-white text-sm font-semibold rounded-lg">Generar colaciones</button>
         <p className="text-xs text-[var(--gray-600)] mt-2">Genera una colación por persona en el punto elegido. "Todos en faena" la crea de una vez para quienes están en su turno ese día; luego marcas la entrega por persona.</p>
       </div>
     </form>

@@ -9,7 +9,7 @@ import { ArrowLeft, Building2, BedDouble, Users, CheckCircle2, Boxes, Star, Imag
 
 import { MODULOS as MODULOS_DEF } from '@/lib/modulos'
 
-const INPUT = 'w-full px-3.5 py-2.5 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)] focus:border-transparent transition-shadow'
+const INPUT = 'w-full px-3.5 py-2.5 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand)] focus:border-transparent transition-shadow'
 const LABEL = 'block text-xs font-semibold text-[var(--gray-600)] mb-1.5'
 const CLP = (n: number | null) => n == null ? '—' : '$' + Math.round(n).toLocaleString('es-CL')
 
@@ -71,13 +71,13 @@ export default async function OperadorDetailPage({
 
       {/* Embudo: convertir Invitado en Socio Dotia */}
       {t.es_invitado && (
-        <div className="bg-gradient-to-br from-[var(--amber)]/10 to-white rounded-xl border border-[var(--amber)]/40 p-6 mb-6">
+        <div className="bg-gradient-to-br from-[var(--senal)]/10 to-white rounded-xl border border-[var(--senal)]/40 p-6 mb-6">
           <div className="flex items-center gap-2 mb-1">
-            <Star size={16} className="text-[var(--amber-dark)]" />
+            <Star size={16} className="text-[var(--senal-dark)]" />
             <h3 className="text-sm font-bold text-[var(--ink)]">Convertir Invitado en ★ Socio Dotia</h3>
           </div>
           <p className="text-xs text-[var(--gray-600)] mb-1">Hoy es <strong>○ Invitado</strong> (acceso limitado, sin plan). Al convertir, deja de ser invitado, sus vínculos pasan a <strong>★ Socio Dotia</strong> y entra al cobro mensual.</p>
-          {t.solicito_socio_at && <p className="text-xs text-[var(--amber-dark)] font-medium mb-3">★ Este proveedor solicitó ser Socio el {new Date(t.solicito_socio_at).toLocaleDateString('es-CL')}.</p>}
+          {t.solicito_socio_at && <p className="text-xs text-[var(--senal-dark)] font-medium mb-3">★ Este proveedor solicitó ser Socio el {new Date(t.solicito_socio_at).toLocaleDateString('es-CL')}.</p>}
           <form action={convertirWithId} className="grid grid-cols-1 sm:grid-cols-4 gap-3 items-end mt-3">
             <div>
               <label className={LABEL}>Cupo de personas *</label>
@@ -91,7 +91,7 @@ export default async function OperadorDetailPage({
               <label className={LABEL}>Día de cobro (1–28)</label>
               <input name="billing_day" type="number" min="1" max="28" className={INPUT} placeholder="1" />
             </div>
-            <button type="submit" className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-[var(--amber)] hover:brightness-95 text-[var(--ink)] text-sm font-bold"><Star size={15} /> Convertir en Socio</button>
+            <button type="submit" className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-[var(--senal)] hover:brightness-95 text-[var(--ink)] text-sm font-bold"><Star size={15} /> Convertir en Socio</button>
           </form>
         </div>
       )}
@@ -105,7 +105,7 @@ export default async function OperadorDetailPage({
           { icon: <CheckCircle2 size={15} strokeWidth={1.75} />, label: 'Activos', value: activeStays ?? 0 },
         ].map(k => (
           <div key={k.label} className="bg-[var(--surface)] rounded-xl border border-[var(--gray-200)] p-4">
-            <div className="w-8 h-8 rounded-lg bg-[var(--amber)]/12 text-[var(--amber-dark)] flex items-center justify-center mb-2">{k.icon}</div>
+            <div className="w-8 h-8 rounded-lg bg-[var(--senal)]/12 text-[var(--senal-dark)] flex items-center justify-center mb-2">{k.icon}</div>
             <p className="font-display text-xl font-semibold text-[var(--ink)] leading-none">{k.value}</p>
             <p className="text-xs text-[var(--gray-600)] mt-1">{k.label}</p>
           </div>
@@ -133,7 +133,7 @@ export default async function OperadorDetailPage({
       {/* Logo / marca de la empresa */}
       <div className="bg-[var(--surface)] rounded-xl border border-[var(--gray-200)] p-6 mb-6">
         <div className="flex items-center gap-2 mb-4">
-          <ImageIcon size={16} strokeWidth={2} className="text-[var(--navy)]" />
+          <ImageIcon size={16} strokeWidth={2} className="text-[var(--brand)]" />
           <h3 className="text-sm font-bold text-[var(--ink)]">Logo de la empresa</h3>
         </div>
         <p className="text-xs text-[var(--gray-600)] mb-4">Se muestra en su panel y, al hacer match, junto al de la otra empresa (comunicación de marca).</p>
@@ -159,7 +159,7 @@ export default async function OperadorDetailPage({
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
             {MODULOS_DEF.map((m) => (
               <label key={m.k} className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-lg border border-[var(--gray-200)] cursor-pointer hover:bg-[var(--gray-100)] transition-colors">
-                <input type="checkbox" name={`mod_${m.k}`} defaultChecked={modActivos.has(m.k)} className="w-4 h-4 accent-[var(--navy)]" />
+                <input type="checkbox" name={`mod_${m.k}`} defaultChecked={modActivos.has(m.k)} className="w-4 h-4 accent-[var(--brand)]" />
                 <span className="text-sm font-medium text-[var(--ink)]">{m.label}</span>
               </label>
             ))}

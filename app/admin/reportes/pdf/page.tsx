@@ -3,12 +3,17 @@ import { getMyTenantId } from '@/lib/tenant'
 import { formatDate as fmt } from "@/lib/format"
 import { ROOM_TYPE_LABELS } from "@/lib/types"
 import { AutoPrint } from './_auto-print'
+import { PRODUCTO, PRODUCTO_BAJADA, PALETA, getMarcaCliente } from '@/lib/marca'
+import { MODULOS } from '@/lib/modulos'
+
+// El reporte de ocupación habla de estadías, o sea del módulo Hotel.
+const MODULO_HOTEL = MODULOS.find(m => m.k === 'hotel')!.label
 
 const MONTHS = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
 
-const N = '#0B7E60'   // dotia · verde mineral
-const A = '#2FBF8F'   // dotia · verde señal
-const G = '#6C757D'   // gray
+const N = PALETA.marca
+const A = PALETA.senal
+const G = PALETA.gris600
 
 export default async function ReportePdfPage({
   searchParams,
@@ -44,6 +49,7 @@ export default async function ReportePdfPage({
 
   const admin = createAdminClient()
   const tenantId = await getMyTenantId()
+  const cliente = (await getMarcaCliente()).nombre
   const [{ data: staysRaw }, { data: allocsRaw }] = await Promise.all([
     admin.from('stays').select(`
       id, shift_type, checked_in_at, checked_out_at,
@@ -109,20 +115,20 @@ export default async function ReportePdfPage({
     <html lang="es">
       <head>
         <meta charSet="utf-8" />
-        <title>Reporte Sol Eterno — {tituloPeriodo}</title>
+        <title>Reporte {cliente} — {tituloPeriodo}</title>
         <style>{`
           * { box-sizing: border-box; margin: 0; padding: 0; }
-          body { font-family: Arial, Helvetica, sans-serif; font-size: 11px; color: #212529; background: #fff; }
+          body { font-family: Arial, Helvetica, sans-serif; font-size: 11px; color: ${PALETA.gris900}; background: #fff; }
           @page { size: A4 landscape; margin: 1.2cm; }
           @media print { body { print-color-adjust: exact; -webkit-print-color-adjust: exact; } .no-print { display: none !important; } }
           table { border-collapse: collapse; width: 100%; }
           th, td { text-align: left; padding: 6px 10px; }
-          thead th { background: #f1f3f5; font-size: 10px; font-weight: 700; color: #6C757D; text-transform: uppercase; letter-spacing: .04em; border-bottom: 1px solid #e9ecef; }
-          tbody tr { border-bottom: 1px solid #f1f3f5; }
+          thead th { background: ${PALETA.gris100}; font-size: 10px; font-weight: 700; color: ${PALETA.gris600}; text-transform: uppercase; letter-spacing: .04em; border-bottom: 1px solid ${PALETA.gris200}; }
+          tbody tr { border-bottom: 1px solid ${PALETA.gris100}; }
           tbody tr:last-child { border-bottom: none; }
-          tfoot td { background: #f1f3f5; font-weight: 700; border-top: 2px solid #dee2e6; }
-          .badge-ok { background: #d1fae5; color: #065f46; padding: 2px 7px; border-radius: 20px; font-size: 10px; font-weight: 600; }
-          .badge-done { background: #f1f3f5; color: #6C757D; padding: 2px 7px; border-radius: 20px; font-size: 10px; }
+          tfoot td { background: ${PALETA.gris100}; font-weight: 700; border-top: 2px solid ${PALETA.gris300}; }
+          .badge-ok { background: ${PALETA.tinte}; color: ${PALETA.marca}; padding: 2px 7px; border-radius: 20px; font-size: 10px; font-weight: 600; }
+          .badge-done { background: ${PALETA.gris100}; color: ${PALETA.gris600}; padding: 2px 7px; border-radius: 20px; font-size: 10px; }
         `}</style>
       </head>
       <body>
@@ -131,7 +137,8 @@ export default async function ReportePdfPage({
         {/* HEADER */}
         <div style={{ background: N, color: '#fff', padding: '16px 24px', borderRadius: 8, marginBottom: 16, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
           <div>
-            <div style={{ fontSize: 10, color: 'rgba(255,255,255,.5)', fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', marginBottom: 4 }}>Reporte de Ocupación — Sol Eterno</div>
+            <div style={{ fontSize: 10, color: 'rgba(255,255,255,.45)', fontWeight: 700, letterSpacing: '.16em', textTransform: 'uppercase', marginBottom: 8 }}>{PRODUCTO} · {MODULO_HOTEL}</div>
+            <div style={{ fontSize: 15, fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', marginBottom: 4 }}>{cliente.toUpperCase()}</div>
             <div style={{ fontSize: 26, fontWeight: 700 }}>{tituloPeriodo}</div>
             <div style={{ fontSize: 12, color: 'rgba(255,255,255,.6)', marginTop: 2 }}>{diasPeriodo} días · {porPropiedad.length} propiedad{porPropiedad.length !== 1 ? 'es' : ''} · Generado el {fechaGeneracion}</div>
           </div>
@@ -146,12 +153,12 @@ export default async function ReportePdfPage({
           {[
             { label: 'Noches-huésped', value: nochesHuesped.toLocaleString('es-CL'), sub: 'Suma de noches de todos los huéspedes', color: N },
             { label: 'Camas-noche disponibles', value: camasNoche.toLocaleString('es-CL'), sub: `${camasDisp} camas × ${diasPeriodo} días`, color: A },
-            { label: 'Camas-noche libres', value: camasLibres.toLocaleString('es-CL'), sub: `${100 - ocupPct}% sin ocupar`, color: '#6C757D' },
+            { label: 'Camas-noche libres', value: camasLibres.toLocaleString('es-CL'), sub: `${100 - ocupPct}% sin ocupar`, color: PALETA.gris600 },
             { label: 'Estadías totales', value: stays.length.toString(), sub: `${stays.filter(s=>!s.checked_out_at).length} activas al cierre`, color: A },
           ].map(k => (
-            <div key={k.label} style={{ background: '#fff', border: `1px solid #e9ecef`, borderTop: `4px solid ${k.color}`, borderRadius: 8, padding: '12px 14px' }}>
+            <div key={k.label} style={{ background: '#fff', border: `1px solid ${PALETA.gris200}`, borderTop: `4px solid ${k.color}`, borderRadius: 8, padding: '12px 14px' }}>
               <div style={{ fontSize: 22, fontWeight: 700, color: N }}>{k.value}</div>
-              <div style={{ fontSize: 11, fontWeight: 600, color: '#212529', marginTop: 2 }}>{k.label}</div>
+              <div style={{ fontSize: 11, fontWeight: 600, color: PALETA.gris900, marginTop: 2 }}>{k.label}</div>
               <div style={{ fontSize: 10, color: G, marginTop: 2 }}>{k.sub}</div>
             </div>
           ))}
@@ -159,7 +166,7 @@ export default async function ReportePdfPage({
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 16 }}>
           {/* Ocupación por propiedad */}
-          <div style={{ border: '1px solid #e9ecef', borderRadius: 8, overflow: 'hidden' }}>
+          <div style={{ border: `1px solid ${PALETA.gris200}`, borderRadius: 8, overflow: 'hidden' }}>
             <div style={{ background: N, color: '#fff', padding: '8px 12px', fontSize: 11, fontWeight: 700 }}>Ocupación por propiedad</div>
             <div style={{ padding: '10px 14px', background: '#fff' }}>
               {porPropiedad.map(p => (
@@ -168,7 +175,7 @@ export default async function ReportePdfPage({
                     <span style={{ fontWeight: 600, color: N, fontSize: 11 }}>{p.nombre}</span>
                     <span style={{ fontSize: 11, color: G }}>{p.estadias} estadías · {p.usado}/{p.camasNoche} noches <strong style={{ color: p.pct>=70?N:A }}>{p.pct}%</strong></span>
                   </div>
-                  <div style={{ height: 8, background: '#e9ecef', borderRadius: 4, overflow: 'hidden' }}>
+                  <div style={{ height: 8, background: PALETA.gris200, borderRadius: 4, overflow: 'hidden' }}>
                     <div style={{ height: '100%', width: `${p.pct}%`, background: p.pct>=70?N:A, borderRadius: 4 }} />
                   </div>
                 </div>
@@ -177,7 +184,7 @@ export default async function ReportePdfPage({
           </div>
 
           {/* Resumen por empresa */}
-          <div style={{ border: '1px solid #e9ecef', borderRadius: 8, overflow: 'hidden' }}>
+          <div style={{ border: `1px solid ${PALETA.gris200}`, borderRadius: 8, overflow: 'hidden' }}>
             <div style={{ background: N, color: '#fff', padding: '8px 12px', fontSize: 11, fontWeight: 700 }}>Resumen por empresa</div>
             <table>
               <thead><tr><th>Empresa</th><th style={{textAlign:'right'}}>Estadías</th><th style={{textAlign:'right'}}>Noches</th><th style={{textAlign:'right'}}>%</th></tr></thead>
@@ -197,7 +204,7 @@ export default async function ReportePdfPage({
         </div>
 
         {/* Listado completo */}
-        <div style={{ border: '1px solid #e9ecef', borderRadius: 8, overflow: 'hidden' }}>
+        <div style={{ border: `1px solid ${PALETA.gris200}`, borderRadius: 8, overflow: 'hidden' }}>
           <div style={{ background: N, color: '#fff', padding: '8px 12px', fontSize: 11, fontWeight: 700 }}>
             Listado completo de huéspedes — {stays.length} registros
           </div>
@@ -237,8 +244,8 @@ export default async function ReportePdfPage({
           </table>
         </div>
 
-        <div style={{ textAlign: 'center', marginTop: 14, fontSize: 10, color: '#adb5bd' }}>
-          Sol Eterno — Gestión de Alojamientos · {fechaGeneracion}
+        <div style={{ textAlign: 'center', marginTop: 14, fontSize: 10, color: PALETA.gris500 }}>
+          {PRODUCTO} · {PRODUCTO_BAJADA} · Generado el {fechaGeneracion}
         </div>
       </body>
     </html>

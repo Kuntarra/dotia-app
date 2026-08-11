@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { createMovilizacion } from '@/app/actions/transporte'
 import { Plane, Bus, Car, Footprints, MoreHorizontal, Plus, X, ArrowDown } from 'lucide-react'
 
-const INPUT = 'w-full px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm text-[var(--gray-900)] focus:outline-none focus:ring-2 focus:ring-[var(--navy)]'
+const INPUT = 'w-full px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm text-[var(--gray-900)] focus:outline-none focus:ring-2 focus:ring-[var(--brand)]'
 const LABEL = 'block text-xs font-medium text-[var(--gray-600)] mb-1'
 
 const MODOS = [
@@ -90,7 +90,7 @@ export function MovilizacionForm({ proyectos, vehiculos }: { proyectos: Opt[]; v
                     <div className="flex gap-1">
                       {MODOS.map(({ v, label, Icon }) => (
                         <button type="button" key={v} onClick={() => set(i, { modo: v })} title={label}
-                          className={`flex-1 flex items-center justify-center py-2 rounded-lg border text-xs ${t.modo === v ? 'bg-[var(--navy)] text-white border-[var(--navy)]' : 'bg-[var(--surface)] text-[var(--gray-600)] border-[var(--gray-200)] hover:bg-[var(--gray-100)]'}`}>
+                          className={`flex-1 flex items-center justify-center py-2 rounded-lg border text-xs ${t.modo === v ? 'bg-[var(--brand)] text-white border-[var(--brand)]' : 'bg-[var(--surface)] text-[var(--gray-600)] border-[var(--gray-200)] hover:bg-[var(--gray-100)]'}`}>
                           <Icon size={15} strokeWidth={2} />
                         </button>
                       ))}
@@ -120,7 +120,7 @@ export function MovilizacionForm({ proyectos, vehiculos }: { proyectos: Opt[]; v
       </div>
 
       <div className="flex items-center gap-3">
-        <button type="submit" className="px-6 py-2.5 bg-[var(--navy)] hover:bg-[var(--navy-dark)] text-white text-sm font-semibold rounded-lg">Crear movilización</button>
+        <button type="submit" className="px-6 py-2.5 bg-[var(--brand)] hover:bg-[var(--brand-dark)] text-white text-sm font-semibold rounded-lg">Crear movilización</button>
         <a href="/admin/transporte" className="px-6 py-2.5 bg-[var(--surface)] hover:bg-[var(--gray-100)] text-[var(--ink)] text-sm font-medium rounded-lg border border-[var(--gray-200)]">Cancelar</a>
       </div>
     </form>

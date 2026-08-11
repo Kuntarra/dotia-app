@@ -50,14 +50,14 @@ function NavItem({ href, label, exact, icon, onClick }: { href: string; label: s
     <Link href={href} onClick={onClick}
       className={`flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium transition-all duration-150 group
         ${active
-          ? 'bg-[var(--amber)]/12 text-[var(--amber)]'
+          ? 'bg-[var(--senal)]/12 text-[var(--senal)]'
           : 'text-white/55 hover:text-white hover:bg-white/6'
         }`}>
-      <span className={`shrink-0 transition-colors ${active ? 'text-[var(--amber)]' : 'text-white/40 group-hover:text-white/70'}`}>
+      <span className={`shrink-0 transition-colors ${active ? 'text-[var(--senal)]' : 'text-white/40 group-hover:text-white/70'}`}>
         {icon}
       </span>
       <span className="truncate">{label}</span>
-      {active && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-[var(--amber)] shrink-0" />}
+      {active && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-[var(--senal)] shrink-0" />}
     </Link>
   )
 }
@@ -143,12 +143,12 @@ export function RecepcionSidebar({ fullName, properties, impersonating }: Props)
   return (
     <>
       {/* ── Desktop sidebar ── */}
-      <aside className="hidden md:flex w-[220px] min-h-screen bg-[var(--navy)] flex-col shrink-0 border-r border-white/5">
+      <aside className="hidden md:flex w-[220px] min-h-screen bg-[var(--brand)] flex-col shrink-0 border-r border-white/5">
         <SidebarContent fullName={fullName} properties={properties} />
       </aside>
 
       {/* ── Mobile top bar ── */}
-      <div className={`md:hidden fixed ${impersonating ? 'top-8' : 'top-0'} inset-x-0 z-40 h-16 bg-[var(--navy)]/95 backdrop-blur-md border-b border-white/8 flex items-center px-4 gap-3`}>
+      <div className={`md:hidden fixed ${impersonating ? 'top-8' : 'top-0'} inset-x-0 z-40 h-16 bg-[var(--brand)]/95 backdrop-blur-md border-b border-white/8 flex items-center px-4 gap-3`}>
         <MobileBrand subtitle={properties.length === 1 ? properties[0].name : undefined} />
         <div className="flex-1 min-w-0" />
         <button onClick={() => setOpen(true)}
@@ -160,7 +160,7 @@ export function RecepcionSidebar({ fullName, properties, impersonating }: Props)
       {/* ── Mobile drawer ── */}
       <div className={`md:hidden fixed inset-0 z-50 flex transition-all duration-300 ${open ? 'visible opacity-100' : 'invisible opacity-0 pointer-events-none'}`}>
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/40 backdrop-blur-sm" onClick={() => setOpen(false)} />
-        <aside className={`relative w-[260px] max-w-[88vw] bg-[var(--navy)] flex flex-col h-full border-r border-white/8 transform transition-transform duration-300 ease-out ${open ? 'translate-x-0' : '-translate-x-full'}`}>
+        <aside className={`relative w-[260px] max-w-[88vw] bg-[var(--brand)] flex flex-col h-full border-r border-white/8 transform transition-transform duration-300 ease-out ${open ? 'translate-x-0' : '-translate-x-full'}`}>
           <div className="absolute top-4 right-4">
             <button onClick={() => setOpen(false)}
               className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl text-white/40 hover:text-white hover:bg-white/8 transition-all">
@@ -172,7 +172,7 @@ export function RecepcionSidebar({ fullName, properties, impersonating }: Props)
       </div>
 
       {/* ── Mobile bottom nav ── */}
-      <nav className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-[var(--navy)]/95 backdrop-blur-md border-t border-white/8"
+      <nav className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-[var(--brand)]/95 backdrop-blur-md border-t border-white/8"
            style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
         <div className="flex">
           {NAV.map(item => {
@@ -181,9 +181,9 @@ export function RecepcionSidebar({ fullName, properties, impersonating }: Props)
               <Link key={item.href} href={item.href}
                 aria-current={active ? 'page' : undefined}
                 className={`flex-1 flex flex-col items-center gap-1 py-3 transition-all duration-200 relative ${
-                  active ? 'text-[var(--amber)]' : 'text-white/50 hover:text-white hover:bg-white/5'
+                  active ? 'text-[var(--senal)]' : 'text-white/50 hover:text-white hover:bg-white/5'
                 }`}>
-                {active && <span className="absolute top-0 inset-x-3 h-0.5 bg-[var(--amber)] rounded-b-full" />}
+                {active && <span className="absolute top-0 inset-x-3 h-0.5 bg-[var(--senal)] rounded-b-full" />}
                 <span>{item.icon}</span>
                 <span className="text-[11px] font-medium leading-tight">{item.label}</span>
               </Link>

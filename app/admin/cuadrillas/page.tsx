@@ -31,7 +31,7 @@ export default async function CuadrillasPage() {
   return (
     <div className="p-8 max-w-6xl">
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-11 h-11 rounded-2xl bg-[var(--navy)] flex items-center justify-center shrink-0">
+        <div className="w-11 h-11 rounded-2xl bg-[var(--brand)] flex items-center justify-center shrink-0">
           <UsersRound size={19} strokeWidth={2} className="text-white" />
         </div>
         <div>
@@ -44,9 +44,9 @@ export default async function CuadrillasPage() {
         <input type="hidden" name="back" value="/admin/cuadrillas" />
         <div>
           <label className="block text-xs font-medium text-[var(--gray-600)] mb-1">Nueva cuadrilla</label>
-          <input name="nombre" placeholder="Cuadrilla A" className="px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]" required />
+          <input name="nombre" placeholder="Cuadrilla A" className="px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand)]" required />
         </div>
-        <SubmitButton pendingText="Creando…" className="px-4 py-2 bg-[var(--navy)] hover:bg-[var(--navy-dark)] text-white text-sm font-semibold rounded-lg">Crear cuadrilla</SubmitButton>
+        <SubmitButton pendingText="Creando…" className="px-4 py-2 bg-[var(--brand)] hover:bg-[var(--brand-dark)] text-white text-sm font-semibold rounded-lg">Crear cuadrilla</SubmitButton>
       </form>
 
       {!personas.length ? (

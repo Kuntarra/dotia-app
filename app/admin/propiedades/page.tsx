@@ -80,15 +80,15 @@ export default async function PropiedadesPage() {
                 ))}
                 {/* Card "Expandir Portafolio" */}
                 <Link href="/admin/propiedades/nueva"
-                  className="rounded-2xl border-2 border-dashed border-[var(--gray-300)] hover:border-[var(--navy)]/40
-                             hover:bg-[var(--navy-5)] transition-all duration-200 group
+                  className="rounded-2xl border-2 border-dashed border-[var(--gray-300)] hover:border-[var(--brand)]/40
+                             hover:bg-[var(--brand-5)] transition-all duration-200 group
                              flex flex-col items-center justify-center gap-3 p-8 text-center min-h-[160px]">
-                  <div className="w-11 h-11 rounded-xl bg-[var(--gray-100)] group-hover:bg-[var(--navy)] group-hover:text-white
+                  <div className="w-11 h-11 rounded-xl bg-[var(--gray-100)] group-hover:bg-[var(--brand)] group-hover:text-white
                                   flex items-center justify-center text-[var(--gray-500)] transition-all duration-200">
                     <Building2 size={18} strokeWidth={1.75} />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-[var(--ink)] group-hover:text-[var(--navy-light)] transition-colors">
+                    <p className="text-sm font-semibold text-[var(--ink)] group-hover:text-[var(--brand-light)] transition-colors">
                       Expandir Portafolio
                     </p>
                     <p className="text-xs text-[var(--gray-500)] mt-0.5 leading-snug">
@@ -114,14 +114,14 @@ function PropertyCard({ property: p }: { property: Property & { rooms?: { capaci
     <Link href={`/admin/propiedades/${p.id}`}
       className="premium-card group block overflow-hidden">
       {/* Banda superior amber si activa */}
-      {p.active && <div className="h-0.5 bg-[var(--amber)]" />}
+      {p.active && <div className="h-0.5 bg-[var(--senal)]" />}
       <div className="px-6 pt-5 pb-4 flex items-start gap-4">
         <PropertyIcon type={p.type} size="md" />
         <div className="flex-1 min-w-0">
           <p className="text-[10px] font-bold text-[var(--gray-500)] uppercase tracking-[0.12em] mb-0.5">
             {PROPERTY_TYPE_LABELS[p.type]}
           </p>
-          <h3 className="text-[15px] font-bold text-[var(--ink)] group-hover:text-[var(--navy-light)] leading-tight truncate transition-colors">
+          <h3 className="text-[15px] font-bold text-[var(--ink)] group-hover:text-[var(--brand-light)] leading-tight truncate transition-colors">
             {p.name}
           </h3>
           {p.address && (

@@ -40,20 +40,20 @@ export default async function EdpPage({ searchParams }: { searchParams: Promise<
         <form action={emitirEDP} className="grid grid-cols-1 md:grid-cols-5 gap-3 items-end">
           <div className="md:col-span-2">
             <label className="block text-xs font-medium text-[var(--gray-600)] mb-1">Cliente</label>
-            <select name="tenant_id" required className="w-full px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]" defaultValue="">
+            <select name="tenant_id" required className="w-full px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand)]" defaultValue="">
               <option value="" disabled>Selecciona…</option>
               {(tenants ?? []).map((t) => <option key={t.id} value={t.id}>{t.name} · {CLP(t.monthly_amount)}</option>)}
             </select>
           </div>
           <div>
             <label className="block text-xs font-medium text-[var(--gray-600)] mb-1">Período</label>
-            <input name="periodo" defaultValue={periodoActual()} placeholder="2026-06" className="w-full px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]" />
+            <input name="periodo" defaultValue={periodoActual()} placeholder="2026-06" className="w-full px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand)]" />
           </div>
           <div>
             <label className="block text-xs font-medium text-[var(--gray-600)] mb-1">Monto (opcional)</label>
-            <input name="monto" type="number" placeholder="usa el mensual" className="w-full px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]" />
+            <input name="monto" type="number" placeholder="usa el mensual" className="w-full px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand)]" />
           </div>
-          <button type="submit" className="inline-flex items-center justify-center gap-2 px-5 py-2 bg-[var(--navy)] hover:bg-[var(--navy-dark)] text-white text-sm font-semibold rounded-lg">
+          <button type="submit" className="inline-flex items-center justify-center gap-2 px-5 py-2 bg-[var(--brand)] hover:bg-[var(--brand-dark)] text-white text-sm font-semibold rounded-lg">
             <FileText size={15} strokeWidth={2.25} /> Emitir EDP
           </button>
         </form>

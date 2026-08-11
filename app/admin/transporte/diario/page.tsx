@@ -7,7 +7,7 @@ import Link from 'next/link'
 
 interface Props { searchParams: Promise<{ error?: string }> }
 
-const INPUT = 'w-full px-3.5 py-2.5 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm text-[var(--gray-900)] focus:outline-none focus:ring-2 focus:ring-[var(--navy)]'
+const INPUT = 'w-full px-3.5 py-2.5 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm text-[var(--gray-900)] focus:outline-none focus:ring-2 focus:ring-[var(--brand)]'
 const LABEL = 'block text-sm font-medium text-[var(--gray-900)] mb-1.5'
 
 export default async function TrasladoDiarioPage({ searchParams }: Props) {
@@ -63,7 +63,7 @@ export default async function TrasladoDiarioPage({ searchParams }: Props) {
             <input id="conductor_nombre" name="conductor_nombre" className={INPUT} placeholder="Nombre del conductor" />
           </div>
           <div>
-            <label htmlFor="hora_ida" className={`${LABEL} inline-flex items-center gap-1.5`}><Sun size={14} className="text-[var(--amber-dark)]" /> Hora ida (hotel → faena)</label>
+            <label htmlFor="hora_ida" className={`${LABEL} inline-flex items-center gap-1.5`}><Sun size={14} className="text-[var(--senal-dark)]" /> Hora ida (hotel → faena)</label>
             <input id="hora_ida" name="hora_ida" type="time" defaultValue="07:00" className={INPUT} />
           </div>
           <div>
@@ -73,7 +73,7 @@ export default async function TrasladoDiarioPage({ searchParams }: Props) {
         </div>
 
         <div className="flex items-center gap-3">
-          <button type="submit" className="px-6 py-2.5 bg-[var(--navy)] hover:bg-[var(--navy-dark)] text-white text-sm font-semibold rounded-lg">Crear ida y vuelta</button>
+          <button type="submit" className="px-6 py-2.5 bg-[var(--brand)] hover:bg-[var(--brand-dark)] text-white text-sm font-semibold rounded-lg">Crear ida y vuelta</button>
           <Link href="/admin/transporte" className="px-6 py-2.5 bg-[var(--surface)] hover:bg-[var(--gray-100)] text-[var(--ink)] text-sm font-medium rounded-lg border border-[var(--gray-200)]">Cancelar</Link>
         </div>
       </form>

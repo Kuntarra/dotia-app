@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { formatRut } from '@/lib/rut'
 
-const RIN = 'px-2.5 py-1.5 rounded-md border border-[var(--gray-200)] bg-[var(--surface)] text-xs text-[var(--gray-900)] focus:outline-none focus:ring-2 focus:ring-[var(--navy)]'
+const RIN = 'px-2.5 py-1.5 rounded-md border border-[var(--gray-200)] bg-[var(--surface)] text-xs text-[var(--gray-900)] focus:outline-none focus:ring-2 focus:ring-[var(--brand)]'
 
 interface Props {
   params: Promise<{ id: string; dotId: string }>
@@ -114,9 +114,9 @@ export default async function DotacionDetallePage({ params }: Props) {
               <div key={r.id} className="bg-[var(--surface)] rounded-xl border border-[var(--gray-200)] p-4">
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
-                    <span className="w-7 h-7 rounded-lg bg-[var(--navy)] text-white text-xs font-bold flex items-center justify-center">{r.numero}</span>
+                    <span className="w-7 h-7 rounded-lg bg-[var(--brand)] text-white text-xs font-bold flex items-center justify-center">{r.numero}</span>
                     <span className="badge badge-gray">{ESTADO_LABEL[r.estado_ciclo] ?? r.estado_ciclo}</span>
-                    {r.ajustada_manual && <span className="badge badge-amber">ajustada</span>}
+                    {r.ajustada_manual && <span className="badge badge-senal">ajustada</span>}
                   </div>
                   <form action={recalc}>
                     <button className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-[var(--surface)] border border-[var(--gray-200)] text-[var(--ink)] text-xs font-semibold hover:bg-[var(--gray-100)]" title="Recalcular las rotaciones siguientes desde esta">
@@ -151,7 +151,7 @@ export default async function DotacionDetallePage({ params }: Props) {
                       {Object.entries(ESTADO_LABEL).map(([v, l]) => <option key={v} value={v}>{l}</option>)}
                     </select>
                   </div>
-                  <button type="submit" className="inline-flex items-center justify-center gap-1 px-3 py-1.5 rounded-md bg-[var(--navy)] text-white text-xs font-semibold hover:bg-[var(--navy-dark)]">
+                  <button type="submit" className="inline-flex items-center justify-center gap-1 px-3 py-1.5 rounded-md bg-[var(--brand)] text-white text-xs font-semibold hover:bg-[var(--brand-dark)]">
                     <Save size={12} strokeWidth={2.5} /> Guardar
                   </button>
                 </form>

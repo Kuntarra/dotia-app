@@ -42,8 +42,8 @@ export default function ResetPasswordPage() {
       <div className="w-full max-w-sm">
 
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-[var(--navy)] mb-4 shadow-lg">
-            <Lock size={26} strokeWidth={1.75} stroke="var(--amber)" />
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-[var(--brand)] mb-4 shadow-lg">
+            <Lock size={26} strokeWidth={1.75} stroke="var(--senal)" />
           </div>
           <h1 className="font-display text-2xl font-semibold text-[var(--ink)] tracking-[-0.01em]">Nueva contraseña</h1>
           <p className="text-sm text-[var(--gray-600)] mt-1">dotia</p>
@@ -69,7 +69,7 @@ export default function ResetPasswordPage() {
                 value={password}
                 onChange={e => setPassword(e.target.value)}
                 placeholder="Mínimo 8 caracteres"
-                className="w-full px-3.5 py-2.5 rounded-lg border border-[var(--gray-200)] bg-[var(--gray-50)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)] focus:border-transparent transition-shadow"
+                className="w-full px-3.5 py-2.5 rounded-lg border border-[var(--gray-200)] bg-[var(--gray-50)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand)] focus:border-transparent transition-shadow"
               />
             </div>
 
@@ -84,14 +84,14 @@ export default function ResetPasswordPage() {
                 value={confirm}
                 onChange={e => setConfirm(e.target.value)}
                 placeholder="Repite la contraseña"
-                className="w-full px-3.5 py-2.5 rounded-lg border border-[var(--gray-200)] bg-[var(--gray-50)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)] focus:border-transparent transition-shadow"
+                className="w-full px-3.5 py-2.5 rounded-lg border border-[var(--gray-200)] bg-[var(--gray-50)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand)] focus:border-transparent transition-shadow"
               />
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-2.5 px-4 rounded-lg bg-[var(--navy)] hover:bg-[var(--navy-dark)] text-white text-sm font-semibold transition-colors disabled:opacity-60 mt-2"
+              className="w-full py-2.5 px-4 rounded-lg bg-[var(--brand)] hover:bg-[var(--brand-dark)] text-white text-sm font-semibold transition-colors disabled:opacity-60 mt-2"
             >
               {loading ? 'Guardando…' : 'Guardar nueva contraseña'}
             </button>

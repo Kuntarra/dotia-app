@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getMyTenantId } from '@/lib/tenant'
+import { getMarcaCliente, slugCliente } from '@/lib/marca'
 import { hoyChile } from '@/lib/fechas'
 
 function fmt(iso: string | null) {
@@ -91,7 +92,7 @@ export async function GET(request: Request) {
   return new Response(body, {
     headers: {
       'Content-Type': 'text/csv; charset=utf-8',
-      'Content-Disposition': `attachment; filename="estadias-sol-eterno-${fecha}.csv"`,
+      'Content-Disposition': `attachment; filename="estadias-${slugCliente((await getMarcaCliente()).nombre)}-${fecha}.csv"`,
     },
   })
 }

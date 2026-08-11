@@ -36,7 +36,7 @@ export function PropertyForm({ action, cities, property, cancelHref, submitLabel
               key={t}
               className={`relative flex flex-col items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all ${
                 type === t
-                  ? 'border-[var(--navy)] bg-[var(--navy)]/5'
+                  ? 'border-[var(--brand)] bg-[var(--brand)]/5'
                   : 'border-[var(--gray-200)] hover:border-[var(--gray-200)] hover:bg-[var(--gray-50)]'
               }`}
             >
@@ -54,7 +54,7 @@ export function PropertyForm({ action, cities, property, cancelHref, submitLabel
                 {PROPERTY_TYPE_LABELS[t]}
               </span>
               {type === t && (
-                <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-[var(--navy)]" />
+                <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-[var(--brand)]" />
               )}
             </label>
           ))}
@@ -143,7 +143,7 @@ export function PropertyForm({ action, cities, property, cancelHref, submitLabel
                     name={svc.key}
                     defaultChecked={checked as boolean}
                     onChange={isParking ? (e) => setParkingChecked(e.target.checked) : undefined}
-                    className="w-4 h-4 rounded border-[var(--gray-200)] accent-[var(--navy)] cursor-pointer"
+                    className="w-4 h-4 rounded border-[var(--gray-200)] accent-[var(--brand)] cursor-pointer"
                   />
                   <span className="text-sm text-[var(--gray-900)] font-medium">{svc.label}</span>
                 </label>
@@ -161,7 +161,7 @@ export function PropertyForm({ action, cities, property, cancelHref, submitLabel
                       max="500"
                       defaultValue={currentServices.parking_spots ?? 1}
                       placeholder="20"
-                      className="w-32 px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm text-[var(--gray-900)] focus:outline-none focus:ring-2 focus:ring-[var(--navy)] focus:border-transparent"
+                      className="w-32 px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm text-[var(--gray-900)] focus:outline-none focus:ring-2 focus:ring-[var(--brand)] focus:border-transparent"
                     />
                   </div>
                 )}
@@ -175,7 +175,7 @@ export function PropertyForm({ action, cities, property, cancelHref, submitLabel
       <div className="flex items-center gap-3">
         <button
           type="submit"
-          className="px-6 py-2.5 bg-[var(--navy)] hover:bg-[var(--navy-dark)] text-white text-sm font-semibold rounded-lg transition-colors"
+          className="px-6 py-2.5 bg-[var(--brand)] hover:bg-[var(--brand-dark)] text-white text-sm font-semibold rounded-lg transition-colors"
         >
           {submitLabel}
         </button>

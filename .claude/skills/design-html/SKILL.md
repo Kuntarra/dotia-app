@@ -1,31 +1,39 @@
 ---
 name: design-html
-description: Crea prototipos, mockups, reportes o pantallas en HTML de nivel premium usando el sistema de diseño de Sol Eterno. Úsalo cuando el usuario pida diseñar, mockupear, visualizar o prototipar algo.
+description: Crea prototipos, mockups, reportes o pantallas en HTML de nivel premium usando el sistema de diseño de Dotia. Úsalo cuando el usuario pida diseñar, mockupear, visualizar o prototipar algo.
 ---
 
-# Design HTML — Sol Eterno
+# Design HTML — Dotia
 
-Eres un diseñador experto trabajando dentro del proyecto Sol Eterno. Tu output es HTML de nivel $10,000 USD.
+Eres un diseñador experto trabajando dentro del proyecto Dotia. Tu output es HTML de nivel $10,000 USD.
 
 ## Sistema de diseño
 
-```css
---navy:      #1B3A5C   /* azul principal */
---navy-dark: #142d47
---amber:     #F5B520   /* acento dorado */
---gray-100:  #F1F3F5   /* fondo general */
---gray-200:  #E9ECEF   /* bordes */
---gray-600:  #6C757D   /* texto secundario */
---gray-900:  #212529   /* texto principal */
+**La fuente de verdad es `lib/marca.ts`.** Estos tokens son su reflejo para diseñar rápido; si
+alguno discrepa, manda `marca.ts`.
 
-Fuente: Inter / system-ui, sans-serif
+```css
+--brand:       #0B7E60   /* verde mineral, color principal de Dotia */
+--brand-dark:  #0A5B45   /* fondo de membretes y cabeceras */
+--senal:       #2FBF8F   /* acento claro, solo sobre fondo oscuro */
+--salida:      #B5480F   /* terracota: el contrapunto de "entra" */
+--lienzo:      #FAF9F5   /* fondo general */
+--tinte:       #F0F7F3   /* fondo suave de tarjetas */
+--filete:      #E2E0D6   /* bordes */
+--tenue:       #6B7269   /* texto secundario */
+--tinta:       #1B211D   /* texto principal */
 ```
 
+⚠️ **NO usar azul marino `#1B3A5C` ni dorado `#F5B520`.** Era la paleta de **Sol Eterno**, el
+primer cliente, y estuvo escrita acá mucho después de que el producto pasara a llamarse Dotia:
+por eso la incoherencia se seguía regenerando cada vez que alguien diseñaba una pantalla nueva.
+Sol Eterno es un cliente más, no la identidad del producto.
+
 Patrones visuales existentes:
-- Cards: `bg-white rounded-xl border border-gray-200 p-5`
-- Botón primario: `bg-navy text-white px-4 py-2.5 rounded-lg font-semibold`
-- Botón secundario: `border border-gray-200 text-gray-600 rounded-lg`
-- Header sections: `bg-navy text-white px-8 py-8`
+- Cards: `bg-white rounded-xl border border-[var(--filete)] p-5`
+- Botón primario: `bg-[var(--brand)] text-white px-4 py-2.5 rounded-lg font-semibold`
+- Botón secundario: `border border-[var(--filete)] text-[var(--tenue)] rounded-lg`
+- Header sections: `bg-[var(--brand-dark)] text-white px-8 py-8`
 
 ## Proceso de diseño
 

@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { createVehiculo } from '@/app/actions/transporte'
 import { TIPOS_VEHICULO } from '@/lib/vehiculos'
 
-const INPUT = 'w-full px-3.5 py-2.5 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm text-[var(--gray-900)] focus:outline-none focus:ring-2 focus:ring-[var(--navy)]'
+const INPUT = 'w-full px-3.5 py-2.5 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm text-[var(--gray-900)] focus:outline-none focus:ring-2 focus:ring-[var(--brand)]'
 const LABEL = 'block text-xs font-medium text-[var(--gray-600)] mb-1'
 
 export function VehiculoForm() {
@@ -42,7 +42,7 @@ export function VehiculoForm() {
           className={INPUT}
         />
       </div>
-      <button type="submit" className="px-5 py-2.5 bg-[var(--navy)] hover:bg-[var(--navy-dark)] text-white text-sm font-semibold rounded-lg">Agregar</button>
+      <button type="submit" className="px-5 py-2.5 bg-[var(--brand)] hover:bg-[var(--brand-dark)] text-white text-sm font-semibold rounded-lg">Agregar</button>
     </form>
   )
 }

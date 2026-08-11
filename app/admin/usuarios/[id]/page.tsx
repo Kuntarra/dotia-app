@@ -11,7 +11,7 @@ interface Props {
   searchParams: Promise<{ success?: string; error?: string }>
 }
 
-const INPUT = 'w-full px-3.5 py-2.5 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm text-[var(--gray-900)] focus:outline-none focus:ring-2 focus:ring-[var(--navy)] focus:border-transparent transition-shadow'
+const INPUT = 'w-full px-3.5 py-2.5 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm text-[var(--gray-900)] focus:outline-none focus:ring-2 focus:ring-[var(--brand)] focus:border-transparent transition-shadow'
 
 export default async function UsuarioDetailPage({ params, searchParams }: Props) {
   const { id } = await params
@@ -73,7 +73,7 @@ export default async function UsuarioDetailPage({ params, searchParams }: Props)
                   name="property_ids"
                   value={p.id}
                   defaultChecked={assignedPropertyIds.has(p.id)}
-                  className="w-4 h-4 rounded border-[var(--gray-200)] accent-[var(--navy)] cursor-pointer"
+                  className="w-4 h-4 rounded border-[var(--gray-200)] accent-[var(--brand)] cursor-pointer"
                 />
                 <div>
                   <p className="text-sm font-medium text-[var(--ink)]">{p.name}</p>
@@ -83,7 +83,7 @@ export default async function UsuarioDetailPage({ params, searchParams }: Props)
             ))}
           </div>
 
-          <button type="submit" className="px-6 py-2.5 bg-[var(--navy)] hover:bg-[var(--navy-dark)] text-white text-sm font-semibold rounded-lg transition-colors">
+          <button type="submit" className="px-6 py-2.5 bg-[var(--brand)] hover:bg-[var(--brand-dark)] text-white text-sm font-semibold rounded-lg transition-colors">
             Guardar propiedades
           </button>
         </form>

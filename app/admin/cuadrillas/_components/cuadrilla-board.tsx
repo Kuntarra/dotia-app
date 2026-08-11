@@ -53,7 +53,7 @@ function Columna({ col, personas }: { col: Col; personas: Persona[] }) {
   const { setNodeRef, isOver } = useDroppable({ id: col.id })
   return (
     <div ref={setNodeRef}
-      className={`rounded-2xl border p-3 min-h-[140px] transition-colors ${isOver ? 'border-[var(--navy)] bg-[var(--navy)]/[0.04]' : 'border-[var(--gray-200)] bg-[var(--surface)]'}`}>
+      className={`rounded-2xl border p-3 min-h-[140px] transition-colors ${isOver ? 'border-[var(--brand)] bg-[var(--brand)]/[0.04]' : 'border-[var(--gray-200)] bg-[var(--surface)]'}`}>
       <div className="flex items-center justify-between px-1 mb-2">
         <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--ink)]">
           <UsersRound size={14} strokeWidth={2} /> {col.nombre}
@@ -72,7 +72,7 @@ function Card({ persona, overlay }: { persona: Persona; overlay?: boolean }) {
   const { attributes, listeners, setNodeRef, isDragging } = useDraggable({ id: persona.id })
   return (
     <div ref={overlay ? undefined : setNodeRef} {...(overlay ? {} : attributes)} {...(overlay ? {} : listeners)}
-      className={`flex items-center gap-2 px-3 py-2 rounded-xl border bg-[var(--surface)] border-[var(--gray-200)] text-sm cursor-grab active:cursor-grabbing shadow-sm ${isDragging ? 'opacity-40' : ''} ${overlay ? 'shadow-lg ring-2 ring-[var(--navy)]/30' : ''}`}>
+      className={`flex items-center gap-2 px-3 py-2 rounded-xl border bg-[var(--surface)] border-[var(--gray-200)] text-sm cursor-grab active:cursor-grabbing shadow-sm ${isDragging ? 'opacity-40' : ''} ${overlay ? 'shadow-lg ring-2 ring-[var(--brand)]/30' : ''}`}>
       <GripVertical size={14} className="text-[var(--gray-400)] shrink-0" />
       <div className="min-w-0">
         <p className="font-medium text-[var(--ink)] truncate">{persona.nombre}</p>

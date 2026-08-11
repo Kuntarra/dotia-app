@@ -10,7 +10,7 @@ const MAX_ITEMS = 24
 
 interface Props { searchParams: Promise<{ error?: string; success?: string; asignada?: string; asignadas?: string; creada?: string; aviso?: string }> }
 
-const INPUT = 'px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm text-[var(--gray-900)] focus:outline-none focus:ring-2 focus:ring-[var(--navy)]'
+const INPUT = 'px-3 py-2 rounded-lg border border-[var(--gray-200)] bg-[var(--surface)] text-sm text-[var(--gray-900)] focus:outline-none focus:ring-2 focus:ring-[var(--brand)]'
 const SIN_PROP = 'Sin alojamiento asignado'
 
 function addDays(fecha: string, dias: number) {
@@ -110,7 +110,7 @@ export default async function LavanderiaPage({ searchParams }: Props) {
         {asignada && (
           <div className="mb-6 px-4 py-3 rounded-lg bg-green-50 border border-green-200 text-sm text-green-700 flex items-center justify-between gap-3">
             <span>Asignación grabada.</span>
-            <a href={`/print/lavanderia/${asignada}`} target="_blank" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--navy)] text-white text-xs font-semibold hover:bg-[var(--navy-dark)]"><Printer size={13} /> Imprimir boleta</a>
+            <a href={`/print/lavanderia/${asignada}`} target="_blank" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--brand)] text-white text-xs font-semibold hover:bg-[var(--brand-dark)]"><Printer size={13} /> Imprimir boleta</a>
           </div>
         )}
 
@@ -129,7 +129,7 @@ export default async function LavanderiaPage({ searchParams }: Props) {
                 <label className="block text-xs font-medium text-[var(--gray-600)] mb-1.5">Crear planilla vacía</label>
                 <div className="flex gap-2">
                   <input name="nombre" placeholder="Planilla 14x14, verano…" className={`${INPUT} flex-1`} required />
-                  <button type="submit" className="inline-flex items-center gap-1.5 px-4 py-2 bg-[var(--navy)] hover:bg-[var(--navy-dark)] text-white text-sm font-semibold rounded-lg whitespace-nowrap"><Plus size={15} strokeWidth={2.5} /> Generar</button>
+                  <button type="submit" className="inline-flex items-center gap-1.5 px-4 py-2 bg-[var(--brand)] hover:bg-[var(--brand-dark)] text-white text-sm font-semibold rounded-lg whitespace-nowrap"><Plus size={15} strokeWidth={2.5} /> Generar</button>
                 </div>
                 <p className="text-[11px] text-[var(--gray-500)] mt-1.5">Luego le agregas los ítems uno a uno.</p>
               </form>
@@ -140,14 +140,14 @@ export default async function LavanderiaPage({ searchParams }: Props) {
                 <div className="flex flex-wrap gap-2">
                   <input name="nombre" placeholder="Nombre de la planilla" className={`${INPUT} flex-1 min-w-[8rem]`} required />
                   <input name="file" type="file" accept=".xlsx,.xls" required className="text-xs text-[var(--gray-600)] file:mr-2 file:px-3 file:py-2 file:rounded-lg file:border-0 file:bg-[var(--gray-100)] file:text-[var(--ink)] file:text-sm file:font-semibold file:cursor-pointer" />
-                  <button type="submit" className="inline-flex items-center gap-1.5 px-4 py-2 bg-[var(--surface)] border border-[var(--navy)]/30 text-[var(--ink)] text-sm font-semibold rounded-lg hover:bg-[var(--navy)]/5 whitespace-nowrap"><FileSpreadsheet size={15} strokeWidth={2} /> Subir</button>
+                  <button type="submit" className="inline-flex items-center gap-1.5 px-4 py-2 bg-[var(--surface)] border border-[var(--brand)]/30 text-[var(--ink)] text-sm font-semibold rounded-lg hover:bg-[var(--brand)]/5 whitespace-nowrap"><FileSpreadsheet size={15} strokeWidth={2} /> Subir</button>
                 </div>
                 <p className="text-[11px] text-[var(--gray-500)] mt-1.5">Una columna con un ítem por fila (con o sin encabezado).</p>
               </form>
             </div>
 
             <div className="mt-4 pt-4 border-t border-[var(--gray-100)] flex items-start gap-2 text-[11px] text-[var(--gray-500)]">
-              <AlertTriangle size={13} className="text-[var(--amber-dark)] shrink-0 mt-0.5" />
+              <AlertTriangle size={13} className="text-[var(--senal-dark)] shrink-0 mt-0.5" />
               <span>No se recomienda más de <strong>{MAX_ITEMS} ítems</strong> por planilla: la boleta se cuadra en 2 columnas de 12 para imprimir en media hoja carta; si se excede, puede deformarse o perder la cuadratura.</span>
             </div>
           </div>
