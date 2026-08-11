@@ -89,11 +89,17 @@ function Gauge({ pct }: { pct: number }) {
     <View style={{ width: SIZE, height: SIZE, position: 'relative' }}>
       <Svg width={SIZE} height={SIZE} viewBox={`0 0 ${SIZE} ${SIZE}`}>
         <Circle cx={CX} cy={CX} r={R} stroke={TRACK} strokeWidth={SW} fill="none" />
-        <Circle
-          cx={CX} cy={CX} r={R} stroke={A} strokeWidth={SW} fill="none"
-          strokeDasharray={`${dash} ${C - dash}`} strokeLinecap="round"
-          transform={`rotate(-90 ${CX} ${CX})`}
-        />
+        {/* Con 0 % de ocupacion el arco mide cero, y PDFKit rechaza un trazo de
+            largo cero ("dash [...] invalid, lengths must be numeric and greater
+            than zero"): el reporte entero fallaba con 500 y bajaba un PDF vacio.
+            Con 0 % simplemente no se dibuja el arco; queda el anillo de fondo. */}
+        {dash > 0 && (
+          <Circle
+            cx={CX} cy={CX} r={R} stroke={A} strokeWidth={SW} fill="none"
+            strokeDasharray={`${dash} ${C - dash}`} strokeLinecap="round"
+            transform={`rotate(-90 ${CX} ${CX})`}
+          />
+        )}
       </Svg>
       <View style={{ position: 'absolute', top: 0, left: 0, width: SIZE, height: SIZE, alignItems: 'center', justifyContent: 'center' }}>
         <Text style={{ fontSize: 21, fontFamily: 'Helvetica-Bold', color: '#ffffff' }}>{pct}%</Text>
